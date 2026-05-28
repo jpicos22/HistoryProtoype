@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crystal Springs Uplands School | Mansion Reopening</title>
+  
+  <meta property="og:title" content="Crystal Springs Uplands School | Mansion Reopening">
+  <meta name="description" content="Celebrating the history and future of learning at the restored Uplands Mansion.">
+  <meta property="og:description" content="Celebrating the history and future of learning at the restored Uplands Mansion.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght=300;400;500&family=Jost:wght=300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      /* BRAND COLORS */
+      --navy:       #083860;   
+      --navy-deep:  #041C30;   
+      --navy-mid:   #0D4A7A;   
+      --blue:       #0070B8;   
+      --blue-light: #60B0E0;   
+      --blue-pale:  #98C8E8;   
+      --blue-bg:    #EBF4FA;   
+      --cream:      #F5F3EF;
+      --cream-warm: #EDE9E2;
+      --white:      #FFFFFF;
+      --text-dark:  #083860;
+      --text-mid:   #2B5A82;
+      --text-muted: #6B94B0;
+      --border:     rgba(8,56,96,0.12);
+      --border-blue:rgba(0,112,184,0.3);
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--navy-deep);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    #sitenav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 68px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      background: transparent; backdrop-filter: blur(0px);
+      border-bottom: 0.5px solid transparent; transition: all 0.4s;
+    }
+    #sitenav.scrolled {
+      background: rgba(4, 28, 48, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom-color: rgba(96, 176, 224, 0.12);
+    }
+    .nav-logo { height: 40px; cursor: pointer; }
+    .nav-logo img { height: 100%; width: auto; object-fit: contain; display: block; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-link {
+      font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255, 255, 255, 0.58); text-decoration: none;
+      transition: color 0.2s; cursor: pointer; border: none; background: none;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-cta {
+      font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--blue-light); border: 0.5px solid var(--blue-light); padding: 9px 20px;
+      cursor: pointer; background: none; transition: all 0.2s; text-decoration: none;
+    }
+    .nav-cta:hover { background: var(--blue-light); color: var(--navy); }
+
+    /* SPLASH */
+    #splash { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; background: var(--navy-deep); }
+    .splash-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 100% 65% at 50% -5%, rgba(0,112,184,0.45) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 40% at 10% 105%, rgba(8,56,96,0.4) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 50% at 90% 105%, rgba(0,112,184,0.15) 0%, transparent 60%);
+    }
+    .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,112,184,0.06) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,112,184,0.06) 1px,transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 80%);
+    }
+    .ghost-arch {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-56%);
+      width: 480px; height: 560px; opacity: 0.04; pointer-events: none;
+    }
+    .ghost-arch svg { width: 100%; height: 100%; }
+    .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+    .logo-wrap {
+      width: 280px;
+      animation: logoReveal 1.4s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+    }
+    @keyframes logoReveal { from { opacity: 0; transform: scale(0.9) translateY(18px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .logo-wrap img { width: 100%; height: auto; display: block; }
+    .blue-rule {
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--blue-light) 40%, var(--blue-light) 60%, transparent);
+      margin: 30px 0;
+      animation: ruleGrow 1s ease 0.9s both; transform-origin: top;
+    }
+    @keyframes ruleGrow { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+    .splash-eyebrow { font-family: 'Cormorant SC', serif; font-size: 11px; font-weight: 300; letter-spacing: 0.4em; text-transform: uppercase; color: var(--blue-pale); animation: fadeUp 0.8s ease 1.1s both; margin-bottom: 12px; }
+    .splash-hed { font-family: 'Cormorant Garamond', serif; font-size: clamp(34px,4.5vw,56px); font-weight: 300; line-height: 1.12; text-align: center; letter-spacing: 0.01em; color: #fff; animation: fadeUp 0.8s ease 1.3s both; max-width: 640px; }
+    .splash-hed em { font-style: italic; color: var(--blue-light); }
+    .splash-tagline { font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.38); letter-spacing: 0.1em; text-align: center; margin-top: 10px; animation: fadeUp 0.8s ease 1.5s both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .splash-btns { margin-top: 40px; display: flex; gap: 16px; align-items: center; animation: fadeUp 0.8s ease 1.7s both; }
+    .btn-primary { font-family: 'Cormorant SC', serif; font-size: 12px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; background: var(--blue); color: #fff; border: none; padding: 16px 44px; cursor: pointer; transition: all 0.3s; }
+    .btn-primary:hover { background: var(--blue-light); color: var(--navy); transform: translateY(-1px); }
+    .btn-ghost { font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); background: none; border: none; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+    .btn-ghost:hover { color: rgba(255,255,255,0.85); }
+    .year-strip { position: absolute; bottom: 0; left: 0; right: 0; height: 52px; background: rgba(0,112,184,0.07); border-top: 0.5px solid rgba(96,176,224,0.15); display: flex; align-items: center; justify-content: center; gap: 52px; animation: fadeUp 0.8s ease 2s both; }
+    .ys-item { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.28); display: flex; align-items: center; gap: 8px; }
+    .ys-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--blue-light); opacity: 0.8; flex-shrink: 0; }
+
+    /* HISTORY */
+    #page-history { min-height: 100vh; background: var(--cream); color: var(--text-dark); }
+    .hist-hero { min-height: 46vh; background: var(--navy); display: flex; align-items: flex-end; padding: 100px 80px 56px; position: relative; overflow: hidden; }
+    .hist-hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 80% 50%,rgba(0,112,184,0.28) 0%,transparent 70%), repeating-linear-gradient(90deg,rgba(255,255,255,0.012) 0,rgba(255,255,255,0.012) 1px,transparent 1px,transparent 80px); }
+    .hist-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px,6vw,76px); font-weight: 300; color: #fff; line-height: 1.05; letter-spacing: -0.01em; position: relative; z-index: 1; max-width: 680px; }
+    .hist-hero h1 em { font-style: italic; color: var(--blue-light); }
+    .hist-year-ghost { position: absolute; right: 72px; bottom: 40px; font-family: 'Cormorant Garamond', serif; font-size: 96px; font-weight: 300; color: rgba(255,255,255,0.05); line-height: 1; z-index: 1; }
+    .hist-body { display: grid; grid-template-columns: 1fr 1fr; }
+    .hist-col { padding: 56px 72px; }
+    .hist-col:first-child { border-right: 0.5px solid var(--border); }
+    .hist-col h2 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--navy); margin-bottom: 18px; }
+    .hist-col p { font-size: 14px; line-height: 1.85; color: var(--text-mid); margin-bottom: 14px; font-weight: 300; }
+    .milestones { display: flex; flex-direction: column; gap: 18px; }
+    .ms { display: flex; gap: 18px; align-items: flex-start; }
+    .ms-yr { font-family: 'Cormorant SC', serif; font-size: 14px; font-weight: 400; color: var(--blue); min-width: 46px; padding-top: 2px; letter-spacing: 0.04em; }
+    .ms-body .ms-ttl { font-size: 13px; font-weight: 500; color: var(--navy); margin-bottom: 2px; }
+    .ms-body .ms-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+
+    /* INTERACTIVE DISPLAY */
+    #page-display { min-height: 100vh; background: #061826; color: #fff; }
+    .disp-hdr { padding: 80px 80px 40px; border-bottom: 0.5px solid rgba(96,176,224,0.1); display: flex; align-items: flex-end; justify-content: space-between; }
+    .disp-hdr h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px,4.5vw,54px); font-weight: 300; line-height: 1.1; }
+    .disp-hdr h2 em { font-style: italic; color: var(--blue-light); }
+    .disp-sub { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.28); font-family: 'Jost', sans-serif; text-align: right; }
+    .disp-body { padding: 40px 80px 80px; }
+    .etabs { display: flex; gap: 0; border-bottom: 0.5px solid rgba(96,176,224,0.15); margin-bottom: 36px; }
+    .etab { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.38); padding: 12px 24px; cursor: pointer; border: none; border-bottom: 2px solid transparent; background: none; transition: all 0.2s; }
+    .etab.active { color: var(--blue-light); border-bottom-color: var(--blue-light); }
+    .etab:hover:not(.active) { color: rgba(255,255,255,0.7); }
+    .epanel { display: none; }
+    .epanel.active { display: block; animation: fadeUp 0.35s ease; }
+    .tl-track { position: relative; margin-bottom: 28px; }
+    .tl-rail { position: absolute; top: 16px; left: 16px; right: 16px; height: 1px; background: rgba(96,176,224,0.15); }
+    .tl-prog { position: absolute; top: 16px; left: 16px; height: 1px; background: var(--blue-light); transition: width 0.5s ease; }
+    .tl-dots { display: flex; justify-content: space-between; position: relative; z-index: 1; padding: 0 16px; }
+    .tl-dot { display: flex; flex-direction: column; align-items: center; gap: 7px; cursor: pointer; }
+    .tl-circle { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(96,176,224,0.2); background: #061826; display: flex; align-items: center; justify-content: center; font-size: 9px; color: rgba(255,255,255,0.3); transition: all 0.3s; font-family: 'Jost', sans-serif; }
+    .tl-dot.active .tl-circle { background: var(--blue); border-color: var(--blue-light); color: #fff; font-weight: 500; }
+    .tl-dot.past .tl-circle { background: rgba(0,112,184,0.2); border-color: rgba(96,176,224,0.4); color: var(--blue-pale); }
+    .tl-yr { font-size: 9px; color: rgba(255,255,255,0.22); font-family: 'Jost', sans-serif; letter-spacing: 0.04em; }
+    .tl-dot.active .tl-yr { color: var(--blue-light); }
+    .ev-card { background: rgba(0,112,184,0.07); border: 0.5px solid rgba(96,176,224,0.12); padding: 32px; display: grid; grid-template-columns: 100px 1fr; gap: 24px; transition: opacity 0.3s; }
+    .ev-year-big { font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 300; color: var(--blue-light); line-height: 1; letter-spacing: -0.02em; }
+    .ev-detail h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: #fff; margin-bottom: 8px; }
+    .ev-detail p { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.52); font-weight: 300; }
+    .tl-ctrls { display: flex; gap: 10px; margin-top: 18px; align-items: center; }
+    .tc-btn { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.42); border: 0.5px solid rgba(96,176,224,0.2); background: none; padding: 8px 18px; cursor: pointer; transition: all 0.2s; }
+    .tc-btn:hover { color: #fff; border-color: rgba(96,176,224,0.5); }
+    .tc-btn.blue { color: var(--blue-light); border-color: rgba(96,176,224,0.4); }
+    .sg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(96,176,224,0.08); }
+    .sg-cell { background: #061826; padding: 32px 28px; }
+    .sg-num { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: var(--blue-light); line-height: 1; letter-spacing: -0.02em; }
+    .sg-lbl { font-family: 'Jost', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.38); margin-top: 6px; }
+    .sg-desc { font-size: 12px; color: rgba(255,255,255,0.22); margin-top: 3px; font-weight: 300; }
+    .tq-shell { background: rgba(0,112,184,0.06); border: 0.5px solid rgba(96,176,224,0.12); padding: 32px; }
+    .tq-q { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: #fff; line-height: 1.4; margin-bottom: 24px; }
+    .tq-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .tq-opt { font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.62); border: 0.5px solid rgba(96,176,224,0.15); background: none; padding: 14px 16px; cursor: pointer; text-align: left; transition: all 0.2s; letter-spacing: 0.02em; }
+    .tq-opt:hover { border-color: rgba(96,176,224,0.45); color: #fff; }
+    .tq-opt.correct { border-color: var(--blue-light); background: rgba(0,112,184,0.15); color: var(--blue-pale); }
+    .tq-opt.wrong { border-color: rgba(200,80,80,0.45); background: rgba(200,80,80,0.07); color: rgba(255,110,110,0.75); }
+    .tq-fb { margin-top: 16px; padding: 14px 16px; background: rgba(0,112,184,0.08); border-left: 2px solid var(--blue-light); font-size: 13px; color: rgba(255,255,255,0.52); line-height: 1.65; display: none; }
+    .tq-next { margin-top: 14px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue-light); border: 0.5px solid rgba(96,176,224,0.4); background: none; padding: 10px 22px; cursor: pointer; display: none; transition: all 0.2s; }
+    .tq-next:hover { background: var(--blue); color: #fff; }
+
+    /* MANSION */
+    #page-mansion { min-height: 100vh; background: var(--cream-warm); color: var(--text-dark); }
+    .mansion-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+    .mansion-vis { background: var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 60px; }
+    .mansion-vis-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 65% 65% at 50% 50%,rgba(0,112,184,0.25) 0%,transparent 70%); }
+    .arch-diagram { position: relative; width: 260px; height: 300px; z-index: 1; margin-bottom: 28px; }
+    .a-ring { position: absolute; border-radius: 200px 200px 0 0; border: 1px solid; bottom: 0; }
+    .a-ring-1 { width: 260px; height: 280px; border-color: rgba(0,112,184,0.7); left: 0; }
+    .a-ring-2 { width: 210px; height: 230px; border-color: rgba(96,176,224,0.5); left: 25px; }
+    .a-ring-3 { width: 160px; height: 180px; border-color: rgba(152,200,232,0.35); left: 50px; }
+    .a-inner { position: absolute; width: 110px; height: 130px; border-radius: 55px 55px 0 0; border: 1.5px solid rgba(152,200,232,0.6); bottom: 0; left: 75px; display: flex; align-items: center; justify-content: center; padding-bottom: 12px; }
+    .a-inner-yr { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 300; color: var(--blue-pale); letter-spacing: 0.06em; }
+    .mv-label { font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.32); z-index: 1; }
+    .mv-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; color: #fff; z-index: 1; margin-top: 4px; }
+    .mansion-info { padding: 80px 72px; display: flex; flex-direction: column; justify-content: center; gap: 28px; }
+    .mansion-info h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px,3.5vw,44px); font-weight: 300; color: var(--navy); line-height: 1.1; }
+    .mansion-info h2 em { font-style: italic; }
+    .mansion-info p { font-size: 14px; line-height: 1.85; color: var(--text-mid); font-weight: 300; }
+    .cm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .cm-item { border-left: 2px solid var(--blue); padding-left: 14px; }
+    .cm-val { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--navy); }
+    .cm-lbl { font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; margin-top: 2px; }
+    .btn-outline { align-self: flex-start; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--navy); border: 0.5px solid var(--navy); background: none; padding: 13px 26px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+    .btn-outline:hover { background: var(--navy); color: #fff; }
+
+    /* SPOTLIGHTS */
+    #page-spotlights { min-height: 100vh; background: var(--navy-deep); color: #fff; display: flex; flex-direction: column; }
+    .sp-hdr { padding: 80px 80px 40px; border-bottom: 0.5px solid rgba(96,176,224,0.1); }
+    .sp-hdr h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px,4vw,50px); font-weight: 300; line-height: 1.1; }
+    .sp-hdr h2 em { font-style: italic; color: var(--blue-light); }
+    .sp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(96,176,224,0.07); flex: 1; }
+    .sp-cell { background: var(--navy-deep); padding: 48px 40px; cursor: pointer; transition: background 0.3s; display: flex; flex-direction: column; gap: 12px; }
+    .sp-cell:hover { background: rgba(0,112,184,0.06); }
+    .sp-icon { font-size: 26px; opacity: 0.45; }
+    .sp-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: rgba(96,176,224,0.08); line-height: 1; margin-top: auto; }
+    .sp-ttl { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: #fff; }
+    .sp-desc { font-size: 12px; color: rgba(255,255,255,0.36); line-height: 1.65; font-weight: 300; }
+    .sp-tag { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue-light); font-family: 'Jost', sans-serif; }
+
+    /* FOOTER */
+    #page-footer { background: var(--navy-deep); border-top: 0.5px solid rgba(96,176,224,0.1); padding: 72px 80px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px; }
+    .ft-logo { height: 80px; display: flex; align-items: center; justify-content: center; }
+    .ft-logo img { height: 100%; width: auto; object-fit: contain; display: block; }
+    .ft-tagline { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: #fff; line-height: 1.4; max-width: 520px; }
+    .ft-tagline em { font-style: italic; color: var(--blue-light); }
+    .ft-links { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+    .ft-link { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.32); text-decoration: none; font-family: 'Jost', sans-serif; transition: color 0.2s; }
+    .ft-link:hover { color: var(--blue-light); }
+    .ft-bottom { width: 100%; border-top: 0.5px solid rgba(96,176,224,0.07); padding-top: 24px; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .ft-bottom span { font-size: 11px; color: rgba(255,255,255,0.16); font-weight: 300; letter-spacing: 0.04em; }
+  </style>
+</head>
+<body>
+
+  <nav id="sitenav">
+    <div class="nav-logo" onclick="document.getElementById('splash').scrollIntoView({behavior:'smooth'})">
+      <img src="Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
+    </div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="goto('splash')">Home</button>
+      <button class="nav-link" onclick="goto('page-history')">History</button>
+      <button class="nav-link" onclick="goto('page-display')">Interactive</button>
+      <button class="nav-link" onclick="goto('page-mansion')">The Mansion</button>
+      <button class="nav-link" onclick="goto('page-spotlights')">Spotlights</button>
+    </div>
+    <a href="https://www.crystal.org/page/thrive-together" class="nav-cta" target="_blank">Mansion Project</a>
+  </nav>
+
+  <section id="splash">
+    <div class="splash-bg"></div>
+    <div class="grid-bg"></div>
+    <div class="ghost-arch">
+      <svg viewBox="0 0 480 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M48 500 L48 235 Q48 48 240 48 Q432 48 432 235 L432 500" stroke="white" stroke-width="1.5" fill="none"></path>
+        <path d="M88 500 L88 248 Q88 108 240 108 Q392 108 392 248 L392 500" stroke="white" stroke-width="1" fill="none"></path>
+        <path d="M128 500 L128 262 Q128 168 240 168 Q352 168 352 262 L352 500" stroke="white" stroke-width="0.7" fill="none"></path>
+        <line x1="48" y1="518" x2="432" y2="518" stroke="white" stroke-width="1.5"></line>
+        <line x1="88" y1="540" x2="392" y2="540" stroke="white" stroke-width="0.7"></line>
+      </svg>
+    </div>
+    <div class="splash-content">
+      <div class="logo-wrap">
+        <img src="Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School Arch solo">
+      </div>
+      <div class="blue-rule"></div>
+      <div class="splash-eyebrow">Mansion Reopening &middot; 2026</div>
+      <h1 class="splash-hed">Where <em>History</em> Meets<br>the Future of Learning</h1>
+      <p class="splash-tagline">Uplands Mansion &middot; Hillsborough, California &middot; Est. 1953</p>
+      <div class="splash-btns">
+        <button class="btn-primary" onclick="goto('page-history')">Explore the Story</button>
+        <button class="btn-ghost" onclick="goto('page-history')">Scroll to continue</button>
+      </div>
+    </div>
+    <div class="year-strip">
+      <div class="ys-item"><span class="ys-dot"></span>Founded 1953</div>
+      <div class="ys-item"><span class="ys-dot"></span>70+ Years of Excellence</div>
+      <div class="ys-item"><span class="ys-dot"></span>Mansion Reopening 2026</div>
+      <div class="ys-item"><span class="ys-dot"></span>Hillsborough, CA</div>
+    </div>
+  </section>
+
+  <section id="page-history">
+    <div class="hist-hero">
+      <div class="hist-hero-bg"></div>
+      <h1>A Legacy of<br><em>Visionary</em> Education</h1>
+      <div class="hist-year-ghost">1953</div>
+    </div>
+    <div class="hist-body">
+      <div class="hist-col">
+        <h2>The Founding Vision</h2>
+        <p>One evening in 1948, Aylett and Martha Jane Cotton envisioned a school that would become a haven of learning for girls in San Mateo County. Their dream blossomed into a reality that would define education on the Peninsula for generations.</p>
+        <p>Their mission was clear: a private, non-profit, non-sectarian day school offering education of the highest caliber — a space for excellence in learning, arts, music, and athletics, where intelligent discussion and the liberty to think freely would be celebrated.</p>
+        <p>Incorporated on Christmas Eve 1952 and formally announced January 1, 1953, the school set a new standard for education where students would become responsible citizens, free from fear or prejudice.</p>
+      </div>
+      <div class="hist-col">
+        <h2>Key Milestones</h2>
+        <div class="milestones">
+          <div class="ms"><div class="ms-yr">1953</div><div class="ms-body"><div class="ms-ttl">Founding of the School</div><div class="ms-desc">Crystal Springs School for Girls opens as a private, non-sectarian day school.</div></div></div>
+          <div class="ms"><div class="ms-yr">1956</div><div class="ms-body"><div class="ms-ttl">Acquired Uplands Mansion</div><div class="ms-desc">Saved from demolition via the Crocker family donation — 5+ acres secured.</div></div></div>
+          <div class="ms"><div class="ms-yr">1960s</div><div class="ms-body"><div class="ms-ttl">Curriculum Expansion</div><div class="ms-desc">Arts, music, and extracurriculars broaden to reflect a comprehensive vision.</div></div></div>
+          <div class="ms"><div class="ms-yr">1977</div><div class="ms-body"><div class="ms-ttl">Inclusion of Boys</div><div class="ms-desc">Co-education begins, enriching discussions and campus life.</div></div></div>
+          <div class="ms"><div class="ms-yr">1989</div><div class="ms-body"><div class="ms-ttl">Athletics Plan</div><div class="ms-desc">Strategic investment in sport — today 18 Gryphon teams compete Bay-wide.</div></div></div>
+          <div class="ms"><div class="ms-yr">2017</div><div class="ms-body"><div class="ms-ttl">New Middle School, Belmont</div><div class="ms-desc">State-of-the-art sustainable campus opens after a decade of planning.</div></div></div>
+          <div class="ms"><div class="ms-yr">2026</div><div class="ms-body"><div class="ms-ttl">Mansion Reopening</div><div class="ms-desc">The restored Uplands Mansion reopens — honoring heritage, embracing the future.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-display">
+    <div class="disp-hdr">
+      <h2>Interactive <em>History</em> Display</h2>
+      <div class="disp-sub">Campus Showcase &middot; 2026 Reopening</div>
+    </div>
+    <div class="disp-body">
+      <div class="etabs">
+        <button class="etab active" onclick="setEtab(0,this)">Timeline</button>
+        <button class="etab" onclick="setEtab(1,this)">Campus Stats</button>
+        <button class="etab" onclick="setEtab(2,this)">Did You Know?</button>
+      </div>
+      
+      <div class="epanel active" id="ep0">
+        <div class="tl-track">
+          <div class="tl-rail"></div>
+          <div class="tl-prog" id="tlprog"></div>
+          <div class="tl-dots" id="tldots"></div>
+        </div>
+        <div class="ev-card" id="evcard">
+          <div class="ev-year-big" id="evyr"></div>
+          <div class="ev-detail">
+            <h3 id="evttl"></h3>
+            <p id="evdesc"></p>
+          </div>
+        </div>
+        <div class="tl-ctrls">
+          <button class="tc-btn" onclick="moveTl(-1)">◀ Prev</button>
+          <button class="tc-btn" onclick="moveTl(1)">Next ▶</button>
+          <button class="tc-btn blue" id="autobtn" onclick="toggleAuto()">▶ Auto-play</button>
+        </div>
+      </div>
+      
+      <div class="epanel" id="ep1">
+        <div class="sg">
+          <div class="sg-cell"><div class="sg-num">9:1</div><div class="sg-lbl">Student-Teacher Ratio</div><div class="sg-desc">Personalized learning for every Gryphon</div></div>
+          <div class="sg-cell"><div class="sg-num">90+</div><div class="sg-lbl">School Clubs</div><div class="sg-desc">Leadership, publications, service &amp; more</div></div>
+          <div class="sg-cell"><div class="sg-num">18</div><div class="sg-lbl">Sports Teams</div><div class="sg-desc">Competing across the Bay Area &amp; beyond</div></div>
+          <div class="sg-cell"><div class="sg-num">69%</div><div class="sg-lbl">Students of Color</div><div class="sg-desc">A thriving, diverse community</div></div>
+          <div class="sg-cell"><div class="sg-num">14</div><div class="sg-lbl">Avg. Class Size</div><div class="sg-desc">Every student known and seen</div></div>
+          <div class="sg-cell"><div class="sg-num">70+</div><div class="sg-lbl">Years of Excellence</div><div class="sg-desc">Est. 1953 &middot; Hillsborough, CA</div></div>
+        </div>
+      </div>
+      
+      <div class="epanel" id="ep2">
+        <div class="tq-shell">
+          <div class="tq-q" id="tqq">Loading...</div>
+          <div class="tq-opts" id="tqopts"></div>
+          <div class="tq-fb" id="tqfb"></div>
+          <button class="tq-next" id="tqnext" onclick="nextTq()">Next question ▶</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-mansion">
+    <div class="mansion-split">
+      <div class="mansion-vis">
+        <div class="mansion-vis-bg"></div>
+        <div class="arch-diagram">
+          <div class="a-ring a-ring-1"></div>
+          <div class="a-ring a-ring-2"></div>
+          <div class="a-ring a-ring-3"></div>
+          <div class="a-inner"><div class="a-inner-yr">1956</div></div>
+        </div>
+        <div class="mv-label">Uplands Mansion</div>
+        <div class="mv-name">400 Uplands Drive, Hillsborough</div>
+      </div>
+      <div class="mansion-info">
+        <h2>The <em>Mansion</em> &amp; Renovation Story</h2>
+        <p>Once at risk of demolition, the opulent Uplands Mansion was acquired by Crystal Springs in 1956 through the generous donation of the Crocker family — preserving a Gilded Age landmark on more than five acres of Hillsborough hillside.</p>
+        <p>The 2024–2026 restoration honors the mansion's architectural heritage while equipping it for the next century of learning. Archival blueprints guided every decision, with modern structural systems woven invisibly into the Gilded Age fabric.</p>
+        <div class="cm-grid">
+          <div class="cm-item"><div class="cm-val">1956</div><div class="cm-lbl">Year Acquired</div></div>
+          <div class="cm-item"><div class="cm-val">5+ Acres</div><div class="cm-lbl">Estate Grounds</div></div>
+          <div class="cm-item"><div class="cm-val">Gilded Age</div><div class="cm-lbl">Architectural Style</div></div>
+          <div class="cm-item"><div class="cm-val">2026</div><div class="cm-lbl">Reopening Year</div></div>
+        </div>
+        <a href="https://www.crystal.org/page/thrive-together" class="btn-outline" target="_blank">Thrive Together Campaign ▶</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-spotlights">
+    <div class="sp-hdr"><h2>Thematic <em>Spotlights</em></h2></div>
+    <div class="sp-grid">
+      <div class="sp-cell">
+        <div class="sp-icon">Reflections</div>
+        <div class="sp-tag">Flashback Series</div>
+        <div class="sp-ttl">Yearbooks Through the Decades</div>
+        <div class="sp-desc">From the 1960s expansion to the 2026 reopening — every chapter of Crystal, captured year by year.</div>
+        <div class="sp-num">01</div>
+      </div>
+      <div class="sp-cell">
+        <div class="sp-icon">Refactions</div>
+        <div class="sp-tag">Student Life Sub-Loop</div>
+        <div class="sp-ttl">Daily Rituals &amp; Campus Life</div>
+        <div class="sp-desc">Advisory mornings, campus dining traditions, student publications, and the rhythm of a Crystal day.</div>
+        <div class="sp-num">02</div>
+      </div>
+      <div class="sp-cell">
+        <div class="sp-icon">Iridescence</div>
+        <div class="sp-tag">Arts &amp; Athletics</div>
+        <div class="sp-ttl">Gryphon Traditions</div>
+        <div class="sp-desc">Drama, ceramics, dance, music — and 18 sports teams carrying the Gryphon spirit onto courts and fields.</div>
+        <div class="sp-num">03</div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="page-footer">
+    <div class="ft-logo">
+      <img src="Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
+    </div>
+    <p class="ft-tagline">Happy, challenged, and successful — <em>kind, curious, and compassionate</em> global citizens.</p>
+    <div class="ft-links">
+      <a href="https://www.crystal.org" class="ft-link" target="_blank">crystal.org</a>
+      <a href="https://www.crystal.org/about/history" class="ft-link" target="_blank">History</a>
+      <a href="https://www.crystal.org/page/thrive-together" class="ft-link" target="_blank">Mansion Project</a>
+      <a href="https://www.crystal.org/give-and-engage/donate-now" class="ft-link" target="_blank">Donate</a>
+      <a href="https://www.crystal.org/about/alumni" class="ft-link" target="_blank">Alumni</a>
+      <a href="https://www.crystal.org/apply" class="ft-link" target="_blank">Apply</a>
+    </div>
+    <div class="ft-bottom">
+      <span>&copy; 2026 Crystal Springs Uplands School. All rights reserved.</span>
+      <span style="text-align:right;">Upper School: 400 Uplands Dr, Hillsborough CA 94010 &nbsp;|&nbsp; Middle School: 10 Davis Dr, Belmont CA 94002</span>
+    </div>
+  </footer>
+
+  <script>
+    function goto(id) {
+      document.getElementById(id).scrollIntoView({behavior:'smooth'});
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('sitenav').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    function setEtab(i, btn) {
+      document.querySelectorAll('.etab').forEach((b, j) => b.classList.toggle('active', j === i));
+      ['ep0', 'ep1', 'ep2'].forEach((id, j) => document.getElementById(id).classList.toggle('active', j === i));
+    }
+
+    const tlD = [
+      {y:'1948', t:'The Vision', d:"Aylett and Martha Jane Cotton envision a haven of learning for girls in San Mateo County — the seed of Crystal Springs Uplands School planted over a family dinner."},
+      {y:'1953', t:'Founding of the School', d:"On January 1, the Founders' Committee announces Crystal Springs School for Girls — a private, non-profit, non-sectarian day school with a curriculum equal to the nation's finest."},
+      {y:'1956', t:'Acquired Uplands Mansion', d:"Saved from demolition, Crystal acquires the Uplands Mansion and 5+ acres through the Crocker family's generous donation — securing a Gilded Age landmark as the school's permanent home."},
+      {y:'1960s', t:'Curriculum Expansion', d:"Arts, music, and extracurricular offerings broaden throughout the decade — Crystal's vision of a well-rounded education takes full shape."},
+      {y:'1977', t:'Inclusion of Boys', d:"Crystal opens to boys, enriching classroom discussions and preparing students for real-world social dynamics — a landmark evolution."},
+      {y:'1989', t:'Athletics Plan', d:"Strategic focus on athletics: today 18 Gryphon sports teams compete across the Bay Area, backed by a Mind Body Program supporting holistic wellness."},
+      {y:'2017', t:'New Middle School', d:"After a decade of planning, the state-of-the-art Belmont Campus Middle School opens — a model of sustainable design and academic excellence."},
+      {y:'2026', t:'Mansion Reopening', d:"The restored Uplands Mansion reopens — honoring its Gilded Age heritage while embracing the next chapter of Crystal Springs Uplands School."}
+    ];
+
+    let tlI = 1, tlAuto = null;
+
+    function renderTl() {
+      const d = tlD[tlI];
+      const card = document.getElementById('evcard');
+      card.style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('evyr').textContent = d.y;
+        document.getElementById('evttl').textContent = d.t;
+        document.getElementById('evdesc').textContent = d.d;
+        card.style.opacity = '1'; 
+        card.style.transition = 'opacity 0.3s';
+      }, 150);
+      
+      const pct = (tlI / (tlD.length - 1)) * 85 + 5;
+      document.getElementById('tlprog').style.width = pct + '%';
+      document.getElementById('tldots').innerHTML = tlD.map((item, i) =>
+        `<div class="tl-dot ${i < tlI ? 'past' : i === tlI ? 'active' : ''}" onclick="goTl(${i})">
+          <div class="tl-circle">${item.y.slice(-2)}</div>
+          <div class="tl-yr">${item.y}</div>
+        </div>`
+      ).join('');
+    }
+
+    function goTl(i) { tlI = i; renderTl(); }
+    function moveTl(d) { tlI = Math.max(0, Math.min(tlD.length - 1, tlI + d)); renderTl(); }
+
+    function toggleAuto() {
+      if (tlAuto) {
+        clearInterval(tlAuto);
+        tlAuto = null;
+        document.getElementById('autobtn').textContent = '▶ Auto-play';
+      } else {
+        tlAuto = setInterval(() => { tlI = (tlI + 1) % tlD.length; renderTl(); }, 2500);
+        document.getElementById('autobtn').textContent = '❚❚ Pause';
+      }
+    }
+    renderTl();
+
+    const tqs = [
+      {q:'In what year did Crystal acquire the Uplands Mansion?', o:['1948','1953','1956','1960'], a:2, e:"In 1956, Crystal acquired the Uplands Mansion and 5+ acres, saved from demolition thanks to the Crocker family's donation."},
+      {q:'Who founded Crystal Springs School for Girls?', o:['The Crocker Family','Aylett & Martha Jane Cotton','Hillsborough City Council','Stanford faculty'], a:1, e:"Aylett and Martha Jane Cotton envisioned the school in 1948; the Founders' Committee formally announced it January 1, 1953."},
+      {q:"What is Crystal's student-to-teacher ratio?", o:['5:1','7:1','9:1','12:1'], a:2, e:"Crystal maintains a 9:1 student-to-teacher ratio, ensuring personalized learning and small class sizes."},
+      {q:'When did Crystal begin admitting boys?', o:['1965','1970','1977','1982'], a:2, e:"Crystal integrated boys in 1977, promoting gender diversity and enriching classroom life."},
+      {q:'How many sports teams does Crystal offer today?', o:['8','12','15','18'], a:3, e:"Crystal fields 18 sports teams — the Gryphons compete across the Bay Area, backed by the 1989 athletics plan."}
+    ];
+
+    let tqI = 0, tqDone = false;
+
+    function renderTq() {
+      tqDone = false; 
+      const t = tqs[tqI];
+      document.getElementById('tqq').textContent = t.q;
+      document.getElementById('tqopts').innerHTML = t.o.map((o, i) => `<button class="tq-opt" onclick="answerTq(${i})">${o}</button>`).join('');
+      document.getElementById('tqfb').style.display = 'none';
+      document.getElementById('tqnext').style.display = 'none';
+    }
+
+    function answerTq(i) {
+      if (tqDone) return; 
+      tqDone = true; 
+      const t = tqs[tqI];
+      document.querySelectorAll('.tq-opt').forEach((o, j) => {
+        o.disabled = true;
+        if (j === t.a) o.classList.add('correct');
+        else if (j === i && i !== t.a) o.classList.add('wrong');
+      });
+      const fb = document.getElementById('tqfb');
+      fb.textContent = (i === t.a ? '✓ Correct! ' : '✗ Not quite. ') + t.e;
+      fb.style.display = 'block';
+      document.getElementById('tqnext').style.display = 'inline-block';
+    }
+
+    function nextTq() { tqI = (tqI + 1) % tqs.length; renderTq(); }
+    renderTq();
+  </script>
+</body>
+</html>
