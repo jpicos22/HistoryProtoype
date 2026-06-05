@@ -1,160 +1,362 @@
 /**
- * Crystal Springs Uplands School - Interactive Display Logic
- * Reopening Year: 2026
- * Updated Timeline Dataset with Spotlight Navigation Fix
+ * Crystal Springs Uplands School - Museum Project Core App Scripts
+ * Master interactive controllers, timeline engine, state machines & mechanics.
  */
 
-// Smooth scroll function for site navigation
-function goto(id) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
+// Global State Variables
+let currentTlIndex = 0;
+let tlPlaybackInterval = null;
+let currentQuizIndex = 0;
+let quizScore = 0;
+
+// Touch Gesture Tracking Variables
+let touchStartX = 0;
+let touchEndX = 0;
+const swipeThreshold = 50; // Minimum pixels moved to trigger a swipe change
+
+// Master Historical Timeline Dataset
+const timelineData = [
+  { 
+    year: "1953", 
+    title: "Founding Vision", 
+    desc: "Crystal Springs School for Girls opens as a private, non-sectarian day school dedicated to the highest caliber of education, free from fear or prejudice.", 
+    img: "timeline-1953.jpg" 
+  },
+  { 
+    year: "1956", 
+    title: "Acquired Uplands Mansion", 
+    desc: "Saved from demolition via the Crocker family donation, the magnificent Uplands Mansion is secured as the permanent home of the school.", 
+    img: "timeline-1956.jpg" 
+  },
+  { 
+    year: "1960s", 
+    title: "Curriculum Expansion", 
+    desc: "Academic and creative arts curricula dramatically broaden, anchoring robust traditions in music, fine arts, and public discussion.", 
+    img: "timeline-1960.jpg" 
+  },
+  { 
+    year: "1977", 
+    title: "Inclusion of Boys", 
+    desc: "Co-education formally commences at Crystal Springs, bringing a wealth of perspectives and deep collaboration across the entire student body.", 
+    img: "timeline-1977.jpg" 
+  },
+  { 
+    year: "1989", 
+    title: "Athletics Strategic Plan", 
+    desc: "A massive foundational push establishes a legacy of physical excellence, paving the way for the 18 elite Gryphon competitive teams active today.", 
+    img: "timeline-1989.jpg" 
+  },
+  { 
+    year: "2017", 
+    title: "New Middle School Campus", 
+    desc: "A state-of-the-art, beautifully sustainable middle school facility opens its doors down the road in Belmont after a decade of careful community planning.", 
+    img: "timeline-2017.jpg" 
+  },
+  { 
+    year: "2026", 
+    title: "Mansion Reopening", 
+    desc: "The fully modernized and lovingly restored Uplands Mansion reopens to the public — honoring our rich heritage while embracing the absolute frontier of modern pedagogy.", 
+    img: "timeline-2026.jpg" 
+  }
+];
+
+// Master Trivia Quiz Dataset
+const quizData = [
+  {
+    q: "In what year was Crystal Springs Uplands School officially incorporated?",
+    opts: ["1948", "1952", "1956", "1977"],
+    correct: 1,
+    fb: "Correct! The school was incorporated on Christmas Eve 1952, and its founding was formally announced to the public on January 1, 1953."
+  },
+  {
+    q: "The Uplands Mansion was saved from demolition via a generous donation from which prominent local family?",
+    opts: ["The Hearsts", "The Stanford Family", "The Crocker Family", "The Cottons"],
+    correct: 2,
+    fb: "Correct! The Crocker family donated the stunning estate in 1956, preserving a beautiful piece of Gilded Age architecture to serve as the heart of our campus."
+  },
+  {
+    q: "When did Crystal Springs welcome boys to the school and transition into co-education?",
+    opts: ["1953", "1965", "1977", "1989"],
+    correct: 2,
+    fb: "Correct! Co-education began in 1977, significantly enriching intelligent discussions, collaborative problem-solving, and general student life."
+  }
+];
+
+// App Initialization Logic
+document.addEventListener('DOMContentLoaded', () => {
+  const sitenav = document.getElementById('sitenav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      sitenav.classList.add('scrolled');
+    } else {
+      sitenav.classList.remove('scrolled');
+    }
+  });
+
+  initTimelineDots();
+  updateTimelineView(0);
+  initTouchGestures(); // ADDED: Hook touch engine tracking loops
+
+  loadQuizQuestion(0);
+});
+
+// ADDED: Swipe Gesture Listening Engine
+function initTouchGestures() {
+  const evCard = document.getElementById('evcard');
+  if (!evCard) return;
+
+  // Track the initial touch coordinates
+  evCard.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  // Track finger lifting coordinates and evaluate vectors
+  evCard.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipeGesture();
+  }, { passive: true });
+}
+
+// ADDED: Swipe Vector Evaluation Mechanic
+function handleSwipeGesture() {
+  const deltaX = touchEndX - touchStartX;
+
+  if (Math.abs(deltaX) > swipeThreshold) {
+    if (deltaX < 0) {
+      // Swiped Left -> Load Next Date Milestone
+      moveTl(1);
+    } else {
+      // Swiped Right -> Load Previous Date Milestone
+      moveTl(-1);
+    }
   }
 }
 
-// Navigation background opacity shift on scroll
-window.addEventListener('scroll', () => {
-  const nav = document.getElementById('sitenav');
-  if (nav) {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
+// Smooth Scroll Anchor Link Route Engine
+function goto(targetId) {
+  const element = document.getElementById(targetId);
+  if (element) {
+    const offset = 68; 
+    const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+    
+    window.scrollTo({
+      top: elementPosition - offset,
+      behavior: 'smooth'
+    });
   }
-});
+}
 
-// Interactive Panel Tab Switching
-function setEtab(i, btn) {
-  document.querySelectorAll('.etab').forEach((b, j) => b.classList.toggle('active', j === i));
-  ['ep0', 'ep1', 'ep2'].forEach((id, j) => {
-    const panel = document.getElementById(id);
-    if (panel) panel.classList.toggle('active', j === i);
+// Global Tab Manager Switching Engine
+function setEtab(panelIndex, buttonElement) {
+  clearInterval(tlPlaybackInterval);
+  tlPlaybackInterval = null;
+  const autoBtn = document.getElementById('autobtn');
+  if(autoBtn) autoBtn.innerText = "▶ Auto-play";
+
+  const tabs = buttonElement.parentNode.querySelectorAll('.etab');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  buttonElement.classList.add('active');
+
+  const sectionParent = buttonElement.closest('#page-display');
+  const panels = sectionParent.querySelectorAll('.epanel');
+  panels.forEach(panel => panel.classList.remove('active'));
+  
+  const targetPanel = document.getElementById(`ep${panelIndex}`);
+  if(targetPanel) targetPanel.classList.add('active');
+}
+
+// Timeline Initialization
+function initTimelineDots() {
+  const dotsContainer = document.getElementById('tldots');
+  if (!dotsContainer) return;
+  dotsContainer.innerHTML = '';
+
+  timelineData.forEach((item, index) => {
+    const dot = document.createElement('div');
+    dot.className = `tl-dot ${index === 0 ? 'active' : ''}`;
+    dot.setAttribute('onclick', `jumpToTimelineIndex(${index})`);
+    
+    dot.innerHTML = `
+      <div class="tl-circle">${item.year}</div>
+      <div class="tl-yr">${item.year}</div>
+    `;
+    dotsContainer.appendChild(dot);
   });
 }
 
-// --- UPDATED TIMELINE COMPONENT DATA & LOGIC ---
-const tlD = [
-  { y: '1911', t: 'Building Begins', d: "Driven by a grand vision, Templeton Crocker began construction on a magnificent Hillsborough estate as a lavish wedding gift for his bride. Designed by famed architect Willis Polk, the ambitious project was conceived to reflect Europe’s finest classical traditions. This monumental undertaking laid the physical foundation for a property that would eventually become the heart of the Crystal Springs community." },
-  { y: '1917', t: 'Mansion Completed', d: "After six years of meticulous craftsmanship, the opulent Uplands Mansion was finally completed in 1917 as a Gilded Age masterpiece. Archival photographs from this pre-construction era beautifully capture the breathtaking, unaltered scale of the original architecture. The finished estate stood as a triumph on the Peninsula, boasting sprawling layouts and handcrafted details that defined early 20th-century luxury." },
-  { y: '1927', t: "The Crockers' Divorce", d: "Following the Crockers' divorce in 1927, the grand mansion saw its first major shift in lifestyle, as Mr. Crocker thereafter occupied the house only periodically. No longer a bustling center of high-society galas, the massive residence was quieted down for the next decade. Instead, it was utilized primarily as a scenic \"summer cottage\" and a private, rustic \"hunting lodge.\"" },
-  { y: '1942', t: 'Crocker Sells the Property', d: "In 1942, Templeton Crocker sold the historic property to Romie C. Jacks, signaling a unique new era for the estate. Although Mr. Jacks passed away shortly after moving in, his widow, Mrs. Jacks, continued to live there for nearly a decade. Attended by a dedicated staff of thirteen servants, she maintained the grandeur of the estate while residing in just a few select rooms on the second floor." },
-  { y: '1942 – 1953', t: 'Splitting Up the Acres', d: "Following Mrs. Jacks' departure, the main house sat entirely unoccupied for several years while the surrounding land underwent massive changes. During this quiet interim, the majority of the estate’s original sprawling acreage was systematically sold off for residential subdivision. Today, the enduring legacy of the grand borders can still be glimpsed through the original stone gateposts remaining at the foot of Uplands Drive and Stonehedge." },
-  { y: '1953', t: 'Founding of the School', d: "On January 1, 1953, the Founders' Committee officially announced the creation of the Crystal Springs School for Girls as a private, non-profit, non-sectarian day school. The institution was built on a rigorous academic mission, aiming to provide a high-caliber education with a faculty and curriculum equal to the nation's finest. From its inception, the school prioritized a holistic student experience by weaving fine arts, music, and competitive athletics into its core identity." },
-  { y: '1956', t: 'Acquired Mansion', d: "Once facing the tragic threat of demolition, the Uplands Mansion found its savior when Crystal Springs acquired the grand building and its remaining five acres of land in 1956. This historic acquisition was made possible through the profound generosity of the Crocker family, who provided substantial donations of stock and cash. Because of this strategic philanthropy, the school successfully assumed ownership of the estate while brilliantly preserving its own capital funds." },
-  { y: '1977', t: 'Inclusion of Boys', d: "In a landmark evolution of the school’s culture, Crystal Springs officially integrated boys into the student body in 1977. This pivotal transition successfully promoted true gender diversity across the entire campus and enriched daily classroom discussions. By introducing co-education, the school better prepared its graduates to navigate the real-world dynamics of a rapidly changing society." },
-  { y: '1982', t: 'The Gryphon Mascot Debut', d: "In 1982, the student body participated in a historic vote to select a brand-new mascot to represent the school's spirit: the mythical Gryphon. The clean, iconic logo design was directly inspired by an elegant architectural detail carved into the woodwork of the historic mansion library. This choice beautifully bridged the gap between modern student pride and the deep physical heritage of the campus itself." },
-  { y: '1988', t: 'Loggias Enclosed', d: "Recognizing the crucial need to preserve the mansion's structure, the school invested $174,000 to enclose the building's open loggias in 1988. This protective renovation was deemed essential for maintaining the physical integrity and timeless beauty of the Gilded Age architecture against the elements. The project successfully safeguarded the historic exterior while creating a more functional, climate-controlled indoor environment for students." },
-  { y: '2017', t: 'New Middle School Opens', d: "Following nearly a decade of meticulous planning and community-wide dedication, a state-of-the-art middle school campus emerged in nearby Belmont. This eco-friendly educational facility served as a brilliant testament to the community's modern commitment to sustainability and academic excellence. The new campus allowed the school to expand its pedagogical reach while ensuring its facilities met modern green-building standards." },
-  { y: '2026', t: 'Mansion Revamp', d: "The grand renovation project of June 2026 brings the story of the Uplands Mansion beautifully full circle, marking the most extensive structural construction the building has undergone since 1917. This sweeping rebirth seamlessly merges the historical fabric of the Gilded Age landmark with the technological needs of the 21st-century learning world. Standing as a proud showcase of resilience, the project provides a breathtaking opportunity to view side-by-side comparisons of the mansion’s historical architecture alongside its stunning, modern upgrades." }
-];
-
-let tlI = 0; 
-let tlAuto = null;
-
-function renderTl() {
-  const d = tlD[tlI];
-  const card = document.getElementById('evcard');
-  if (!card) return;
-
-  card.style.opacity = '0';
-  setTimeout(() => {
-    document.getElementById('evyr').textContent = d.y;
-    document.getElementById('evttl').textContent = d.t;
-    document.getElementById('evdesc').textContent = d.d;
-    card.style.opacity = '1'; 
-    card.style.transition = 'opacity 0.3s';
-  }, 150);
+// Timeline State Renderer
+function updateTimelineView(index) {
+  currentTlIndex = index;
   
-  const pct = (tlI / (tlD.length - 1)) * 85 + 5;
-  document.getElementById('tlprog').style.width = pct + '%';
-  document.getElementById('tldots').innerHTML = tlD.map((item, i) => {
-    // Normalizes hyphenation parameters so multiple range types slice and fit inside mini layout indicators
-    const hasDash = item.y.includes('–') || item.y.includes('-');
-    const separator = item.y.includes('–') ? '–' : '-';
-    const shortYear = hasDash ? item.y.split(separator)[1].trim().slice(-2) : item.y.slice(-2);
-    
-    return `<div class="tl-dot ${i < tlI ? 'past' : i === tlI ? 'active' : ''}" onclick="goTl(${i})">
-      <div class="tl-circle">${shortYear}</div>
-      <div class="tl-yr">${item.y}</div>
-    </div>`;
-  }).join('');
+  const evyr = document.getElementById('evyr');
+  const evttl = document.getElementById('evttl');
+  const evdesc = document.getElementById('evdesc');
+  const evImg = document.getElementById('ev-img-element');
+  const imgWrapper = document.querySelector('.ev-img-wrapper');
+  const tlProg = document.getElementById('tlprog');
+  const dots = document.querySelectorAll('.tl-dot');
+
+  if(!evyr || !evttl || !evdesc || !evImg || !imgWrapper) return;
+
+  const currentData = timelineData[index];
+
+  evyr.innerText = currentData.year;
+  evttl.innerText = currentData.title;
+  evdesc.innerText = currentData.desc;
+  
+  evImg.src = currentData.img;
+  evImg.onerror = function() { this.src = 'Book.jpeg'; };
+
+  imgWrapper.classList.remove('swing-active');
+  void imgWrapper.offsetWidth; 
+  imgWrapper.classList.add('swing-active');
+
+  const progressPercent = (index / (timelineData.length - 1)) * 100;
+  if(tlProg) tlProg.style.width = `${progressPercent}%`;
+
+  dots.forEach((dot, dotIndex) => {
+    dot.classList.remove('active', 'past');
+    if (dotIndex === index) {
+      dot.classList.add('active');
+    } else if (dotIndex < index) {
+      dot.classList.add('past');
+    }
+  });
 }
 
-function goTl(i) { 
-  tlI = i; 
-  renderTl(); 
+// Timeline Navigation Controllers
+function moveTl(direction) {
+  clearInterval(tlPlaybackInterval);
+  tlPlaybackInterval = null;
+  const autoBtn = document.getElementById('autobtn');
+  if(autoBtn) autoBtn.innerText = "▶ Auto-play";
+
+  let nextIndex = currentTlIndex + direction;
+  if (nextIndex >= timelineData.length) nextIndex = 0;
+  if (nextIndex < 0) nextIndex = timelineData.length - 1;
+  
+  updateTimelineView(nextIndex);
 }
 
-function moveTl(d) { 
-  tlI = Math.max(0, Math.min(tlD.length - 1, tlI + d)); 
-  renderTl(); 
+function jumpToTimelineIndex(index) {
+  clearInterval(tlPlaybackInterval);
+  tlPlaybackInterval = null;
+  const autoBtn = document.getElementById('autobtn');
+  if(autoBtn) autoBtn.innerText = "▶ Auto-play";
+  
+  updateTimelineView(index);
 }
 
+// Timeline Automated Loop Playback System Controller
 function toggleAuto() {
   const autoBtn = document.getElementById('autobtn');
-  if (tlAuto) {
-    clearInterval(tlAuto);
-    tlAuto = null;
-    if (autoBtn) autoBtn.textContent = '▶ Auto-play';
+  
+  if (tlPlaybackInterval) {
+    clearInterval(tlPlaybackInterval);
+    tlPlaybackInterval = null;
+    autoBtn.innerText = "▶ Auto-play";
   } else {
-    tlAuto = setInterval(() => { 
-      tlI = (tlI + 1) % tlD.length; 
-      renderTl(); 
-    }, 4000); 
-    if (autoBtn) autoBtn.textContent = '❚❚ Pause';
+    autoBtn.innerText = "⏸ Pause Loop";
+    tlPlaybackInterval = setInterval(() => {
+      let nextIndex = currentTlIndex + 1;
+      if (nextIndex >= timelineData.length) nextIndex = 0;
+      updateTimelineView(nextIndex);
+    }, 4000);
   }
 }
 
-// --- QUIZ COMPONENT DATA & LOGIC ---
-const tqs = [
-  { q: 'In what year did Crystal acquire the Uplands Mansion?', o: ['1948', '1953', '1956', '1960'], a: 2, e: "In 1956, Crystal acquired the Uplands Mansion and 5+ acres, saved from demolition thanks to the Crocker family's donation." },
-  { q: 'Who founded Crystal Springs School for Girls?', o: ['The Crocker Family', 'Aylett & Martha Jane Cotton', 'Hillsborough City Council', 'Stanford faculty'], a: 1, e: "Aylett and Martha Jane Cotton envisioned the school in 1948; the Founders' Committee formally announced it January 1, 1953." },
-  { q: "What is Crystal's student-to-teacher ratio?", o: ['5:1', '7:1', '9:1', '12:1'], a: 2, e: "Crystal maintains a 9:1 student-to-teacher ratio, ensuring personalized learning and small class sizes." },
-  { q: 'When did Crystal begin admitting boys?', o: ['1965', '1970', '1977', '1982'], a: 2, e: "Crystal integrated boys in 1977, promoting gender diversity and enriching classroom life." },
-  { q: 'How many sports teams does Crystal offer today?', o: ['8', '12', '15', '18'], a: 3, e: "Crystal fields 18 sports teams — the Gryphons compete across the Bay Area, backed by the 1989 athletics plan." }
-];
+// Trivia Quiz Component Application Methods
+function loadQuizQuestion(index) {
+  currentQuizIndex = index;
+  
+  const qText = document.getElementById('tqq');
+  const optsContainer = document.getElementById('tqopts');
+  const fbBox = document.getElementById('tqfb');
+  const nextBtn = document.getElementById('tqnext');
 
-let tqI = 0;
-let tqDone = false;
+  if(!qText || !optsContainer || !fbBox || !nextBtn) return;
 
-function renderTq() {
-  tqDone = false; 
-  const t = tqs[tqI];
-  document.getElementById('tqq').textContent = t.q;
-  document.getElementById('tqopts').innerHTML = t.o.map((o, i) => `<button class="tq-opt" onclick="answerTq(${i})">${o}</button>`).join('');
-  document.getElementById('tqfb').style.display = 'none';
-  document.getElementById('tqnext').style.display = 'none';
-}
+  fbBox.style.display = 'none';
+  nextBtn.style.display = 'none';
+  optsContainer.innerHTML = '';
 
-function answerTq(i) {
-  if (tqDone) return; 
-  tqDone = true; 
-  const t = tqs[tqI];
-  document.querySelectorAll('.tq-opt').forEach((o, j) => {
-    o.disabled = true;
-    if (j === t.a) o.classList.add('correct');
-    else if (j === i && i !== t.a) o.classList.add('wrong');
+  const item = quizData[index];
+  qText.innerText = item.q;
+
+  item.opts.forEach((optionText, optIdx) => {
+    const btn = document.createElement('button');
+    btn.className = 'tq-opt';
+    btn.innerText = optionText;
+    btn.setAttribute('onclick', `evaluateQuizSelection(${optIdx}, this)`);
+    optsContainer.appendChild(btn);
   });
-  const fb = document.getElementById('tqfb');
-  fb.textContent = (i === t.a ? '✓ Correct! ' : '✗ Not quite. ') + t.e;
-  fb.style.display = 'block';
-  document.getElementById('tqnext').style.display = 'inline-block';
 }
 
-function nextTq() { 
-  tqI = (tqI + 1) % tqs.length; 
-  renderTq(); 
+function evaluateQuizSelection(selectedIdx, targetButton) {
+  const currentItem = quizData[currentQuizIndex];
+  const optsContainer = document.getElementById('tqopts');
+  const allOptionButtons = optsContainer.querySelectorAll('.tq-opt');
+  const fbBox = document.getElementById('tqfb');
+  const nextBtn = document.getElementById('tqnext');
+
+  allOptionButtons.forEach(btn => btn.setAttribute('disabled', 'true'));
+
+  if (selectedIdx === currentItem.correct) {
+    targetButton.classList.add('correct');
+    fbBox.innerText = currentItem.fb;
+    fbBox.style.borderLeftColor = '#28a745';
+    quizScore++;
+  } else {
+    targetButton.classList.add('wrong');
+    allOptionButtons[currentItem.correct].classList.add('correct');
+    fbBox.innerText = `Incorrect. ${currentItem.fb}`;
+    fbBox.style.borderLeftColor = '#dc3545';
+  }
+
+  fbBox.style.display = 'block';
+  nextBtn.style.display = 'block';
+
+  if (currentQuizIndex === quizData.length - 1) {
+    nextBtn.innerText = "View Final Results ⟳";
+  } else {
+    nextBtn.innerText = "Next Question ▶";
+  }
 }
 
-// --- INITIALIZE APPLICATION UI & CLICK OVERRIDES ---
-document.addEventListener('DOMContentLoaded', () => {
-  renderTl();
-  renderTq();
+function nextTq() {
+  let nextQuizIndex = currentQuizIndex + 1;
+  
+  if (nextQuizIndex < quizData.length) {
+    loadQuizQuestion(nextQuizIndex);
+  } else {
+    const qText = document.getElementById('tqq');
+    const optsContainer = document.getElementById('tqopts');
+    const fbBox = document.getElementById('tqfb');
+    const nextBtn = document.getElementById('tqnext');
 
-  // Binds programmatic location adjustments directly to the layout grid modules
-  document.querySelectorAll('.sp-cell').forEach(cell => {
-    cell.addEventListener('click', (e) => {
-      const destinationUrl = cell.getAttribute('href');
-      if (destinationUrl) {
-        window.location.href = destinationUrl;
-      }
-    });
-  });
-});
+    fbBox.style.display = 'none';
+    optsContainer.innerHTML = '';
+    
+    qText.innerText = "Exhibition Quiz Complete!";
+    optsContainer.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 20px 0;">
+        <div style="font-family: 'Cormorant SC', serif; font-size: 56px; color: var(--blue); margin-bottom: 8px;">
+          ${quizScore} / ${quizData.length}
+        </div>
+        <p style="font-family: 'Jost', sans-serif; color: var(--text-muted); font-size: 15px;">
+          Thank you for exploring our school archives!
+        </p>
+      </div>
+    `;
+    
+    nextBtn.innerText = "Restart Quiz ↺";
+    nextBtn.setAttribute('onclick', 'resetQuizSystem()');
+  }
+}
+
+function resetQuizSystem() {
+  quizScore = 0;
+  const nextBtn = document.getElementById('tqnext');
+  if(nextBtn) nextBtn.setAttribute('onclick', 'nextTq()');
+  loadQuizQuestion(0);
+}

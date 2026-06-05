@@ -29,28 +29,25 @@
       <button class="nav-link" onclick="goto('page-history')">History</button>
       <button class="nav-link" onclick="goto('page-display')">Interactive</button>
       <button class="nav-link" onclick="goto('page-mansion')">The Mansion</button>
+      <button class="nav-link" onclick="goto('page-donors')">Donors</button>
+      <button class="nav-link" onclick="window.location.href='tour.html'">3D Tour</button>
       <button class="nav-link" onclick="goto('page-spotlights')">Spotlights</button>
     </div>
     <a href="https://www.crystal.org/page/thrive-together" class="nav-cta" target="_blank">Mansion Project</a>
   </nav>
 
   <section id="splash">
-    <div class="splash-bg"></div>
+    
+    <video autoplay loop muted playsinline class="video-bg">
+      <source src="Looped Mansion Drone Footage.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    
+    <div class="video-overlay"></div>
+
     <div class="grid-bg"></div>
-    <div class="ghost-arch">
-      <svg viewBox="0 0 480 560" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M48 500 L48 235 Q48 48 240 48 Q432 48 432 235 L432 500" stroke="white" stroke-width="1.5" fill="none"></path>
-        <path d="M88 500 L88 248 Q88 108 240 108 Q392 108 392 248 L392 500" stroke="white" stroke-width="1" fill="none"></path>
-        <path d="M128 500 L128 262 Q128 168 240 168 Q352 168 352 262 L352 500" stroke="white" stroke-width="0.7" fill="none"></path>
-        <line x1="48" y1="518" x2="432" y2="518" stroke="white" stroke-width="1.5"></line>
-        <line x1="88" y1="540" x2="392" y2="540" stroke="white" stroke-width="0.7"></line>
-      </svg>
-    </div>
+
     <div class="splash-content">
-      <div class="logo-wrap">
-        <img id="Sketch" src="Mansion Sketch.png" alt="Crystal Springs Uplands Mansion">
-      </div>
-      <div class="blue-rule"></div>
       <div class="splash-eyebrow">Mansion Reopening &middot; 2026</div>
       <h1 class="splash-hed">Where <em>History</em> Meets<br>the Future of Learning</h1>
       <p class="splash-tagline">The Crystal Springs Uplands Mansion</p>
@@ -58,6 +55,7 @@
         <button class="btn-primary" onclick="goto('page-history')">Explore the Story</button>
       </div>
     </div>
+    
     <div class="year-strip">
       <div class="ys-item"><span class="ys-dot"></span>Founded 1953</div>
       <div class="ys-item"><span class="ys-dot"></span>70+ Years of Excellence</div>
@@ -67,12 +65,12 @@
   </section>
 
   <section id="page-history">
-<div class="hist-hero">
-    <div class="hist-hero-bg"></div>
-    <img id="HistHeroImage" src="Old Mansion.png" alt="Historical Crystal Springs Uplands Mansion">
-    <h1>A Legacy of<br><em>Visionary</em> Education</h1>
-    <div class="hist-year-ghost">1953</div>
-  </div>
+    <div class="hist-hero">
+      <div class="hist-hero-bg"></div>
+      <img id="HistHeroImage" src="your-history-image.jpg" alt="Historical Crystal Springs Uplands Mansion Asset View">
+      <h1>A Legacy of<br><em>Visionary</em> Education</h1>
+      <div class="hist-year-ghost">1953</div>
+    </div>
     <div class="hist-body">
       <div class="hist-col">
         <h2>The Founding Vision</h2>
@@ -113,13 +111,20 @@
           <div class="tl-prog" id="tlprog"></div>
           <div class="tl-dots" id="tldots"></div>
         </div>
+        
         <div class="ev-card" id="evcard">
-          <div class="ev-year-big" id="evyr"></div>
+          <div class="ev-year-big" id="evyr">1953</div>
+          
           <div class="ev-detail">
-            <h3 id="evttl"></h3>
-            <p id="evdesc"></p>
+            <h3 id="evttl">Founding Vision</h3>
+            <p id="evdesc">Crystal Springs School for Girls opens as a private, non-sectarian day school.</p>
+          </div>
+          
+          <div class="ev-img-wrapper swing-active">
+            <img id="ev-img-element" src="Book.jpeg" alt="Archival milestone record graphic">
           </div>
         </div>
+        
         <div class="tl-ctrls">
           <button class="tc-btn" onclick="moveTl(-1)">◀ Prev</button>
           <button class="tc-btn" onclick="moveTl(1)">Next ▶</button>
@@ -152,7 +157,6 @@
   <section id="page-mansion">
     <div class="mansion-split">
       <div class="mansion-vis">
-        
         <div class="mansion-video-crop-box">
           <iframe 
             src="https://www.instagram.com/p/DYXRTEuDsQy/embed/" 
@@ -161,8 +165,9 @@
             frameborder="0" 
             scrolling="no">
           </iframe>
-        </div>
 
+          <div class="instagram-shield"></div>
+        </div>
         <div class="mansion-video-meta">
           <div class="mv-label">Uplands Mansion</div>
           <div class="mv-name">400 Uplands Drive, Hillsborough</div>
@@ -184,6 +189,13 @@
     </div>
   </section>
 
+  <section id="page-donors" style="padding: 100px 80px; background: var(--navy); color: #fff; text-align: center;">
+    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; margin-bottom: 16px;">Our <em>Generous</em> Supporters</h2>
+    <p style="font-family: 'Jost', sans-serif; font-size: 15px; max-width: 650px; margin: 0 auto; color: rgba(255,255,255,0.7); line-height: 1.75; letter-spacing: 0.02em;">
+      This historical exhibition database is made possible through the enduring support of our active alumni network, current families, and local preservation foundations. The complete donor recognition roll database configuration is currently an ongoing work-in-progress.
+    </p>
+  </section>
+
   <section id="page-spotlights">
     <div class="sp-hdr">
       <h2>Thematic <em>Spotlights</em></h2>
@@ -191,7 +203,7 @@
     
     <div class="sp-intro-text">
       <p>
-        The Uplands Mansion stands as the living heart of our entire community. While the full rhythm of our modern days may ripple out across the whole campus, this magnificent building remains the absolute crux of our shared identity. It is our anchor, our history, and our home. So with great pride, we share these glimpses of Crystal at its absolute finest!
+        As educators, we often speak of the spaces that shape us, and truly, the Uplands Mansion stands as the living heart of our entire community. For generations, its historic walls have stood watch over our students, faculty, and families as we join together to celebrate profound scholarship, rise to thrilling new athletic heights, and showcase our collective creativity through the vibrant arts. While the full rhythm of our modern days may ripple out across the whole campus, this magnificent building remains the absolute crux of our shared identity. It is our anchor, our history, and our home—so with great pride, we share these glimpses of Crystal at its absolute finest!
       </p>
     </div>
 
@@ -203,6 +215,7 @@
         <div class="sp-ttl">Yearbooks Through the Decades</div>
         <div class="sp-desc">From the 1960s expansion to the 2026 reopening — every chapter of Crystal, captured year by year.</div>
         <button class="sp-btn" onclick="window.location.href='yearbook.html'">View Catalog &rarr;</button>
+        <div class="sp-num">01</div>
       </div>
 
       <div class="sp-cell">
@@ -211,6 +224,7 @@
         <div class="sp-ttl">Daily Rituals &amp; Campus Life</div>
         <div class="sp-desc">Advisory mornings, campus dining traditions, student publications, and the rhythm of a Crystal day.</div>
         <button class="sp-btn" onclick="window.location.href='student-life.html'">Explore Campus Life &rarr;</button>
+        <div class="sp-num">02</div>
       </div>
 
       <div class="sp-cell">
@@ -219,6 +233,7 @@
         <div class="sp-ttl">Gryphon Traditions</div>
         <div class="sp-desc">Drama, ceramics, dance, music — and 18 sports teams carrying the Gryphon spirit onto courts and fields.</div>
         <button class="sp-btn" onclick="window.location.href='arts-athletics.html'">See Traditions &rarr;</button>
+        <div class="sp-num">03</div>
       </div>
 
     </div>

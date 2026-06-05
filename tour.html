@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crystal Springs Uplands School | Interactive 3D Tour</title>
+  
+  <meta property="og:title" content="Crystal Springs Uplands School | Interactive 3D Tour">
+  <meta name="description" content="Take a virtual walk through our historical campus spaces with our immersive interactive 3D Matterport tour.">
+  <meta property="og:description" content="Take a virtual walk through our historical campus spaces with our immersive interactive 3D Matterport tour.">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="museumProject.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* Unique Page Layout Core Controllers */
+    .tour-container {
+      padding: 120px 40px 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .tour-header {
+      margin-bottom: 40px;
+    }
+
+    .tour-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 300;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .tour-header h1 em {
+      font-style: italic;
+      color: var(--blue-pale);
+    }
+
+    .tour-header p {
+      font-family: 'Jost', sans-serif;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ASPECT RATIO LOCK FRAME FOR MATTERPORT CONTAINER */
+    .mp-frame-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9; /* Standard crisp widescreen desktop canvas aspect ratio */
+      background: #000;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mp-frame-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Responsive Mobile Height Fix overrides */
+    @media (max-width: 768px) {
+      .tour-container { padding: 100px 20px 40px; }
+      .mp-frame-wrapper {
+        aspect-ratio: 4 / 3; /* Taller, squarer canvas framework built for mobile touchscreens */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="sitenav" class="scrolled">
+    <div class="nav-logo" onclick="window.location.href='museumProject.html'">
+      <img src="Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
+    </div>
+    <div class="nav-links">
+      <a href="museumProject.html" class="nav-link">Home</a>
+      <a href="museumProject.html#page-history" class="nav-link">History</a>
+      <a href="museumProject.html#page-display" class="nav-link">Interactive</a>
+      <a href="museumProject.html#page-mansion" class="nav-link">The Mansion</a>
+      <a href="museumProject.html#page-donors" class="nav-link">Donors</a>
+      <a href="museumProject.html#page-spotlights" class="nav-link">Spotlights</a>
+    </div>
+    <a href="https://www.crystal.org/page/thrive-together" class="nav-cta" target="_blank">Mansion Project</a>
+  </nav>
+
+  <main class="tour-container">
+    <header class="tour-header">
+      <h1>Explore Campus: Interactive <em>3D Tour</em></h1>
+      <p>
+        Step directly inside our community spaces. Use your mouse or thumb gestures to step through corridors, examine architectural details, and discover the campus virtually.
+      </p>
+    </header>
+
+    <div class="mp-frame-wrapper">
+      <iframe 
+        src="https://my.matterport.com/show/?m=J2MKu8ocTE3&play=1&qs=1&brand=0" 
+        allow="xr-spatial-tracking; gyroscope; accelerometer"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </main>
+
+  <footer id="page-footer">
+    <div class="ft-logo">
+      <img src="Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
+    </div>
+    <p class="ft-tagline">Happy, challenged, and successful — <em>kind, curious, and compassionate</em> global citizens.</p>
+    <div class="ft-links">
+      <a href="https://www.crystal.org" class="ft-link" target="_blank">crystal.org</a>
+      <a href="https://www.crystal.org/about/history" class="ft-link" target="_blank">History</a>
+      <a href="https://www.crystal.org/page/thrive-together" class="ft-link" target="_blank">Mansion Project</a>
+      <a href="https://www.crystal.org/give-and-engage/donate-now" class="ft-link" target="_blank">Donate</a>
+      <a href="https://www.crystal.org/about/alumni" class="ft-link" target="_blank">Alumni</a>
+      <a href="https://www.crystal.org/apply" class="ft-link" target="_blank">Apply</a>
+    </div>
+    <div class="ft-bottom">
+      <span>&copy; 2026 Crystal Springs Uplands School. All rights reserved.</span>
+      <span style="text-align:right;">Upper School: 400 Uplands Dr, Hillsborough CA 94010 &nbsp;|&nbsp; Middle School: 10 Davis Dr, Belmont CA 94002</span>
+    </div>
+  </footer>
+
+</body>
+</html>
