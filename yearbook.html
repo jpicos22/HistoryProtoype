@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crystal Springs Uplands School | Yearbook Catalog</title>
+  <title>Crystal Springs Uplands School | Yearbook Archive Catalog</title>
   
-  <meta property="og:title" content="Crystal Springs Uplands School | Yearbook Catalog">
-  <meta name="description" content="Explore the historical archives and chapters of Crystal Springs through our Yearbook Catalog.">
-  <meta property="og:description" content="Explore the historical archives and chapters of Crystal Springs through our Yearbook Catalog.">
-  <meta property="og:type" content="website">
-
-  <link rel="stylesheet" href="yearbookCatalog.css">
+  <link rel="stylesheet" href="css/museumProject.css">
+  <link rel="stylesheet" href="css/yearbookCatalog.css">
+  <script src="js/museumProject.js" defer></script>
+  <script src="js/navLoader.js" defer></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,152 +16,33 @@
 </head>
 <body>
 
-  <nav id="sitenav" class="scrolled">
-    <div class="nav-logo">
-      <img src="Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
-    </div>
-    <div class="nav-links">
-      <a href="museumProject.html" class="nav-link">Home</a>
-      <a href="museumProject.html#page-history" class="nav-link">History</a>
-      <a href="museumProject.html#page-display" class="nav-link">Interactive</a>
-      <a href="museumProject.html#page-mansion" class="nav-link">The Mansion</a>
-      <a href="museumProject.html#page-spotlights" class="nav-link">Spotlights</a>
-    </div>
-    <a href="https://www.crystal.org/page/thrive-together" class="nav-cta" target="_blank">Mansion Project</a>
-  </nav>
+  <div id="nav-placeholder"></div>
 
-  <header id="catalog-hero">
-    <div class="grid-bg"></div>
-    <div class="hero-content">
-      <h1 class="catalog-title">Our Shared Chapters:<br>The Crystal Springs Yearbook Catalog</h1>
-      <div class="blue-rule"></div>
-      <p class="catalog-subtitle">
-        Yearbooks capture the enduring spirit and unique history of all our campus. Explore our collection to witness the shared stories, milestones, and interpretations of our community throughout the decades.
-      </p>
-    </div>
-  </header>
+  <main class="yb-catalog-shell">
+    <header class="yb-header">
+      <h1>Yearbooks <em>Through</em> the Decades</h1>
+      <p>Browse cover graphics and digitized records capturing student memories across 70+ years of school life.</p>
+    </header>
 
-  <main id="catalog-display">
-    <div class="catalog-grid">
-      
-      <article class="yb-card">
-        <div class="yb-img-frame">
-          <img src="Book.jpeg" alt="Its a book">
-        </div>
-        <div class="yb-meta">
-          <span class="yb-year">1953–1954</span>
-          <h2 class="yb-title">Foundations: Our Inaugural Year</h2>
-        </div>
-      </article>
-
-      <article class="yb-card">
-        <div class="yb-img-frame">
-          <img src="Book.jpeg" alt="Its a book">
-        </div>
-        <div class="yb-meta">
-          <span class="yb-year">1954–1955</span>
-          <h2 class="yb-title">A Growing Legacy</h2>
-        </div>
-      </article>
-
-      <article class="yb-card">
-        <div class="yb-img-frame">
-          <img src="Book.jpeg" alt="Its a book">
-        </div>
-        <div class="yb-meta">
-          <span class="yb-year">1955–1956</span>
-          <h2 class="yb-title">Co-Education Commences</h2>
-        </div>
-      </article>
-
-      <article class="yb-card">
-        <div class="yb-img-frame">
-          <img src="Book.jpeg" alt="Its a book">
-        </div>
-        <div class="yb-meta">
-          <span class="yb-year">1957–1958</span>
-          <h2 class="yb-title">The Anniversary Edition</h2>
-        </div>
-      </article>
-
-      <article class="yb-card">
-        <div class="yb-img-frame">
-          <img src="Book.jpeg" alt="Its a book">
-        </div>
-        <div class="yb-meta">
-          <span class="yb-year">1958–1959</span>
-          <h2 class="yb-title">Education Legacy</h2>
-        </div>
-      </article>
-
-      <article class="yb-card">
-        <div class="yb-img-frame">
-          <img src="Book.jpeg" alt="Its a book">
-        </div>
-        <div class="yb-meta">
-          <span class="yb-year">1970–1971</span>
-          <h2 class="yb-title">Golden Milestones</h2>
-        </div>
-      </article>
-
+    <div class="yb-grid-showcase">
+      <div class="yb-card-node">
+        <div class="yb-img-frame"><img src="assets/images/Past Students.png" alt="Archival Yearbook Snapshot"></div>
+        <div class="yb-meta-info"><h3>The Legacy Collection</h3><p>Digitized items spanning our earliest Gilded Age estate foundation years.</p></div>
+      </div>
+      <div class="yb-card-node">
+        <div class="yb-img-frame"><img src="assets/images/Book.jpeg" alt="Archival Document Record"></div>
+        <div class="yb-meta-info"><h3>The Modern Era</h3><p>Explore volumes detailing co-education traditions, sports expansion, and our community's growth.</p></div>
+      </div>
     </div>
   </main>
 
   <footer id="page-footer">
     <div class="ft-logo">
-      <img src="Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
-    </div>
-    <p class="ft-tagline">Happy, challenged, and successful — <em>kind, curious, and compassionate</em> global citizens.</p>
-    <div class="ft-links">
-      <a href="https://www.crystal.org" class="ft-link" target="_blank">crystal.org</a>
-      <a href="https://www.crystal.org/about/history" class="ft-link" target="_blank">History</a>
-      <a href="https://www.crystal.org/page/thrive-together" class="ft-link" target="_blank">Mansion Project</a>
-      <a href="https://www.crystal.org/give-and-engage/donate-now" class="ft-link" target="_blank">Donate</a>
-      <a href="https://www.crystal.org/about/alumni" class="ft-link" target="_blank">Alumni</a>
-      <a href="https://www.crystal.org/apply" class="ft-link" target="_blank">Apply</a>
+      <img src="assets/branding/Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
     </div>
     <div class="ft-bottom">
       <span>&copy; 2026 Crystal Springs Uplands School. All rights reserved.</span>
-      <span style="text-align:right;">Upper School: 400 Uplands Dr, Hillsborough CA 94010 &nbsp;|&nbsp; Middle School: 10 Davis Dr, Belmont CA 94002</span>
     </div>
   </footer>
-
-  <div id="pdf-overlay" class="pdf-overlay">
-    <div class="pdf-overlay-close">&times;</div>
-    <div class="pdf-overlay-content">
-      <iframe id="pdf-viewer" src="" frameborder="0"></iframe>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const overlay = document.getElementById('pdf-overlay');
-      const viewer = document.getElementById('pdf-viewer');
-      const closeBtn = document.querySelector('.pdf-overlay-close');
-
-      // Intercept clicks on ALL yearbook grid cards
-      document.querySelectorAll('.yb-card').forEach(card => {
-        card.addEventListener('click', () => {
-          // Hardcoded prototype pathway asset targeting your document file name:
-          viewer.src = "briefHistory.pdf"; 
-          
-          overlay.classList.add('active');
-          document.body.style.overflow = 'hidden'; // Prevents parent window from scrolling in background
-        });
-      });
-
-      // Unified action parameter to tear down the modal view safely
-      const closeModal = () => {
-        overlay.classList.remove('active');
-        viewer.src = ""; // Clears the file target immediately to stop processing background tracking loops
-        document.body.style.overflow = ''; // Restores mouse scroll tracks to parent page view
-      };
-
-      closeBtn.addEventListener('click', closeModal);
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeModal();
-      });
-    });
-  </script>
 </body>
 </html>

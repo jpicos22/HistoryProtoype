@@ -5,46 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crystal Springs Uplands School | Mansion Reopening</title>
   
+  <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Crystal Springs Uplands School | Mansion Reopening">
   <meta name="description" content="Celebrating the history and future of learning at the restored Uplands Mansion.">
   <meta property="og:description" content="Celebrating the history and future of learning at the restored Uplands Mansion.">
   <meta property="og:type" content="website">
 
-  <link rel="stylesheet" href="museumProject.css">
+  <!-- Link to External Layout Stylesheet -->
+  <link rel="stylesheet" href="css/museumProject.css">
 
-  <script src="museumProject.js" defer></script>
+  <!-- Link to External Interactive App Script -->
+  <script src="js/museumProject.js" defer></script>
+  <script src="js/navLoader.js" defer></script>
+  <script async src="//www.instagram.com/embed.js"></script>
 
+  <!-- Google Fonts Connection Bundle -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <nav id="sitenav">
-    <div class="nav-logo" onclick="document.getElementById('splash').scrollIntoView({behavior:'smooth'})">
-      <img src="Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
-    </div>
-    <div class="nav-links">
-      <button class="nav-link" onclick="goto('splash')">Home</button>
-      <button class="nav-link" onclick="goto('page-history')">History</button>
-      <button class="nav-link" onclick="goto('page-display')">Interactive</button>
-      <button class="nav-link" onclick="goto('page-mansion')">The Mansion</button>
-      <button class="nav-link" onclick="goto('page-donors')">Donors</button>
-      <button class="nav-link" onclick="window.location.href='tour.html'">3D Tour</button>
-      <button class="nav-link" onclick="goto('page-spotlights')">Spotlights</button>
-    </div>
-    <a href="https://www.crystal.org/page/thrive-together" class="nav-cta" target="_blank">Mansion Project</a>
-  </nav>
+  <!-- GLOBAL NAVIGATION BAR WITH CLICK-TRIGGER DROPDOWN -->
+  <div id="nav-placeholder"></div>
 
+  <!-- CINEMATIC VIDEO BACKGROUND SPLASH SECTION -->
   <section id="splash">
-    
     <video autoplay loop muted playsinline class="video-bg">
-      <source src="Looped Mansion Drone Footage.mp4" type="video/mp4">
+      <source src="assets/video/Looped Mansion Drone Footage.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
-    
     <div class="video-overlay"></div>
-
     <div class="grid-bg"></div>
 
     <div class="splash-content">
@@ -52,7 +43,7 @@
       <h1 class="splash-hed">Where <em>History</em> Meets<br>the Future of Learning</h1>
       <p class="splash-tagline">The Crystal Springs Uplands Mansion</p>
       <div class="splash-btns">
-        <button class="btn-primary" onclick="goto('page-history')">Explore the Story</button>
+        <button class="btn-primary" onclick="goto('page-mansion')">Explore the Space</button>
       </div>
     </div>
     
@@ -64,10 +55,72 @@
     </div>
   </section>
 
+  <!-- THE MANSION SECTION (LOCATED DIRECTLY UNDER SPLASH OVERLAY) -->
+  <section id="page-mansion">
+    <div class="mansion-split">
+      <div class="mansion-vis">
+        <div class="spotlight-profile-card">
+          <div class="spotlight-media-container">
+            
+            <!-- TARGET INSTAGRAM ELEMENT INTERFACE EMBED COMPONENT -->
+            <blockquote class="instagram-media" 
+                        data-instgrm-permalink="https://www.instagram.com/p/DYXRTEuDsQy/" 
+                        data-instgrm-version="14" 
+                        style="background:#FFF; border:0; border-radius:4px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin:0 auto; max-width:540px; min-width:326px; padding:0; width:99.375%; width:calc(100% - 2px);">
+              <div style="padding:16px;">
+                <a href="https://www.instagram.com/p/DYXRTEuDsQy/" style="background:#FFFFFF; line-height:0; text-align:center; text-decoration:none; width:100%; display:block;" target="_blank">
+                  <div style="display: flex; flex-direction: row; align-items: center;">
+                    <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 32px; margin-right: 14px; width: 32px;"></div>
+                    <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;">
+                      <div style="background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 12px; margin-bottom: 6px; width: 80px;"></div>
+                      <div style="background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 12px; width: 50px;"></div>
+                    </div>
+                  </div>
+                  <div style="padding: 15% 0;"></div>
+                  <div style="display:block; height:40px; margin:0 auto 12px; width:40px;">
+                    <svg width="40px" height="40px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g><path d="M30,12.141 C20.143,12.141 12.142,20.142 12.142,30 C12.142,39.858 20.143,47.858 30,47.858 C39.858,47.858 47.858,39.858 47.858,30 C47.858,20.142 39.858,12.141 30,12.141 M30,41.513 C23.643,41.513 18.487,36.356 18.487,30 C18.487,23.644 23.643,18.487 30,18.487 C36.356,18.487 41.513,23.644 41.513,30 C41.513,36.356 36.356,41.513 30,41.513 M53.212,14.799 C53.212,17.143 51.314,19.042 48.97,19.042 C46.626,19.042 44.729,17.143 44.729,14.799 C44.729,12.456 46.626,10.558 48.97,10.558 C51.314,10.558 53.212,12.456 53.212,14.799"></path></g></svg>
+                  </div>
+                  <div style="color: #3897f0; font-family: Arial,sans-serif; font-size: 13px; font-weight: 500;">View this post on Instagram</div>
+                </a>
+              </div>
+            </blockquote>
+            
+            <!-- MASTER CORE ASYNC WIDGET INITIALIZATION ROUTER -->
+            <script async src="https://www.instagram.com/embed.js"></script>
+
+          </div>
+          <div class="spotlight-info">
+            <h4>Ana Gonzalez Leyva '07</h4>
+            <div class="spotlight-role">Alumni Spotlight Series</div>
+            <p>Reflecting on how Crystal's supportive, tight-knit environment built a strong foundation for her journey beyond the historic courtyard spaces.</p>
+          </div>
+        </div>
+        <div class="mansion-video-meta">
+          <div class="mv-label">Uplands Mansion</div>
+          <div class="mv-name">400 Uplands Drive, Hillsborough</div>
+        </div>
+      </div>
+      
+      <div class="mansion-info">
+        <h2>The <em>Mansion</em> &amp; Renovation Story</h2>
+        <p>Once at risk of demolition, the opulent Uplands Mansion was acquired by Crystal Springs in 1956 through the generous donation of the Crocker family — preserving a Gilded Age landmark on more than five acres of Hillsborough hillside.</p>
+        <p>The 2024–2026 restoration honors the mansion's architectural heritage while equipping it for the next century of learning. Archival blueprints guided every decision, with modern structural systems woven invisibly into the Gilded Age fabric.</p>
+        <div class="cm-grid">
+          <div class="cm-item"><div class="cm-val">1956</div><div class="cm-lbl">Year Acquired</div></div>
+          <div class="cm-item"><div class="cm-val">5+ Acres</div><div class="cm-lbl">Estate Grounds</div></div>
+          <div class="cm-item"><div class="cm-val">Gilded Age</div><div class="cm-lbl">Architectural Style</div></div>
+          <div class="cm-item"><div class="cm-val">2026</div><div class="cm-lbl">Reopening Year</div></div>
+        </div>
+        <a href="https://www.crystal.org/page/thrive-together" class="btn-outline" target="_blank">Thrive Together Campaign ▶</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORY EXHIBITION CONTEXT SECTION -->
   <section id="page-history">
     <div class="hist-hero">
       <div class="hist-hero-bg"></div>
-      <img id="HistHeroImage" src="your-history-image.jpg" alt="Historical Crystal Springs Uplands Mansion Asset View">
+      <img id="HistHeroImage" src="assets/image/Old Mansion.png" alt="Historical Crystal Springs Uplands Mansion Asset View">
       <h1>A Legacy of<br><em>Visionary</em> Education</h1>
       <div class="hist-year-ghost">1953</div>
     </div>
@@ -93,6 +146,7 @@
     </div>
   </section>
 
+  <!-- INTERACTIVE HISTORY DISPLAY SECTION -->
   <section id="page-display">
     <div class="disp-hdr">
       <h2>Interactive <em>History</em> Display</h2>
@@ -105,6 +159,7 @@
         <button class="etab" onclick="setEtab(2,this)">Did You Know?</button>
       </div>
       
+      <!-- Panel 0: Timeline Card with Touch swipe mechanics -->
       <div class="epanel active" id="ep0">
         <div class="tl-track">
           <div class="tl-rail"></div>
@@ -114,14 +169,12 @@
         
         <div class="ev-card" id="evcard">
           <div class="ev-year-big" id="evyr">1953</div>
-          
           <div class="ev-detail">
             <h3 id="evttl">Founding Vision</h3>
             <p id="evdesc">Crystal Springs School for Girls opens as a private, non-sectarian day school.</p>
           </div>
-          
           <div class="ev-img-wrapper swing-active">
-            <img id="ev-img-element" src="Book.jpeg" alt="Archival milestone record graphic">
+            <img id="ev-img-element" src="assets/image/Book.jpeg" alt="Archival timeline record visualization graphic">
           </div>
         </div>
         
@@ -132,6 +185,7 @@
         </div>
       </div>
       
+      <!-- Panel 1: Stats Grid -->
       <div class="epanel" id="ep1">
         <div class="sg">
           <div class="sg-cell"><div class="sg-num">9:1</div><div class="sg-lbl">Student-Teacher Ratio</div><div class="sg-desc">Personalized learning for every Gryphon</div></div>
@@ -143,6 +197,7 @@
         </div>
       </div>
       
+      <!-- Panel 2: Quiz -->
       <div class="epanel" id="ep2">
         <div class="tq-shell">
           <div class="tq-q" id="tqq">Loading...</div>
@@ -154,41 +209,7 @@
     </div>
   </section>
 
-  <section id="page-mansion">
-    <div class="mansion-split">
-      <div class="mansion-vis">
-        <div class="mansion-video-crop-box">
-          <iframe 
-            src="https://www.instagram.com/p/DYXRTEuDsQy/embed/" 
-            allowtransparency="true" 
-            allowfullscreen="true" 
-            frameborder="0" 
-            scrolling="no">
-          </iframe>
-
-          <div class="instagram-shield"></div>
-        </div>
-        <div class="mansion-video-meta">
-          <div class="mv-label">Uplands Mansion</div>
-          <div class="mv-name">400 Uplands Drive, Hillsborough</div>
-        </div>
-      </div>
-      
-      <div class="mansion-info">
-        <h2>The <em>Mansion</em> &amp; Renovation Story</h2>
-        <p>Once at risk of demolition, the opulent Uplands Mansion was acquired by Crystal Springs in 1956 through the generous donation of the Crocker family — preserving a Gilded Age landmark on more than five acres of Hillsborough hillside.</p>
-        <p>The 2024–2026 restoration honors the mansion's architectural heritage while equipping it for the next century of learning. Archival blueprints guided every decision, with modern structural systems woven invisibly into the Gilded Age fabric.</p>
-        <div class="cm-grid">
-          <div class="cm-item"><div class="cm-val">1956</div><div class="cm-lbl">Year Acquired</div></div>
-          <div class="cm-item"><div class="cm-val">5+ Acres</div><div class="cm-lbl">Estate Grounds</div></div>
-          <div class="cm-item"><div class="cm-val">Gilded Age</div><div class="cm-lbl">Architectural Style</div></div>
-          <div class="cm-item"><div class="cm-val">2026</div><div class="cm-lbl">Reopening Year</div></div>
-        </div>
-        <a href="https://www.crystal.org/page/thrive-together" class="btn-outline" target="_blank">Thrive Together Campaign ▶</a>
-      </div>
-    </div>
-  </section>
-
+  <!-- DONORS PAGE BLOCK -->
   <section id="page-donors" style="padding: 100px 80px; background: var(--navy); color: #fff; text-align: center;">
     <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; margin-bottom: 16px;">Our <em>Generous</em> Supporters</h2>
     <p style="font-family: 'Jost', sans-serif; font-size: 15px; max-width: 650px; margin: 0 auto; color: rgba(255,255,255,0.7); line-height: 1.75; letter-spacing: 0.02em;">
@@ -196,6 +217,7 @@
     </p>
   </section>
 
+  <!-- SPOTLIGHTS CARDS ROW -->
   <section id="page-spotlights">
     <div class="sp-hdr">
       <h2>Thematic <em>Spotlights</em></h2>
@@ -208,7 +230,6 @@
     </div>
 
     <div class="sp-grid">
-      
       <div class="sp-cell">
         <div class="sp-icon">Reflections</div>
         <div class="sp-tag">Flashback Series</div>
@@ -235,13 +256,13 @@
         <button class="sp-btn" onclick="window.location.href='arts-athletics.html'">See Traditions &rarr;</button>
         <div class="sp-num">03</div>
       </div>
-
     </div>
   </section>
 
+  <!-- GLOBAL SITE FOOTER -->
   <footer id="page-footer">
     <div class="ft-logo">
-      <img src="Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
+      <img src="assets/image/Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
     </div>
     <p class="ft-tagline">Happy, challenged, and successful — <em>kind, curious, and compassionate</em> global citizens.</p>
     <div class="ft-links">

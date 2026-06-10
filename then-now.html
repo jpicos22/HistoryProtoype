@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crystal Springs Uplands School | Then &amp; Now Exhibit</title>
+  
+  <meta property="og:title" content="Crystal Springs Uplands School | Then &amp; Now Exhibit">
+  <meta name="description" content="Witness the physical transformation of the Uplands Mansion through our interactive overlay slider.">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="css/museumProject.css">
+  <link rel="stylesheet" href="css/thenNowSlider.css">
+
+  <script src="js/museumProject.js" defer></script>
+  <script src="js/thenNowSlider.js" defer></script>
+  <script src="js/navLoader.js" defer></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <main class="slider-page-shell">
+    <header class="slider-header">
+      <div class="slider-eyebrow">Visual History Archive</div>
+      <h1>Wiping Away <em>the</em> Decades</h1>
+      <p>Drag or swipe the center handle horizontally to cross-fade between archival campus history frames and their modern restorations.</p>
+    </header>
+
+    <div class="pair-switcher-tabs">
+      <button class="switcher-tab active" onclick="switchSliderPair(0, this)">01. Mansion Facade</button>
+      <button class="switcher-tab" onclick="switchSliderPair(1, this)">02. The Courtyard</button>
+      <button class="switcher-tab" onclick="switchSliderPair(2, this)">03. Great Ballroom</button>
+    </div>
+
+    <div class="slider-master-wrapper" id="sliderContainer">
+      
+      <div class="image-layer present-day-layer">
+        <img id="presentImage" src="assets/image/Mansion Sketch.png" alt="Modern Transformed Campus View">
+        <div class="time-label label-right">2026 Restoration</div>
+      </div>
+
+      <div class="image-layer historical-layer" id="historyLayer">
+        <img id="historyImage" src="assets/image/Old Mansion.png" alt="Historical Archival Campus View">
+        <div class="time-label label-left">Archival History</div>
+      </div>
+
+      <div class="slider-handle-bar" id="sliderHandle">
+        <div class="slider-handle-knob">
+          <span>◀</span><span>▶</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pair-caption-box">
+      <h3 id="captionTitle">The Uplands Mansion Exterior Facade</h3>
+      <p id="captionDesc">Compare the iconic Gilded Age architectural exterior lines captured shortly after construction to the extensive structural preservation and masonry cleaning executed across the 2024–2026 campus campaign.</p>
+    </div>
+  </main>
+
+  <footer id="page-footer">
+    <div class="ft-logo">
+      <img src="assets/branding/Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
+    </div>
+    <div class="ft-bottom">
+      <span>&copy; 2026 Crystal Springs Uplands School. All rights reserved.</span>
+      <span style="text-align:right;">Upper School: 400 Uplands Dr, Hillsborough CA 94010</span>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   1. GLOBAL PAGE CANVAS & INSTITUTIONAL DARK THEME
+   ========================================================================== */
+:root {
+  --crystal-navy-dark:  #060f16; /* Clean, deep obsidian slate canvas */
+  --card-bg:            rgba(10, 28, 44, 0.45);
+  --glass-border:       rgba(255, 255, 255, 0.08);
+  --crystal-gold:       #CFAD66; /* Muted, historic metallic gold accent */
+  --blue-light:         #60B0E0;
+  --blue-pale:          #A4D4F0;
+  --white:              #FFFFFF;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--crystal-navy-dark);
+  color: var(--white);
+  font-family: 'Jost', sans-serif;
+}
+
+/* ==========================================================================
+   2. OVERRIDE CENTRAL SITE NAVIGATION BACKGROUND (DARK TRANSITION HUD)
+   ========================================================================== */
+#sitenav {
+  background: rgba(3, 11, 18, 0.96) !important; /* Forces deep dark obsidian background opacity */
+  backdrop-filter: blur(20px) !important;      /* Intensifies glass blur frosting over the image */
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ==========================================================================
+   3. EXPANDED BANNER IMAGE SYSTEM
+   ========================================================================== */
+.donor-hero-image-frame {
+  width: 100%;
+  height: 540px; /* Expanded: Increased height for a majestic, immersive entrance */
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.donor-hero-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%; /* Balanced vertical focus mapping */
+}
+
+/* Smooth ambient shadow fade that blends the bottom of the photo into the dark canvas */
+.donor-hero-image-frame::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0; right: 0;
+  height: 160px; /* Deeper fade gradient for the taller frame */
+  background: linear-gradient(to top, var(--crystal-navy-dark), transparent);
+}
+
+.donor-wall-shell {
+  padding: 60px 40px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.donor-header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.donor-eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 12px;
+}
+
+.donor-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(38px, 5vw, 54px);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+
+.donor-header h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--blue-pale);
+}
+
+.donor-header p {
+  font-family: 'Brygada 1918', serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   4. LEADERSHIP TIER DESIGN (THE HEAD'S LEADERSHIP COUNCIL)
+   ========================================================================= */
+.tier-section {
+  margin-bottom: 90px;
+}
+
+.tier-title {
+  font-family: 'Cormorant SC', serif;
+  font-size: 28px;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.featured-donor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 36px;
+}
+
+.featured-donor-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(207, 173, 102, 0.2); 
+  border-radius: 4px;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease;
+}
+
+.featured-donor-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--crystal-gold);
+}
+
+.fd-content h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.fd-meta {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--crystal-gold);
+  margin-bottom: 20px;
+}
+
+.fd-content p {
+  font-family: 'Brygada 1918', serif;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ==========================================================================
+   5. UNIFORM RECTANGULAR REGISTRY CARD BLOCKS
+   ========================================================================== */
+.registry-tier-block {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.tier-title-secondary {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.compact-donor-grid {
+  display: grid;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 36px auto 0;
+}
+
+.compact-donor-grid.grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 940px; }
+.compact-donor-grid.grid-3 { grid-template-columns: repeat(3, 1fr); max-width: 1140px; }
+.compact-donor-grid.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.compact-donor-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px;
+  padding: 20px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease;
+}
+
+.compact-donor-card span {
+  font-family: 'Jost', sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: center;
+}
+
+.compact-donor-card:hover {
+  background: rgba(14, 39, 61, 0.6);
+  border-color: rgba(96, 176, 224, 0.35);
+  transform: translateY(-2px);
+}
+
+.compact-donor-card:hover span {
+  color: var(--white);
+}
+
+.tier-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08) 50%, transparent);
+  margin: 55px 0;
+}
+
+/* ==========================================================================
+   6. COMMUNITY GRATITUDE END PANEL TYPOGRAPHY
+   ========================================================================== */
+.community-closure-divider {
+  text-align: center;
+  font-size: 14px;
+  color: var(--crystal-gold);
+  margin: 70px 0 35px;
+  opacity: 0.6;
+}
+
+.community-gratitude-block {
+  max-width: 760px;
+  margin: 0 auto 50px;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.community-gratitude-block h2 {
+  font-family: 'Cormorant SC', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--white);
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+}
+
+.gratitude-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.gratitude-body p {
+  font-family: 'Brygada 1918', serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.gratitude-body strong {
+  color: var(--blue-pale);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .compact-donor-grid.grid-3, .compact-donor-grid.grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .donor-hero-image-frame { height: 320px; } /* Scale dynamically down for tablet target viewports */
+  .donor-wall-shell { padding: 40px 20px; }
+  .featured-donor-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 24px; }
+  .compact-donor-grid { margin-top: 24px; }
+  .donor-header h1 { font-size: 34px; }
+  .community-closure-divider { margin: 50px 0 25px; }
+  .community-gratitude-block h2 { font-size: 20px; }
+  .gratitude-body p { font-size: 14px; }
+}
+
+@media (max-width: 600px) {
+  .compact-donor-grid.grid-2, .compact-donor-grid.grid-3, .compact-donor-grid.grid-4 { grid-template-columns: 1fr; }
+  .compact-donor-card { padding: 16px; min-height: auto; }
+}
