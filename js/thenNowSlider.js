@@ -15,14 +15,14 @@ const sliderDataset = [
   {
     title: "The Central Courtyard Garden",
     desc: "Witness the evolution of the exterior gathering grounds. Our dataset maps out the conversion from a private family estate lawn into a vibrant co-educational open-air study environment for modern Gryphon students.",
-    pastImg: "assets/image/Past Students.png", 
-    presentImg: "assets/image/Past Students.png"
+    pastImg: "assets/image/Mansion Front Old.png", 
+    presentImg: "assets/image/Mansion Front New.jpg"
   },
   {
     title: "The Historical Great Ballroom Assembly",
     desc: "From formal high-society dining events of old into a hub of student collaboration, advisory meetings, and deep intellectual discussions. Micro-engineered reinforcement preserves the ceiling panels overhead.",
-    pastImg: "assets/image/Book.jpeg",
-    presentImg: "assets/image/Mansion Sketch.png"
+    pastImg: "assets/image/Ballroom Old.png", 
+    presentImg: "assets/image/BallroomNew.jpeg"
   }
 ];
 

@@ -262,15 +262,60 @@ body {
 .sp-btn:hover { color: var(--navy-deep); background: #60B0E0; border-color: #60B0E0; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(96, 176, 224, 0.25); }
 
 /* --- 8. GLOBAL SITE FOOTER LAYOUT --- */
-#page-footer { background: var(--navy-deep); border-top: 0.5px solid rgba(255,255,255,0.08); padding: 80px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 32px; }
-.ft-logo { height: 44px; }
-.ft-logo img { height: 100%; width: auto; display: block; opacity: 0.9; }
-.ft-tagline { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; line-height: 1.4; max-width: 600px; color: rgba(255,255,255,0.8); }
-.ft-tagline em { font-style: italic; color: var(--blue-light); font-weight: 400; }
-.ft-links { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; }
-.ft-link { font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
-.ft-link:hover { color: var(--blue-light); }
-.ft-bottom { width: 100%; border-top: 0.5px solid rgba(255,255,255,0.06); padding-top: 24px; margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.25); font-weight: 300; }
+#page-footer {
+  background-color: #041422; 
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 60px 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ft-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.ft-brand-column {
+  flex-shrink: 0;
+}
+
+.ft-brand-column img {
+  height: 48px; 
+  width: auto;
+  display: block;
+}
+
+.ft-narrative-column {
+  max-width: 580px;
+  text-align: right;
+}
+
+.ft-narrative-p {
+  font-family: 'Brygada 1918', serif;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 0 10px 0;
+}
+
+.ft-narrative-p strong {
+  color: #98C8E8; 
+  font-weight: 400;
+}
+
+.ft-copyright-tag {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+  display: block;
+}
 
 /* --- 9. RESPONSIVE MOBILE-FIRST BREAKPOINTS --- */
 @media (max-width: 1024px) {

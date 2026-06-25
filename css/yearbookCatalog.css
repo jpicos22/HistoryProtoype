@@ -2,13 +2,13 @@
 
 .yb-catalog-shell {
   padding: 140px 40px 80px;
-  max-width: 1280px;
+  max-width: 1440px; /* Expanded grid canvas footprint safely */
   margin: 0 auto;
 }
 
 .yb-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .yb-header h1 {
@@ -33,10 +33,62 @@
   line-height: 1.6;
 }
 
+/* ==========================================================================
+   DECADE FILTER BAR INTERACTION HUD
+   ========================================================================== */
+.yb-filter-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 50px;
+  padding: 10px;
+  position: sticky;
+  top: 80px;
+  z-index: 90;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(4, 28, 48, 0.4);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 8px 18px;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.25s ease;
+}
+
+.filter-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.filter-btn.active {
+  color: #fff;
+  background: #0070B8;
+  box-shadow: 0 4px 15px rgba(0, 112, 184, 0.3);
+}
+
+/* ==========================================================================
+   3-COLUMN COLLECTION DASHBOARD MATRIX
+   ========================================================================== */
 .yb-grid-showcase {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
 }
 
 .yb-card-node {
@@ -45,12 +97,35 @@
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  transform: scale(1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.3s ease, 
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.3s;
+  visibility: visible;
 }
 
-.yb-card-node:hover {
+.yb-card-node.hidden {
+  opacity: 0;
+  transform: scale(0.92);
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  width: 0; height: 0; overflow: hidden; margin: 0; padding: 0; border: none;
+}
+
+.yb-card-node:not(.hidden):hover {
   transform: translateY(-4px);
   border-color: rgba(96, 176, 224, 0.3);
+}
+
+.yb-card-node.entry-placeholder:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: none;
 }
 
 .yb-img-frame {
@@ -72,25 +147,216 @@
   opacity: 1;
 }
 
+.default-placeholder-frame {
+  background: linear-gradient(135deg, #041C30 0%, #083860 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.placeholder-graphic-seal {
+  font-family: 'Cormorant SC', serif;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: rgba(96, 176, 224, 0.3);
+  border: 1px dashed rgba(96, 176, 224, 0.2);
+  padding: 6px 14px;
+  border-radius: 2px;
+}
+
+.placeholder-spine-yr {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: -0.01em;
+}
+
 .yb-meta-info {
-  padding: 28px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .yb-meta-info h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 400;
   color: #fff;
   margin-bottom: 8px;
 }
 
 .yb-meta-info p {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.6;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+
+.yb-trigger-btn {
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.yb-trigger-btn:hover:not([disabled]) {
+  background: #0070B8;
+  border-color: #0070B8;
+}
+
+/* ==========================================================================
+   GLOBAL EXHIBIT OVERLAY SCREEN DIMMING HUD
+   ========================================================================== */
+.fb-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.fb-modal.active {
+  display: flex;
+}
+
+.fb-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 28, 48, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.fb-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 1320px;
+  height: 85vh; /* Immersive display height viewport bounding */
+  z-index: 1010;
+  transform: scale(0.97);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.fb-modal.active .fb-modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.fb-close-btn {
+  position: absolute;
+  top: -55px;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 44px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.fb-close-btn:hover {
+  color: #60B0E0;
+}
+
+.book-loading-msg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #60B0E0;
+  z-index: 1020;
+}
+
+/* ==========================================================================
+   NATIVE PHYSICAL PAGE-FLIP VIEWPORT CONTAINER STYLES
+   ========================================================================== */
+.native-book-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #060f16;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7);
+}
+
+.native-book {
+  visibility: hidden;
+}
+
+.book-page {
+  background-color: #fcfbf9; /* Soft archival backdrop canvas color */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-shadow: inset 12px 0 30px rgba(0, 0, 0, 0.05); /* Internal crease spine shadowing */
+}
+
+/* ==========================================================================
+   FIXED: HIGH-DEFINITION EXTRACTED SHEET ADJUSTMENTS
+   ========================================================================== */
+.book-page img {
+  width: 100%;
+  height: 100%;
+  
+  /* FORCED ASPECT RATIO MAPPING: Fits entire uncropped book pages beautifully */
+  object-fit: contain; 
+  
+  /* MARGIN BUFFER: Insulates historical text logs from matching edge glare lines */
+  padding: 24px; 
+  
+  background-color: #fcfbf9;
+  pointer-events: none;
+}
+
+/* Hardcover Page Overlay Enhancements (If used alongside fallback generation nodes) */
+.book-page.cover-page {
+  box-shadow: inset -10px 0 25px rgba(0,0,0,0.2);
+}
+.book-page.cover-page img {
+  padding: 0; /* Keep raw full bleed designs bounding hard bindings */
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   RESPONSIVE MODULATORS
+   ========================================================================== */
+@media (max-width: 1140px) {
+  .yb-grid-showcase { grid-template-columns: repeat(2, 1fr); gap: 24px; }
 }
 
 @media (max-width: 768px) {
   .yb-catalog-shell { padding: 110px 20px 40px; }
+  .yb-filter-bar { top: 70px; padding: 6px; }
+  .filter-btn { padding: 6px 12px; font-size: 11px; }
   .yb-grid-showcase { grid-template-columns: 1fr; gap: 24px; }
+  .fb-modal { padding: 16px; }
+  .fb-modal-content { height: 80vh; }
+  .fb-close-btn { top: -45px; right: 4px; font-size: 36px; }
+  .book-page img { padding: 12px; } /* Drop margin metrics inside small mobile viewpoints */
 }

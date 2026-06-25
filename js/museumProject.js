@@ -139,37 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render Initial Quiz Card
   loadQuizQuestion(0);
-  
-  // Initialize the touchscreen click dropdown intercept system
-  initDropdownClickEngine();
 });
-
-// Touchscreen-Friendly Navigation Click Dropdown Intercept Engine
-function initDropdownClickEngine() {
-  const trigger = document.querySelector('.dropdown-trigger');
-  const wrapper = document.querySelector('.nav-dropdown-wrapper');
-  
-  if (!trigger || !wrapper) return;
-  
-  trigger.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation(); // Traps touch bubble sequences from causing page scroll jitters
-    wrapper.classList.toggle('open');
-  });
-
-  // Automatically hide menu panel if clicking anywhere outside the active box bounds
-  document.addEventListener('click', (e) => {
-    if (!wrapper.contains(e.target)) {
-      wrapper.classList.remove('open');
-    }
-  });
-
-  document.addEventListener('touchstart', (e) => {
-    if (!wrapper.contains(e.target)) {
-      wrapper.classList.remove('open');
-    }
-  }, { passive: true });
-}
 
 // Swipe Gesture Tracking Systems
 function initTouchGestures() {
@@ -203,10 +173,6 @@ function goto(targetId) {
   if (element) {
     const offset = 68; 
     const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-    
-    // Close mobile dropdown capsule layers safely on navigation routes
-    const wrapper = document.querySelector('.nav-dropdown-wrapper');
-    if (wrapper) wrapper.classList.remove('open');
 
     window.scrollTo({
       top: elementPosition - offset,

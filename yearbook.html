@@ -24,25 +24,234 @@
       <p>Browse cover graphics and digitized records capturing student memories across 70+ years of school life.</p>
     </header>
 
-    <div class="yb-grid-showcase">
-      <div class="yb-card-node">
-        <div class="yb-img-frame"><img src="assets/images/Past Students.png" alt="Archival Yearbook Snapshot"></div>
-        <div class="yb-meta-info"><h3>The Legacy Collection</h3><p>Digitized items spanning our earliest Gilded Age estate foundation years.</p></div>
-      </div>
-      <div class="yb-card-node">
-        <div class="yb-img-frame"><img src="assets/images/Book.jpeg" alt="Archival Document Record"></div>
-        <div class="yb-meta-info"><h3>The Modern Era</h3><p>Explore volumes detailing co-education traditions, sports expansion, and our community's growth.</p></div>
-      </div>
-    </div>
+    <nav class="yb-filter-bar">
+      <button class="filter-btn active" onclick="filterDecade('all', this)">All Volumes</button>
+      <button class="filter-btn" onclick="filterDecade('2020', this)">2020s</button>
+      <button class="filter-btn" onclick="filterDecade('2010', this)">2010s</button>
+      <button class="filter-btn" onclick="filterDecade('2000', this)">2000s</button>
+      <button class="filter-btn" onclick="filterDecade('1990', this)">1990s</button>
+      <button class="filter-btn" onclick="filterDecade('1980', this)">1980s</button>
+      <button class="filter-btn" onclick="filterDecade('1970', this)">1970s</button>
+      <button class="filter-btn" onclick="filterDecade('1960', this)">1960s</button>
+      <button class="filter-btn" onclick="filterDecade('1950', this)">1950s</button>
+    </nav>
+
+    <div class="yb-grid-showcase" id="yearbookGrid"></div>
   </main>
 
-  <footer id="page-footer">
-    <div class="ft-logo">
-      <img src="assets/branding/Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School">
+  <div id="flipbookModal" class="fb-modal">
+    <div class="fb-modal-overlay" onclick="closeFlipbook()"></div>
+    <div class="fb-modal-content">
+      <button class="fb-close-btn" onclick="closeFlipbook()">&times;</button>
+      
+      <div id="bookLoadingStatus" class="book-loading-msg">Processing Archival Document...</div>
+      
+      <div class="native-book-wrapper">
+        <div id="nativeBookContainer" class="native-book"></div>
+      </div>
     </div>
-    <div class="ft-bottom">
-      <span>&copy; 2026 Crystal Springs Uplands School. All rights reserved.</span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+  <footer id="page-footer">
+    <div class="ft-wrapper">
+      
+      <div class="ft-brand-column">
+        <img src="assets/branding/Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School Logo">
+      </div>
+      
+      <div class="ft-narrative-column">
+        <p class="ft-narrative-p">
+          As a timeless home for scholars throughout the decades, the historic <strong>Uplands Mansion</strong> continues to stand the test of time—honoring our heritage while growing alongside us to inspire future generations of innovators, thinkers, and leaders.
+        </p>
+        <span class="ft-copyright-tag">&copy; 2026 Crystal Springs Uplands School. All rights reserved.</span>
+      </div>
+
     </div>
   </footer>
+
+  <script>
+    // Initialize PDF.js worker module path safely to run asynchronous processes off the main UI thread
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    // Configuration array linking specific physical data keys
+    const specialYearbooks = {
+      1957: {
+        title: "The Legacy Collection (1957)",
+        desc: "Digitized archival items spanning our earliest Gilded Age estate foundation years.",
+        img: "assets/images/Past Students.png",
+        pdfPath: "Yearbook 1957.pdf", 
+        actionText: "Open Native Book ▶"
+      }
+    };
+
+    function generateCatalogGrid() {
+      const grid = document.getElementById('yearbookGrid');
+      let HTMLAccumulator = "";
+      
+      const startYear = 1957; 
+      const endYear = 2026;
+
+      for (let year = endYear; year >= startYear; year--) {
+        const decadeGroup = Math.floor(year / 10) * 10;
+
+        if (specialYearbooks[year]) {
+          const item = specialYearbooks[year];
+          HTMLAccumulator += `
+            <div class="yb-card-node" data-decade="${decadeGroup}">
+              <div class="yb-img-frame"><img src="${item.img}" alt="${item.title}"></div>
+              <div class="yb-meta-info">
+                <h3>${item.title}</h3>
+                <p>${item.desc}</p>
+                <button class="btn-outline yb-trigger-btn" onclick="loadAndRenderPDFBook('${item.pdfPath}')">${item.actionText}</button>
+              </div>
+            </div>
+          `;
+        } else {
+          HTMLAccumulator += `
+            <div class="yb-card-node entry-placeholder" data-decade="${decadeGroup}">
+              <div class="yb-img-frame default-placeholder-frame">
+                <div class="placeholder-graphic-seal">CSUS</div>
+                <span class="placeholder-spine-yr">${year}</span>
+              </div>
+              <div class="yb-meta-info">
+                <h3>Yearbook Volume — ${year}</h3>
+                <p>Archival photo records and memories from the ${year} Crystal Springs school term expansion layout.</p>
+                <button class="btn-outline yb-trigger-btn placeholder-btn" style="opacity: 0.4; cursor: not-allowed;" disabled>Coming Soon 🔒</button>
+              </div>
+            </div>
+          `;
+        }
+      }
+      grid.innerHTML = HTMLAccumulator;
+    }
+
+    function filterDecade(decade, clickedButton) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      clickedButton.classList.add('active');
+      const cards = document.querySelectorAll('.yb-card-node');
+      cards.forEach(card => {
+        const cardDecade = card.getAttribute('data-decade');
+        if (decade === 'all' || cardDecade === decade) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // Native PageFlip Local Pipeline Render Module Engine Controls
+    let pageFlipInstance = null;
+
+    async function loadAndRenderPDFBook(pdfPath) {
+      const modal = document.getElementById('flipbookModal');
+      const container = document.getElementById('nativeBookContainer');
+      const loaderMsg = document.getElementById('bookLoadingStatus');
+      
+      // Safety teardown of existing instances to protect memory spaces from leak bloat
+      if (pageFlipInstance) {
+        pageFlipInstance.destroy();
+        pageFlipInstance = null;
+      }
+      container.innerHTML = "";
+      container.style.visibility = 'hidden';
+      loaderMsg.style.display = 'block';
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Apply background viewport scrolling freeze
+
+      try {
+        const loadingTask = pdfjsLib.getDocument(pdfPath);
+        const pdf = await loadingTask.promise;
+        
+        // Measure exact overlay boundaries currently allowed on the screen layout
+        const modalContent = document.querySelector('.fb-modal-content');
+        const maxAvailableWidth = modalContent.clientWidth / 2; // Split space for portrait side-by-side spread pages
+        const maxAvailableHeight = modalContent.clientHeight - 80; // Safety top/bottom vertical cushion padding
+
+        // Render step pulling sheets sequentially into vectors
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+          const page = await pdf.getPage(pageNum);
+          
+          // Get unscaled base sheet boundaries to evaluate baseline aspect ratios
+          const unscaledViewport = page.getViewport({ scale: 1.0 });
+          
+          // Determine scale boundaries dynamically based on hardware aspect metrics
+          const scaleX = maxAvailableWidth / unscaledViewport.width;
+          const scaleY = maxAvailableHeight / unscaledViewport.height;
+          const perfectFitScale = Math.min(scaleX, scaleY) * 0.95; // Applied 5% safety boundary factor
+
+          const viewport = page.getViewport({ scale: perfectFitScale });
+          
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          await page.render({ canvasContext: context, viewport: viewport }).promise;
+          
+          const pageDiv = document.createElement('div');
+          pageDiv.className = 'book-page';
+          
+          if (pageNum === 1 || pageNum === pdf.numPages) {
+            pageDiv.classList.add('cover-page');
+            pageDiv.setAttribute('data-density', 'hard');
+          }
+
+          const img = document.createElement('img');
+          img.src = canvas.toDataURL('image/jpeg', 0.85);
+          pageDiv.appendChild(img);
+          container.appendChild(pageDiv);
+
+          // Save calculated perfect height metrics on first evaluation loop step to guide page flip sizing options
+          if (pageNum === 1) {
+            window.calculatedPageWidth = viewport.width;
+            window.calculatedPageHeight = viewport.height;
+          }
+        }
+
+        loaderMsg.style.display = 'none';
+
+        // Bind the turn calculation variables to the absolute computed fits
+        pageFlipInstance = new St.PageFlip(container, {
+          width: window.calculatedPageWidth,
+          height: window.calculatedPageHeight,
+          size: "fixed",                       // Lock scale tightly to protect proportions from drifting
+          drawShadow: true,                    // Live flipping surface shadow drops
+          showCover: true,                     // Enforce isolated single layout rendering on Page 1 binding
+          usePortrait: false,                  // Map dynamic side-by-side spreads on large display viewports
+          swipeDistance: 30                    // Touch sensitivity configured for walk-up glass kiosks
+        });
+
+        pageFlipInstance.loadFromHTML(document.querySelectorAll('.book-page'));
+        container.style.visibility = 'visible';
+
+      } catch (error) {
+        console.error("PDF extraction calculation failure: ", error);
+        loaderMsg.textContent = "Error loading document archive.";
+      }
+    }
+
+    function closeFlipbook() {
+      const modal = document.getElementById('flipbookModal');
+      modal.classList.remove('active');
+      
+      // Releases background scrolling instantly!
+      document.body.style.overflow = '';
+      
+      if (pageFlipInstance) {
+        pageFlipInstance.destroy();
+        pageFlipInstance = null;
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeFlipbook();
+    });
+
+    window.addEventListener('DOMContentLoaded', generateCatalogGrid);
+  </script>
 </body>
 </html>

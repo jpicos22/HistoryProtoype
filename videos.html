@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crystal Springs Uplands School | Archival Video Theater</title>
+  
+  <link rel="stylesheet" href="css/museumProject.css">
+  <link rel="stylesheet" href="css/videos.css">
+  <script src="js/museumProject.js" defer></script>
+  <script src="js/navLoader.js" defer></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="nav-placeholder"></div>
+
+  <main class="theater-shell">
+    <div class="theater-internal-container">
+      
+      <div class="spotlight-stage">
+        <div class="spotlight-player-glow-wrapper">
+          <div class="vimeo-aspect-ratio-box">
+            <iframe 
+              id="mainKioskPlayer"
+              src="https://player.vimeo.com/video/1131414366?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&controls=1" 
+              frameborder="0" 
+              allow="autoplay; fullscreen; picture-in-picture" 
+              referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
+          </div>
+        </div>
+
+        <div class="spotlight-meta-panel">
+          <span class="spotlight-eyebrow" id="videoEyebrow">Featured Presentation</span>
+          <h1 id="videoTitle">Mansion Tour with Kelly Sortino and Kent Holubar</h1>
+          <p id="videoDesc">Take an immersive, full-length archival tour through the historic estate architecture alongside Head of School Kelly Sortino and Kent Holubar, detailing the preservation footprint.</p>
+        </div>
+      </div>
+
+      <div class="carousel-control-header">
+        <h2>Explore Historical Media Archives</h2>
+        <p>Drag or swipe the list left and right. Tap an option below to update the spotlight view above.</p>
+      </div>
+
+      <div class="carousel-navigation-hud">
+        <button class="carousel-arrow-btn prev-btn" onclick="slideCarouselTrack(-1)" aria-label="Slide Left">&#10229;</button>
+        
+        <div class="carousel-clip-window">
+          <div class="carousel-slider-track" id="carouselTrack">
+            </div>
+        </div>
+
+        <button class="carousel-arrow-btn next-btn" onclick="slideCarouselTrack(1)" aria-label="Slide Right">&#10230;</button>
+      </div>
+
+    </div>
+  </main>
+
+  <footer id="page-footer">
+    <div class="ft-wrapper">
+      <div class="ft-brand-column">
+        <img src="assets/branding/Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School Logo">
+      </div>
+      <div class="ft-narrative-column">
+        <p class="ft-narrative-p">
+          As a timeless home for scholars throughout the decades, the historic <strong>Uplands Mansion</strong> continues to stand the test of time—honoring our heritage while growing alongside us to inspire future generations of innovators, thinkers, and leaders.
+        </p>
+        <span class="ft-copyright-tag">&copy; 2026 Crystal Springs Uplands School. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  
+  <script>
+    // Database array matrix linking content assets directly to the identical source stream URL
+    const videoArchiveData = [
+      {
+        id: 0,
+        eyebrow: "Featured Presentation",
+        title: "Mansion Tour with Kelly Sortino and Kent Holubar",
+        desc: "Take an immersive, full-length archival tour through the historic estate architecture alongside Head of School Kelly Sortino and Kent Holubar, detailing the preservation footprint.",
+        vimeoUrl: "https://player.vimeo.com/video/1131414366?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&controls=1&autoplay=1",
+        thumbImg: "assets/image/Old Mansion.png" 
+      },
+      {
+        id: 1,
+        eyebrow: "Historical Interview • 1977",
+        title: "Reflections on Coeducation Launch Profiles",
+        desc: "Archival discussion excerpts focusing on the landmark 1977 integration of boys into the daily academic fabric of the school grounds.",
+        vimeoUrl: "https://player.vimeo.com/video/1131414366?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&controls=1&autoplay=1",
+        thumbImg: "assets/image/Past Students.png"
+      },
+      {
+        id: 2,
+        eyebrow: "Campus Architecture • 1956",
+        title: "Acquiring the Gilded Age Crocker Estate",
+        desc: "A breakdown of the historical transfer from private residential estate mansion to an elite educational campus environment on the Peninsula.",
+        vimeoUrl: "https://player.vimeo.com/video/1131414366?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&controls=1&autoplay=1",
+        thumbImg: "assets/image/Old Mansion.png"
+      },
+      {
+        id: 3,
+        eyebrow: "Fine Arts Overview • 1987",
+        title: "Bovet Performing Arts Center Dedication",
+        desc: "Rare legacy parameters covering the construction, foundation events, and student performance footprints inside Bovet Theater.",
+        vimeoUrl: "https://player.vimeo.com/video/1131414366?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&controls=1&autoplay=1",
+        thumbImg: "assets/image/Book.jpeg"
+      },
+      {
+        id: 4,
+        eyebrow: "Athletics Timeline • 2001",
+        title: "Gryphon Gymnasium Construction Records",
+        desc: "Following the physical fitness strategic expansion plan from structural blueprints down to championship matches on the wood courts.",
+        vimeoUrl: "https://player.vimeo.com/video/1131414366?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&controls=1&autoplay=1",
+        thumbImg: "assets/image/Past Students.png"
+      }
+    ];
+
+    let currentActiveId = 0;
+    let currentCarouselScrollPosition = 0;
+
+    // TOUCHSCREEN DRAG GESTURE STATE MATRIX
+    let isDragging = false;
+    let startTouchX = 0;
+    let currentTransformX = 0;
+
+    function renderCarouselTrack() {
+      const track = document.getElementById('carouselTrack');
+      if(!track) return;
+
+      track.innerHTML = videoArchiveData.map((video) => {
+        const isActive = video.id === currentActiveId ? 'active' : '';
+        return `
+          <div class="carousel-card-node ${isActive}" onclick="handleCardTap(${video.id})">
+            <div class="cc-preview-box">
+              <img src="${video.thumbImg}" alt="${video.title}">
+              <div class="cc-play-overlay-icon">&#9658;</div>
+            </div>
+            <div class="cc-meta">
+              <span class="cc-eyebrow-tag">${video.eyebrow}</span>
+              <h3>${video.title}</h3>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Intercepts and filters taps to differentiate between a brief tap and a heavy dragging swipe
+    function handleCardTap(id) {
+      if (isDragging) return;
+      swapTheaterPresentation(id);
+    }
+
+    function swapTheaterPresentation(targetId) {
+      currentActiveId = targetId;
+      const targetData = videoArchiveData.find(v => v.id === targetId);
+      if(!targetData) return;
+
+      document.getElementById('mainKioskPlayer').src = targetData.vimeoUrl;
+      document.getElementById('videoEyebrow').textContent = targetData.eyebrow;
+      document.getElementById('videoTitle').textContent = targetData.title;
+      document.getElementById('videoDesc').textContent = targetData.desc;
+
+      renderCarouselTrack();
+    }
+
+    function slideCarouselTrack(direction) {
+      const track = document.getElementById('carouselTrack');
+      const cardWidth = 312; 
+      const maxScroll = (videoArchiveData.length * cardWidth) - track.parentElement.clientWidth;
+      
+      currentCarouselScrollPosition += (direction * cardWidth);
+      
+      if (currentCarouselScrollPosition < 0) currentCarouselScrollPosition = 0;
+      if (currentCarouselScrollPosition > maxScroll) currentCarouselScrollPosition = maxScroll;
+
+      track.style.transition = "transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)";
+      track.style.transform = `translateX(-${currentCarouselScrollPosition}px)`;
+    }
+
+    // ==========================================================================
+    // DRAG FLICK CONTROLLERS FOR GLASS KIOSK RECEPTORS
+    // ==========================================================================
+    function initTouchGestureEngine() {
+      const track = document.getElementById('carouselTrack');
+      const windowFrame = document.querySelector('.carousel-clip-window');
+      if (!track || !windowFrame) return;
+
+      windowFrame.addEventListener('touchstart', (e) => {
+        isDragging = false; 
+        track.style.transition = 'none'; // Drops easing rules instantly so tracking syncs exactly to the skin
+        startTouchX = e.touches[0].clientX;
+        currentTransformX = -currentCarouselScrollPosition;
+      }, { passive: true });
+
+      windowFrame.addEventListener('touchmove', (e) => {
+        const currentX = e.touches[0].clientX;
+        const deltaX = currentX - startTouchX;
+
+        if (Math.abs(deltaX) > 10) {
+          isDragging = true; // Activating drag flag blocks accidental item loads upon lifting finger
+          const targetMove = currentTransformX + deltaX;
+          track.style.transform = `translateX(${targetMove}px)`;
+        }
+      }, { passive: true });
+
+      windowFrame.addEventListener('touchend', (e) => {
+        const cardWidth = 312;
+        const maxScroll = (videoArchiveData.length * cardWidth) - windowFrame.clientWidth;
+        
+        // Read final stopping coordinates directly out of computed CSS matrices
+        const style = window.getComputedStyle(track);
+        const matrix = new WebKitCSSMatrix(style.transform);
+        
+        currentCarouselScrollPosition = -matrix.m41;
+
+        if (currentCarouselScrollPosition < 0) currentCarouselScrollPosition = 0;
+        if (currentCarouselScrollPosition > maxScroll) currentCarouselScrollPosition = maxScroll;
+
+        // Snapping algorithm: Aligns the carousel perfectly on card increment boundaries
+        currentCarouselScrollPosition = Math.round(currentCarouselScrollPosition / cardWidth) * cardWidth;
+
+        // Restore custom bezier glide easing animations on release
+        track.style.transition = "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)";
+        track.style.transform = `translateX(-${currentCarouselScrollPosition}px)`;
+        
+        // Protect touch bounces from pulsing state properties down the chain
+        setTimeout(() => { isDragging = false; }, 50);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCarouselTrack();
+      initTouchGestureEngine();
+    });
+  </script>
+</body>
+</html>
