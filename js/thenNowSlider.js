@@ -1,138 +1,119 @@
 /**
- * Crystal Springs Uplands School - Then & Now Image Slider Engine
- * Controls drag tracking coordinates, clip path transformations, and data shifting.
- * UNIFIED VERSION: Built for desktop laptops, trackpads, and mobile touchscreens.
+ * Interactive Architectural Comparison Control Engine
  */
 
-// Master Image Pairs Dataset Setup Configuration
-const sliderDataset = [
+const sliderDataPairs = [
   {
     title: "The Uplands Mansion Exterior Facade",
     desc: "Compare the iconic Gilded Age architectural exterior lines captured shortly after construction to the extensive structural preservation and masonry cleaning executed across the 2024–2026 campus campaign.",
-    pastImg: "assets/image/Old Mansion.png",
+    historicalImg: "assets/image/Old Mansion.png",
     presentImg: "assets/image/New Mansion Back.jpeg"
   },
   {
-    title: "The Central Courtyard Garden",
-    desc: "Witness the evolution of the exterior gathering grounds. Our dataset maps out the conversion from a private family estate lawn into a vibrant co-educational open-air study environment for modern Gryphon students.",
-    pastImg: "assets/image/Mansion Front Old.png", 
-    presentImg: "assets/image/Mansion Front New.jpg"
+    title: "The Historic Courtyard Framework",
+    desc: "Witness the revitalization of our central community gathering space, balancing original Gilded Age flagstone pathways with advanced modern infrastructure upgrades.",
+    historicalImg: "assets/image/Old Mansion.png", 
+    presentImg: "assets/image/New Mansion Back.jpeg"
   },
   {
-    title: "The Historical Great Ballroom Assembly",
-    desc: "From formal high-society dining events of old into a hub of student collaboration, advisory meetings, and deep intellectual discussions. Micro-engineered reinforcement preserves the ceiling panels overhead.",
-    pastImg: "assets/image/Ballroom Old.png", 
-    presentImg: "assets/image/BallroomNew.jpeg"
+    title: "The Great Ballroom Restoration",
+    desc: "A direct look at the interior restoration project, showing how historical wood carvings and ceiling elements were preserved alongside structural integrations.",
+    historicalImg: "assets/image/Book.jpeg",
+    presentImg: "assets/image/Past Students.png"
   }
 ];
 
-// App Core State Engine Trackers
-let isDraggingSlider = false;
-let sliderContainerNode = null;
-let sliderHandleNode = null;
-let historyLayerNode = null;
+let activePairIndex = 0;
+let isTrackingSlider = false;
 
-document.addEventListener('DOMContentLoaded', () => {
-  sliderContainerNode = document.getElementById('sliderContainer');
-  sliderHandleNode = document.getElementById('sliderHandle');
-  historyLayerNode = document.getElementById('historyLayer');
+function initSliderComparisonEngine() {
+  const container = document.getElementById('sliderContainer');
+  const handle = document.getElementById('sliderHandle');
+  const historyLayer = document.getElementById('historyLayer');
 
-  if (!sliderContainerNode || !sliderHandleNode || !historyLayerNode) return;
+  if (!container || !handle || !historyLayer) return;
 
-  // ==========================================================================
-  // AUTOMATED BACKGROUND PRELOADING ENGINE (PREVENTS TRANSITION FREEZES)
-  // ==========================================================================
-  sliderDataset.forEach((pair) => {
-    const imgPastCache = new Image();
-    imgPastCache.src = pair.pastImg;
+  function processSliderMovement(clientX) {
+    const boundingBox = container.getBoundingClientRect();
+    const cursorOffset = clientX - boundingBox.left;
     
-    const imgPresentCache = new Image();
-    imgPresentCache.src = pair.presentImg;
+    let positioningPercentage = (cursorOffset / boundingBox.width) * 100;
+    if (positioningPercentage < 0) positioningPercentage = 0;
+    if (positioningPercentage > 100) positioningPercentage = 100;
+
+    // Use task batches with hardware acceleration parameters
+    requestAnimationFrame(() => {
+      handle.style.left = `${positioningPercentage}%`;
+      historyLayer.style.clipPath = `polygon(0 0, ${positioningPercentage}% 0, ${positioningPercentage}% 100%, 0 100%)`;
+      historyLayer.style.webkitClipPath = `polygon(0 0, ${positioningPercentage}% 0, ${positioningPercentage}% 100%, 0 100%)`;
+    });
+  }
+
+  // --- MOUSE PLATFORM CAPABILITIES ---
+  handle.addEventListener('mousedown', (e) => {
+    isTrackingSlider = true;
+    e.preventDefault();
   });
 
-  // ==========================================================================
-  // UNIFIED HARDWARE POINTER LISTENERS (LAPTOP & MOBILE UNIFIED ENGINE)
-  // ==========================================================================
-  
-  // When clicked or tapped, lock the pointer tracking target coordinate matrix
-  sliderHandleNode.addEventListener('pointerdown', (e) => {
-    isDraggingSlider = true;
-    
-    // Forces browser layout pipelines to lock target tracking onto the knob,
-    // even if a fast cursor or finger strays outside the image box boundaries.
-    sliderHandleNode.setPointerCapture(e.pointerId);
+  window.addEventListener('mousemove', (e) => {
+    if (!isTrackingSlider) return;
+    processSliderMovement(e.clientX);
   });
 
-  // Release the drag tracking states safely on pointer release
-  sliderHandleNode.addEventListener('pointerup', (e) => {
-    isDraggingSlider = false;
-    sliderHandleNode.releasePointerCapture(e.pointerId);
-  });
-  
-  // Failsafe: Handle system interruptions (like incoming phone alerts or page un-focuses)
-  sliderHandleNode.addEventListener('pointercancel', () => {
-    isDraggingSlider = false;
+  window.addEventListener('mouseup', () => {
+    isTrackingSlider = false;
   });
 
-  // Track the absolute directional transformations universally
-  sliderHandleNode.addEventListener('pointermove', (e) => {
-    if (isDraggingSlider) {
-      processSliderMovement(e.clientX);
+  // --- HAPTIC TACTILE TOUCHSCREEN CAPABILITIES ---
+  handle.addEventListener('touchstart', () => {
+    isTrackingSlider = true;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!isTrackingSlider) return;
+    if (e.touches.length > 0) {
+      processSliderMovement(e.touches[0].clientX);
     }
+  }, { passive: true }); /* Explicit passive configuration avoids scroll locking jitter */
+
+  window.addEventListener('touchend', () => {
+    isTrackingSlider = false;
   });
-});
 
-/**
- * Calculates current cursor coordinate offsets and updates clip masks
- * @param {number} cursorXCoordinate - Absolute raw pixel position of the cursor
- */
-function processSliderMovement(cursorXCoordinate) {
-  const containerBounds = sliderContainerNode.getBoundingClientRect();
-  const containerWidth = containerBounds.width;
-  
-  // Calculate relative cursor horizontal location starting from the left edge of the viewer canvas box
-  let relativeX = cursorXCoordinate - containerBounds.left;
-
-  // Boundary Guardrails: Restrict tracking values strictly between 0% and 100% of the box width
-  if (relativeX < 0) relativeX = 0;
-  if (relativeX > containerWidth) relativeX = containerWidth;
-
-  const widthPercentage = (relativeX / containerWidth) * 100;
-
-  // Inject optimized dynamic properties straight into layouts via hardware-accelerated pathways
-  sliderHandleNode.style.left = `${widthPercentage}%`;
-  historyLayerNode.style.clipPath = `polygon(0 0, ${widthPercentage}% 0, ${widthPercentage}% 100%, 0 100%)`;
-  historyLayerNode.style.webkitClipPath = `polygon(0 0, ${widthPercentage}% 0, ${widthPercentage}% 100%, 0 100%)`;
+  window.addEventListener('resize', () => {
+    handle.style.left = '50%';
+    historyLayer.style.clipPath = 'polygon(0 0, 50% 0, 50% 100%, 0 100%)';
+    historyLayer.style.webkitClipPath = 'polygon(0 0, 50% 0, 50% 100%, 0 100%)';
+  });
 }
 
-/**
- * Seamlessly transitions the active slider image and descriptions
- * @param {number} pairIndex - Targeted dataset dictionary reference node index
- * @param {HTMLElement} tabButtonElement - The click or tap trigger source element
- */
-function switchSliderPair(pairIndex, tabButtonElement) {
-  const currentPairData = sliderDataset[pairIndex];
+function switchSliderPair(index, tabElement) {
+  if (index < 0 || index >= sliderDataPairs.length) return;
+  activePairIndex = index;
+
+  document.querySelectorAll('.switcher-tab').forEach(btn => btn.classList.remove('active'));
+  if (tabElement) tabElement.classList.add('active');
+
+  const pair = sliderDataPairs[index];
+
+  const presentImg = document.getElementById('presentImage');
+  const historyImg = document.getElementById('historyImage');
+  const captionTitle = document.getElementById('captionTitle');
+  const captionDesc = document.getElementById('captionDesc');
+
+  if (presentImg) presentImg.src = pair.presentImg;
+  if (historyImg) historyImg.src = pair.historicalImg;
   
-  const pastImgNode = document.getElementById('historyImage');
-  const presentImgNode = document.getElementById('presentImage');
-  const captionTitleNode = document.getElementById('captionTitle');
-  const captionDescNode = document.getElementById('captionDesc');
+  if (captionTitle) captionTitle.textContent = pair.title;
+  if (captionDesc) captionDesc.textContent = pair.desc;
 
-  if(!pastImgNode || !presentImgNode || !captionTitleNode || !captionDescNode) return;
-
-  // Strip styling identifiers from previous tabs and apply to targeted selection
-  const tabElements = tabButtonElement.parentNode.querySelectorAll('.switcher-tab');
-  tabElements.forEach(tab => tab.classList.remove('active'));
-  tabButtonElement.classList.add('active');
-
-  // Swap graphic resources and inject descriptive context blocks
-  pastImgNode.src = currentPairData.pastImg;
-  presentImgNode.src = currentPairData.presentImg;
-  captionTitleNode.innerText = currentPairData.title;
-  captionDescNode.innerText = currentPairData.desc;
-
-  // Reset slider positions cleanly back to a balanced 50/50 view split upon layout swaps
-  sliderHandleNode.style.left = `50%`;
-  historyLayerNode.style.clipPath = `polygon(0 0, 50% 0, 50% 100%, 0 100%)`;
-  historyLayerNode.style.webkitClipPath = `polygon(0 0, 50% 0, 50% 100%, 0 100%)`;
+  const handle = document.getElementById('sliderHandle');
+  const historyLayer = document.getElementById('historyLayer');
+  if (handle && historyLayer) {
+    handle.style.left = '50%';
+    historyLayer.style.clipPath = 'polygon(0 0, 50% 0, 50% 100%, 0 100%)';
+    historyLayer.style.webkitClipPath = 'polygon(0 0, 50% 0, 50% 100%, 0 100%)';
+  }
 }
+
+window.addEventListener('DOMContentLoaded', initSliderComparisonEngine);

@@ -29,7 +29,8 @@
               src="https://player.vimeo.com/video/1131414366?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&controls=1" 
               frameborder="0" 
               allow="autoplay; fullscreen; picture-in-picture" 
-              referrerpolicy="strict-origin-when-cross-origin">
+              referrerpolicy="strict-origin-when-cross-origin"
+              loading="lazy">
             </iframe>
           </div>
         </div>
@@ -43,15 +44,14 @@
 
       <div class="carousel-control-header">
         <h2>Explore Historical Media Archives</h2>
-        <p>Drag or swipe the list left and right. Tap an option below to update the spotlight view above.</p>
+        <p>Scroll or swipe the list left and right. Tap an option below to update the spotlight view above.</p>
       </div>
 
       <div class="carousel-navigation-hud">
         <button class="carousel-arrow-btn prev-btn" onclick="slideCarouselTrack(-1)" aria-label="Slide Left">&#10229;</button>
         
-        <div class="carousel-clip-window">
-          <div class="carousel-slider-track" id="carouselTrack">
-            </div>
+        <div class="carousel-clip-window" id="carouselClipFrame">
+          <div class="carousel-slider-track" id="carouselTrack"></div>
         </div>
 
         <button class="carousel-arrow-btn next-btn" onclick="slideCarouselTrack(1)" aria-label="Slide Right">&#10230;</button>
@@ -63,7 +63,7 @@
   <footer id="page-footer">
     <div class="ft-wrapper">
       <div class="ft-brand-column">
-        <img src="assets/branding/Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School Logo">
+        <img src="assets/branding/Crystal-Registered-Logo-White-RGB-4in@72ppi.png" alt="Crystal Springs Uplands School Logo" loading="lazy">
       </div>
       <div class="ft-narrative-column">
         <p class="ft-narrative-p">
@@ -77,7 +77,6 @@
   <script src="https://player.vimeo.com/api/player.js"></script>
   
   <script>
-    // Database array matrix linking content assets directly to the identical source stream URL
     const videoArchiveData = [
       {
         id: 0,
@@ -122,38 +121,53 @@
     ];
 
     let currentActiveId = 0;
-    let currentCarouselScrollPosition = 0;
-
-    // TOUCHSCREEN DRAG GESTURE STATE MATRIX
-    let isDragging = false;
-    let startTouchX = 0;
-    let currentTransformX = 0;
 
     function renderCarouselTrack() {
       const track = document.getElementById('carouselTrack');
       if(!track) return;
 
-      track.innerHTML = videoArchiveData.map((video) => {
-        const isActive = video.id === currentActiveId ? 'active' : '';
-        return `
-          <div class="carousel-card-node ${isActive}" onclick="handleCardTap(${video.id})">
-            <div class="cc-preview-box">
-              <img src="${video.thumbImg}" alt="${video.title}">
-              <div class="cc-play-overlay-icon">&#9658;</div>
-            </div>
-            <div class="cc-meta">
-              <span class="cc-eyebrow-tag">${video.eyebrow}</span>
-              <h3>${video.title}</h3>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
+      const fragment = document.createDocumentFragment();
 
-    // Intercepts and filters taps to differentiate between a brief tap and a heavy dragging swipe
-    function handleCardTap(id) {
-      if (isDragging) return;
-      swapTheaterPresentation(id);
+      videoArchiveData.forEach((video) => {
+        const card = document.createElement('div');
+        card.className = `carousel-card-node ${video.id === currentActiveId ? 'active' : ''}`;
+        card.addEventListener('click', () => swapTheaterPresentation(video.id));
+
+        const previewBox = document.createElement('div');
+        previewBox.className = 'cc-preview-box';
+
+        const img = document.createElement('img');
+        img.src = video.thumbImg;
+        img.alt = video.title;
+        img.loading = "lazy";
+
+        const overlay = document.createElement('div');
+        overlay.className = 'cc-play-overlay-icon';
+        overlay.innerHTML = '&#9658;';
+
+        previewBox.appendChild(img);
+        previewBox.appendChild(overlay);
+
+        const meta = document.createElement('div');
+        meta.className = 'cc-meta';
+
+        const eyebrow = document.createElement('span');
+        eyebrow.className = 'cc-eyebrow-tag';
+        eyebrow.textContent = video.eyebrow;
+
+        const heading = document.createElement('h3');
+        heading.textContent = video.title;
+
+        meta.appendChild(eyebrow);
+        meta.appendChild(heading);
+
+        card.appendChild(previewBox);
+        card.appendChild(meta);
+        fragment.appendChild(card);
+      });
+
+      track.innerHTML = '';
+      track.appendChild(fragment);
     }
 
     function swapTheaterPresentation(targetId) {
@@ -170,73 +184,17 @@
     }
 
     function slideCarouselTrack(direction) {
-      const track = document.getElementById('carouselTrack');
+      const frame = document.getElementById('carouselClipFrame');
+      if (!frame) return;
       const cardWidth = 312; 
-      const maxScroll = (videoArchiveData.length * cardWidth) - track.parentElement.clientWidth;
-      
-      currentCarouselScrollPosition += (direction * cardWidth);
-      
-      if (currentCarouselScrollPosition < 0) currentCarouselScrollPosition = 0;
-      if (currentCarouselScrollPosition > maxScroll) currentCarouselScrollPosition = maxScroll;
-
-      track.style.transition = "transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)";
-      track.style.transform = `translateX(-${currentCarouselScrollPosition}px)`;
-    }
-
-    // ==========================================================================
-    // DRAG FLICK CONTROLLERS FOR GLASS KIOSK RECEPTORS
-    // ==========================================================================
-    function initTouchGestureEngine() {
-      const track = document.getElementById('carouselTrack');
-      const windowFrame = document.querySelector('.carousel-clip-window');
-      if (!track || !windowFrame) return;
-
-      windowFrame.addEventListener('touchstart', (e) => {
-        isDragging = false; 
-        track.style.transition = 'none'; // Drops easing rules instantly so tracking syncs exactly to the skin
-        startTouchX = e.touches[0].clientX;
-        currentTransformX = -currentCarouselScrollPosition;
-      }, { passive: true });
-
-      windowFrame.addEventListener('touchmove', (e) => {
-        const currentX = e.touches[0].clientX;
-        const deltaX = currentX - startTouchX;
-
-        if (Math.abs(deltaX) > 10) {
-          isDragging = true; // Activating drag flag blocks accidental item loads upon lifting finger
-          const targetMove = currentTransformX + deltaX;
-          track.style.transform = `translateX(${targetMove}px)`;
-        }
-      }, { passive: true });
-
-      windowFrame.addEventListener('touchend', (e) => {
-        const cardWidth = 312;
-        const maxScroll = (videoArchiveData.length * cardWidth) - windowFrame.clientWidth;
-        
-        // Read final stopping coordinates directly out of computed CSS matrices
-        const style = window.getComputedStyle(track);
-        const matrix = new WebKitCSSMatrix(style.transform);
-        
-        currentCarouselScrollPosition = -matrix.m41;
-
-        if (currentCarouselScrollPosition < 0) currentCarouselScrollPosition = 0;
-        if (currentCarouselScrollPosition > maxScroll) currentCarouselScrollPosition = maxScroll;
-
-        // Snapping algorithm: Aligns the carousel perfectly on card increment boundaries
-        currentCarouselScrollPosition = Math.round(currentCarouselScrollPosition / cardWidth) * cardWidth;
-
-        // Restore custom bezier glide easing animations on release
-        track.style.transition = "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)";
-        track.style.transform = `translateX(-${currentCarouselScrollPosition}px)`;
-        
-        // Protect touch bounces from pulsing state properties down the chain
-        setTimeout(() => { isDragging = false; }, 50);
+      frame.scrollBy({
+        left: direction * cardWidth,
+        behavior: 'smooth'
       });
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       renderCarouselTrack();
-      initTouchGestureEngine();
     });
   </script>
 </body>

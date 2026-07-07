@@ -64,11 +64,12 @@
   font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: 12px 24px;
+  padding: 14px 28px; 
+  min-height: 44px;
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s ease;
-  touch-action: manipulation; /* Remediates click tap delay pipelines */
+  touch-action: manipulation;
 }
 
 .switcher-tab:hover {
@@ -89,7 +90,7 @@
 .slider-master-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9; /* Sets dynamic desktop aspect ratio metrics */
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -97,19 +98,15 @@
   background: #000;
   user-select: none;
   -webkit-user-select: none;
-
-  /* Touch Interface Performance Accelerations */
-  touch-action: none;                 /* Blocks browser native gesture conflicts */
-  -webkit-touch-callout: none;        /* Disables selection menus during active dragging */
-  will-change: clip-path;             /* Forwards rendering pipeline processes to GPU */
+  touch-action: pan-y; /* Allow vertical viewport movement while binding horizontal gestures */
+  will-change: clip-path;             
 }
 
-/* Base parameters for layout graphics */
 .image-layer {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  pointer-events: none; /* Prevents raw assets from stealing input focuses */
+  pointer-events: none; 
 }
 
 .image-layer img {
@@ -118,13 +115,12 @@
   display: block;
 }
 
-/* Top Archival historical masking module */
 .historical-layer {
   clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
   -webkit-clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+  will-change: clip-path;
 }
 
-/* Translucent Ambient Overlay HUD Labels */
 .time-label {
   position: absolute;
   bottom: 24px;
@@ -151,10 +147,21 @@
   position: absolute;
   top: 0; bottom: 0;
   left: 50%; 
-  width: 2px;
-  background: var(--blue-light);
+  width: 24px; /* Expanded interaction touch hit box boundary footprint */
+  background: transparent;
   z-index: 10;
   cursor: ew-resize; 
+  transform: translateX(-50%);
+  will-change: left;
+}
+
+/* Visual reference line centered perfectly within the transparent interactive touch target */
+.slider-handle-bar::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%; width: 4px;
+  background: var(--blue-light);
   transform: translateX(-50%);
 }
 
@@ -162,7 +169,7 @@
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 44px; height: 44px;
+  width: 48px; height: 48px; 
   background: var(--white);
   border: 2px solid var(--blue);
   border-radius: 50%;
@@ -175,7 +182,7 @@
 }
 
 .slider-handle-knob span {
-  font-size: 9px;
+  font-size: 10px;
   color: var(--navy);
   user-select: none;
 }
@@ -197,44 +204,22 @@
   font-weight: 400;
   color: #fff;
   margin-bottom: 6px;
-  animation: textFadeIn 0.4s ease forwards;
 }
 
 .pair-caption-box p {
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-muted);
-  animation: textFadeIn 0.5s ease forwards;
-}
-
-@keyframes textFadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ==========================================================================
    6. RESPONSIVE TOUCHSCREEN BREAKPOINTS
    ========================================================================== */
 @media (max-width: 768px) {
-  .slider-page-shell { 
-    padding: 110px 20px 40px; 
-  }
-  
-  .pair-switcher-tabs { 
-    flex-direction: column; 
-    gap: 10px; 
-  }
-  
-  .slider-master-wrapper { 
-    aspect-ratio: 4 / 3; /* Taller tactile interface target container box */
-  }
-  
-  .time-label { 
-    bottom: 12px; 
-    padding: 4px 10px; 
-    font-size: 9px; 
-  }
-  
+  .slider-page-shell { padding: 110px 20px 40px; }
+  .pair-switcher-tabs { flex-direction: column; gap: 10px; }
+  .slider-master-wrapper { aspect-ratio: 4 / 3; }
+  .time-label { bottom: 12px; padding: 4px 10px; font-size: 9px; }
   .label-left { left: 12px; }
   .label-right { right: 12px; }
   .pair-caption-box { padding: 16px; }

@@ -2,7 +2,7 @@
 
 .yb-catalog-shell {
   padding: 140px 40px 80px;
-  max-width: 1440px; /* Expanded grid canvas footprint safely */
+  max-width: 1440px; 
   margin: 0 auto;
 }
 
@@ -54,6 +54,7 @@
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
+  will-change: transform; 
 }
 
 .filter-btn {
@@ -65,10 +66,12 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.6);
-  padding: 8px 18px;
+  padding: 10px 20px; 
+  min-height: 44px;
   cursor: pointer;
   border-radius: 20px;
   transition: all 0.25s ease;
+  touch-action: manipulation;
 }
 
 .filter-btn:hover {
@@ -209,9 +212,11 @@
   color: #fff;
   border: 0.5px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.02);
-  padding: 12px 0;
+  padding: 14px 0; 
+  min-height: 44px;
   cursor: pointer;
   transition: all 0.2s ease;
+  touch-action: manipulation;
 }
 
 .yb-trigger-btn:hover:not([disabled]) {
@@ -248,11 +253,12 @@
   position: relative;
   width: 100%;
   max-width: 1320px;
-  height: 85vh; /* Immersive display height viewport bounding */
+  height: 82vh; 
   z-index: 1010;
   transform: scale(0.97);
   opacity: 0;
-  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform, opacity;
 }
 
 .fb-modal.active .fb-modal-content {
@@ -270,6 +276,8 @@
   font-size: 44px;
   line-height: 1;
   cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
   transition: color 0.2s ease;
 }
 
@@ -290,7 +298,7 @@
 }
 
 /* ==========================================================================
-   NATIVE PHYSICAL PAGE-FLIP VIEWPORT CONTAINER STYLES
+   NATIVE PHYSICAL PAGE-FLIP CONTAINER
    ========================================================================== */
 .native-book-wrapper {
   width: 100%;
@@ -310,36 +318,27 @@
 }
 
 .book-page {
-  background-color: #fcfbf9; /* Soft archival backdrop canvas color */
+  background-color: #fcfbf9; 
   width: 100%;
   height: 100%;
   overflow: hidden;
-  box-shadow: inset 12px 0 30px rgba(0, 0, 0, 0.05); /* Internal crease spine shadowing */
+  box-shadow: inset 12px 0 30px rgba(0, 0, 0, 0.05); 
 }
 
-/* ==========================================================================
-   FIXED: HIGH-DEFINITION EXTRACTED SHEET ADJUSTMENTS
-   ========================================================================== */
 .book-page img {
   width: 100%;
   height: 100%;
-  
-  /* FORCED ASPECT RATIO MAPPING: Fits entire uncropped book pages beautifully */
   object-fit: contain; 
-  
-  /* MARGIN BUFFER: Insulates historical text logs from matching edge glare lines */
   padding: 24px; 
-  
   background-color: #fcfbf9;
   pointer-events: none;
 }
 
-/* Hardcover Page Overlay Enhancements (If used alongside fallback generation nodes) */
 .book-page.cover-page {
   box-shadow: inset -10px 0 25px rgba(0,0,0,0.2);
 }
 .book-page.cover-page img {
-  padding: 0; /* Keep raw full bleed designs bounding hard bindings */
+  padding: 0; 
   object-fit: cover;
 }
 
@@ -358,5 +357,5 @@
   .fb-modal { padding: 16px; }
   .fb-modal-content { height: 80vh; }
   .fb-close-btn { top: -45px; right: 4px; font-size: 36px; }
-  .book-page img { padding: 12px; } /* Drop margin metrics inside small mobile viewpoints */
+  .book-page img { padding: 12px; } 
 }

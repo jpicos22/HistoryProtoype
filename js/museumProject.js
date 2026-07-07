@@ -1,6 +1,5 @@
 /**
  * Crystal Springs Uplands School - Museum Project Core App Scripts
- * Master interactive controllers, timeline engine, state machines & mechanics.
  */
 
 // Global State Variables
@@ -120,7 +119,6 @@ const quizData = [
 
 // App Initialization Logic
 document.addEventListener('DOMContentLoaded', () => {
-  // Setup Global Scrolling Event Listener for Header Navigation Bar
   const sitenav = document.getElementById('sitenav');
   if (sitenav) {
     window.addEventListener('scroll', () => {
@@ -129,15 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         sitenav.classList.remove('scrolled');
       }
-    });
+    }, { passive: true });
   }
 
-  // Render Initial Timeline Component Nodes
   initTimelineDots();
   updateTimelineView(0);
   initTouchGestures(); 
-
-  // Render Initial Quiz Card
   loadQuizQuestion(0);
 });
 
@@ -167,7 +162,6 @@ function handleSwipeGesture() {
   }
 }
 
-// Smooth Page Scroll Engine Tracker
 function goto(targetId) {
   const element = document.getElementById(targetId);
   if (element) {
@@ -179,17 +173,15 @@ function goto(targetId) {
       behavior: 'smooth'
     });
   } else {
-    // If targeted anchor doesn't exist on current page link, redirect natively to hash location
     window.location.href = 'museumProject.html#' + targetId;
   }
 }
 
-// Global Tab Panel Controller
 function setEtab(panelIndex, buttonElement) {
   clearInterval(tlPlaybackInterval);
   tlPlaybackInterval = null;
   const autoBtn = document.getElementById('autobtn');
-  if(autoBtn) autoBtn.innerText = "▶ Auto-play";
+  if(autoBtn) autoBtn.textContent = "▶ Auto-play";
 
   const tabs = buttonElement.parentNode.querySelectorAll('.etab');
   tabs.forEach(tab => tab.classList.remove('active'));
@@ -207,19 +199,29 @@ function setEtab(panelIndex, buttonElement) {
 function initTimelineDots() {
   const dotsContainer = document.getElementById('tldots');
   if (!dotsContainer) return;
-  dotsContainer.innerHTML = '';
+  
+  const fragment = document.createDocumentFragment();
 
   timelineData.forEach((item, index) => {
     const dot = document.createElement('div');
     dot.className = `tl-dot ${index === 0 ? 'active' : ''}`;
-    dot.setAttribute('onclick', `jumpToTimelineIndex(${index})`);
+    dot.addEventListener('click', () => jumpToTimelineIndex(index));
     
-    dot.innerHTML = `
-      <div class="tl-circle">${item.year}</div>
-      <div class="tl-yr">${item.year}</div>
-    `;
-    dotsContainer.appendChild(dot);
+    const circle = document.createElement('div');
+    circle.className = 'tl-circle';
+    circle.textContent = item.year;
+
+    const label = document.createElement('div');
+    label.className = 'tl-yr';
+    label.textContent = item.year;
+
+    dot.appendChild(circle);
+    dot.appendChild(label);
+    fragment.appendChild(dot);
   });
+
+  dotsContainer.innerHTML = '';
+  dotsContainer.appendChild(fragment);
 }
 
 function updateTimelineView(index) {
@@ -237,9 +239,9 @@ function updateTimelineView(index) {
 
   const currentData = timelineData[index];
 
-  evyr.innerText = currentData.year;
-  evttl.innerText = currentData.title;
-  evdesc.innerText = currentData.desc;
+  evyr.textContent = currentData.year;
+  evttl.textContent = currentData.title;
+  evdesc.textContent = currentData.desc;
   evImg.src = currentData.img;
 
   imgWrapper.classList.remove('swing-active');
@@ -263,7 +265,7 @@ function moveTl(direction) {
   clearInterval(tlPlaybackInterval);
   tlPlaybackInterval = null;
   const autoBtn = document.getElementById('autobtn');
-  if(autoBtn) autoBtn.innerText = "▶ Auto-play";
+  if(autoBtn) autoBtn.textContent = "▶ Auto-play";
 
   let nextIndex = currentTlIndex + direction;
   if (nextIndex >= timelineData.length) nextIndex = 0;
@@ -276,7 +278,7 @@ function jumpToTimelineIndex(index) {
   clearInterval(tlPlaybackInterval);
   tlPlaybackInterval = null;
   const autoBtn = document.getElementById('autobtn');
-  if(autoBtn) autoBtn.innerText = "▶ Auto-play";
+  if(autoBtn) autoBtn.textContent = "▶ Auto-play";
   
   updateTimelineView(index);
 }
@@ -286,9 +288,9 @@ function toggleAuto() {
   if (tlPlaybackInterval) {
     clearInterval(tlPlaybackInterval);
     tlPlaybackInterval = null;
-    autoBtn.innerText = "▶ Auto-play";
+    autoBtn.textContent = "▶ Auto-play";
   } else {
-    autoBtn.innerText = "⏸ Pause Loop";
+    autoBtn.textContent = "⏸ Pause Loop";
     tlPlaybackInterval = setInterval(() => {
       let nextIndex = currentTlIndex + 1;
       if (nextIndex >= timelineData.length) nextIndex = 0;
@@ -310,18 +312,21 @@ function loadQuizQuestion(index) {
 
   fbBox.style.display = 'none';
   nextBtn.style.display = 'none';
-  optsContainer.innerHTML = '';
-
+  
   const item = quizData[index];
-  qText.innerText = item.q;
+  qText.textContent = item.q;
 
+  const fragment = document.createDocumentFragment();
   item.opts.forEach((optionText, optIdx) => {
     const btn = document.createElement('button');
     btn.className = 'tq-opt';
-    btn.innerText = optionText;
-    btn.setAttribute('onclick', `evaluateQuizSelection(${optIdx}, this)`);
-    optsContainer.appendChild(btn);
+    btn.textContent = optionText;
+    btn.addEventListener('click', (e) => evaluateQuizSelection(optIdx, e.target));
+    fragment.appendChild(btn);
   });
+
+  optsContainer.innerHTML = '';
+  optsContainer.appendChild(fragment);
 }
 
 function evaluateQuizSelection(selectedIdx, targetButton) {
@@ -335,13 +340,13 @@ function evaluateQuizSelection(selectedIdx, targetButton) {
 
   if (selectedIdx === currentItem.correct) {
     targetButton.classList.add('correct');
-    fbBox.innerText = currentItem.fb;
+    fbBox.textContent = currentItem.fb;
     fbBox.style.borderLeftColor = '#28a745';
     quizScore++;
   } else {
     targetButton.classList.add('wrong');
     allOptionButtons[currentItem.correct].classList.add('correct');
-    fbBox.innerText = `Incorrect. ${currentItem.fb}`;
+    fbBox.textContent = `Incorrect. ${currentItem.fb}`;
     fbBox.style.borderLeftColor = '#dc3545';
   }
 
@@ -349,9 +354,9 @@ function evaluateQuizSelection(selectedIdx, targetButton) {
   nextBtn.style.display = 'block';
 
   if (currentQuizIndex === quizData.length - 1) {
-    nextBtn.innerText = "View Final Results ⟳";
+    nextBtn.textContent = "View Final Results ⟳";
   } else {
-    nextBtn.innerText = "Next Question ▶";
+    nextBtn.textContent = "Next Question ▶";
   }
 }
 
@@ -368,25 +373,40 @@ function nextTq() {
     fbBox.style.display = 'none';
     optsContainer.innerHTML = '';
     
-    qText.innerText = "Exhibition Quiz Complete!";
-    optsContainer.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 20px 0;">
-        <div style="font-family: 'Cormorant SC', serif; font-size: 56px; color: var(--blue); margin-bottom: 8px;">
-          ${quizScore} / ${quizData.length}
-        </div>
-        <p style="font-family: 'Jost', sans-serif; color: var(--text-muted); font-size: 15px;">
-          Thank you for exploring our school archives!
-        </p>
-      </div>
-    `;
-    nextBtn.innerText = "Restart Quiz ↺";
-    nextBtn.setAttribute('onclick', 'resetQuizSystem()');
+    qText.textContent = "Exhibition Quiz Complete!";
+    
+    const resultsWrapper = document.createElement('div');
+    resultsWrapper.style.gridColumn = "1/-1";
+    resultsWrapper.style.textAlign = "center";
+    resultsWrapper.style.padding = "20px 0";
+
+    const scoreDisplay = document.createElement('div');
+    scoreDisplay.style.fontFamily = "'Cormorant SC', serif";
+    scoreDisplay.style.fontSize = "56px";
+    scoreDisplay.style.color = "var(--blue)";
+    scoreDisplay.style.marginBottom = "8px";
+    scoreDisplay.textContent = `${quizScore} / ${quizData.length}`;
+
+    const subText = document.createElement('p');
+    subText.style.fontFamily = "'Jost', sans-serif";
+    subText.style.color = "var(--text-muted)";
+    subText.style.fontSize = "15px";
+    subText.textContent = "Thank you for exploring our school archives!";
+
+    resultsWrapper.appendChild(scoreDisplay);
+    resultsWrapper.appendChild(subText);
+    optsContainer.appendChild(resultsWrapper);
+
+    nextBtn.textContent = "Restart Quiz ↺";
+    // Safely strip anonymous parameters from dynamic activation contexts
+    const cleanButton = nextBtn.cloneNode(true);
+    cleanButton.textContent = "Restart Quiz ↺";
+    cleanButton.addEventListener('click', resetQuizSystem);
+    nextBtn.parentNode.replaceChild(cleanButton, nextBtn);
   }
 }
 
 function resetQuizSystem() {
   quizScore = 0;
-  const nextBtn = document.getElementById('tqnext');
-  if(nextBtn) nextBtn.setAttribute('onclick', 'nextTq()');
   loadQuizQuestion(0);
 }
