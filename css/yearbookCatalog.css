@@ -1,354 +1,126 @@
 @charset "UTF-8";
 
+/* ==========================================================================
+   DIGITAL FLIPBOOK COLLECTION HOUSING
+   ========================================================================== */
 .yb-catalog-shell {
   padding: 140px 40px 80px;
   max-width: 1440px; 
   margin: 0 auto;
 }
 
-.yb-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
+.yb-header { text-align: center; margin-bottom: 40px; }
 
 .yb-header h1 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: clamp(34px, 5vw, 52px);
   font-weight: 300;
   color: #fff;
   margin-bottom: 14px;
 }
 
-.yb-header h1 em {
-  font-style: italic;
-  color: var(--blue-light);
-}
+.yb-header h1 em { font-style: italic; color: var(--blue-light); }
+.yb-header p { font-size: 15px; color: rgba(255, 255, 255, 0.65); max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
-.yb-header p {
-  font-family: 'Jost', sans-serif;
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.65);
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
-/* ==========================================================================
-   DECADE FILTER BAR INTERACTION HUD
-   ========================================================================== */
+/* Sticky Decade HUD Interface Menu */
 .yb-filter-bar {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 50px;
-  padding: 10px;
-  position: sticky;
-  top: 80px;
-  z-index: 90;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  background: rgba(4, 28, 48, 0.4);
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  max-width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  will-change: transform; 
+  display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 50px; padding: 10px;
+  position: sticky; top: 80px; z-index: 90; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  background: rgba(4, 28, 48, 0.4); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: fit-content; margin-left: auto; margin-right: auto; will-change: transform; 
 }
 
 .filter-btn {
-  background: transparent;
-  border: none;
-  font-family: 'Jost', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-  padding: 10px 20px; 
-  min-height: 44px;
-  cursor: pointer;
-  border-radius: 20px;
-  transition: all 0.25s ease;
-  touch-action: manipulation;
+  background: transparent; border: none; font-family: var(--font-sans); font-size: 12px; font-weight: 400;
+  letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); padding: 10px 20px; 
+  min-height: 44px; cursor: pointer; border-radius: 20px; transition: all 0.25s ease; touch-action: manipulation;
 }
+.filter-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+.filter-btn.active { color: #fff; background: var(--blue-brand); box-shadow: 0 4px 15px rgba(0, 112, 184, 0.3); }
 
-.filter-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.filter-btn.active {
-  color: #fff;
-  background: #0070B8;
-  box-shadow: 0 4px 15px rgba(0, 112, 184, 0.3);
-}
-
-/* ==========================================================================
-   3-COLUMN COLLECTION DASHBOARD MATRIX
-   ========================================================================== */
-.yb-grid-showcase {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-}
+/* Card Grids */
+.yb-grid-showcase { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 
 .yb-card-node {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  opacity: 1;
-  transform: scale(1);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              border-color 0.3s ease, 
-              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              visibility 0.3s;
-  visibility: visible;
+  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 6px;
+  overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); display: flex; flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
+  opacity: 1; transform: scale(1); visibility: visible;
 }
 
 .yb-card-node.hidden {
-  opacity: 0;
-  transform: scale(0.92);
-  position: absolute;
-  visibility: hidden;
-  pointer-events: none;
+  opacity: 0; transform: scale(0.92); position: absolute; visibility: hidden; pointer-events: none;
   width: 0; height: 0; overflow: hidden; margin: 0; padding: 0; border: none;
 }
 
-.yb-card-node:not(.hidden):hover {
-  transform: translateY(-4px);
-  border-color: rgba(96, 176, 224, 0.3);
-}
+.yb-card-node:not(.hidden):hover { transform: translateY(-4px); border-color: rgba(96, 176, 224, 0.3); }
+.yb-card-node.entry-placeholder:hover { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.12); transform: none; }
 
-.yb-card-node.entry-placeholder:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.12);
-  transform: none;
-}
-
-.yb-img-frame {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background: #000;
-}
-
-.yb-img-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.85;
-  transition: opacity 0.3s ease;
-}
-
-.yb-card-node:hover .yb-img-frame img {
-  opacity: 1;
-}
+.yb-img-frame { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: #000; }
+.yb-img-frame img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.3s ease; }
+.yb-card-node:hover .yb-img-frame img { opacity: 1; }
 
 .default-placeholder-frame {
   background: linear-gradient(135deg, #041C30 0%, #083860 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .placeholder-graphic-seal {
-  font-family: 'Cormorant SC', serif;
-  font-size: 14px;
-  letter-spacing: 0.2em;
-  color: rgba(96, 176, 224, 0.3);
-  border: 1px dashed rgba(96, 176, 224, 0.2);
-  padding: 6px 14px;
-  border-radius: 2px;
+  font-family: var(--font-serif-sc); font-size: 14px; letter-spacing: 0.2em;
+  color: rgba(96, 176, 224, 0.3); border: 1px dashed rgba(96, 176, 224, 0.2); padding: 6px 14px; border-radius: 2px;
 }
 
-.placeholder-spine-yr {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 42px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.25);
-  letter-spacing: -0.01em;
-}
+.placeholder-spine-yr { font-family: var(--font-serif-display); font-size: 42px; font-weight: 300; color: rgba(255, 255, 255, 0.25); letter-spacing: -0.01em; }
 
-.yb-meta-info {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.yb-meta-info h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-weight: 400;
-  color: #fff;
-  margin-bottom: 8px;
-}
-
-.yb-meta-info p {
-  font-size: 13.5px;
-  color: rgba(255, 255, 255, 0.5);
-  line-height: 1.55;
-  margin-bottom: 20px;
-}
+.yb-meta-info { padding: 24px; display: flex; flex-direction: column; flex-grow: 1; }
+.yb-meta-info h3 { font-family: var(--font-serif-display); font-size: 20px; font-weight: 400; color: #fff; margin-bottom: 8px; }
+.yb-meta-info p { font-size: 13.5px; color: rgba(255, 255, 255, 0.5); line-height: 1.55; margin-bottom: 20px; }
 
 .yb-trigger-btn {
-  margin-top: auto;
-  width: 100%;
-  text-align: center;
-  font-family: 'Jost', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #fff;
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.02);
-  padding: 14px 0; 
-  min-height: 44px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  touch-action: manipulation;
+  margin-top: auto; width: 100%; text-align: center; font-family: var(--font-sans); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase; color: #fff; border: 0.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.02); padding: 14px 0; min-height: 44px; cursor: pointer; transition: all 0.2s ease; touch-action: manipulation;
 }
-
-.yb-trigger-btn:hover:not([disabled]) {
-  background: #0070B8;
-  border-color: #0070B8;
-}
+.yb-trigger-btn:hover:not([disabled]) { background: var(--blue-brand); border-color: var(--blue-brand); }
 
 /* ==========================================================================
-   GLOBAL EXHIBIT OVERLAY SCREEN DIMMING HUD
+   DIMMED CANVAS FLIPBOOK VIEW HUD LAYERS
    ========================================================================== */
-.fb-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-}
-
-.fb-modal.active {
-  display: flex;
-}
-
-.fb-modal-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(4, 28, 48, 0.94);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
+.fb-modal { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 40px; }
+.fb-modal.active { display: flex; }
+.fb-modal-overlay { position: absolute; inset: 0; background: rgba(4, 28, 48, 0.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 
 .fb-modal-content {
-  position: relative;
-  width: 100%;
-  max-width: 1320px;
-  height: 82vh; 
-  z-index: 1010;
-  transform: scale(0.97);
-  opacity: 0;
-  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: transform, opacity;
+  position: relative; width: 100%; max-width: 1320px; height: 82vh; z-index: 1010; transform: scale(0.97); opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform, opacity;
 }
-
-.fb-modal.active .fb-modal-content {
-  transform: scale(1);
-  opacity: 1;
-}
+.fb-modal.active .fb-modal-content { transform: scale(1); opacity: 1; }
 
 .fb-close-btn {
-  position: absolute;
-  top: -55px;
-  right: 0;
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 44px;
-  line-height: 1;
-  cursor: pointer;
-  min-width: 44px;
-  min-height: 44px;
-  transition: color 0.2s ease;
+  position: absolute; top: -55px; right: 0; background: transparent; border: none; color: rgba(255, 255, 255, 0.7);
+  font-size: 44px; line-height: 1; cursor: pointer; min-width: 44px; min-height: 44px; transition: color 0.2s ease;
 }
-
-.fb-close-btn:hover {
-  color: #60B0E0;
-}
+.fb-close-btn:hover { color: var(--blue-light); }
 
 .book-loading-msg {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Jost', sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #60B0E0;
-  z-index: 1020;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-family: var(--font-sans); font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue-light); z-index: 1020;
 }
 
-/* ==========================================================================
-   NATIVE PHYSICAL PAGE-FLIP CONTAINER
-   ========================================================================== */
+/* Page Rendering Framework Containers */
 .native-book-wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #060f16;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7);
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  background: #060f16; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7);
 }
+.native-book { visibility: hidden; }
+.book-page { background-color: #fcfbf9; width: 100%; height: 100%; overflow: hidden; box-shadow: inset 12px 0 30px rgba(0, 0, 0, 0.05); }
+.book-page img { width: 100%; height: 100%; object-fit: contain; padding: 24px; background-color: #fcfbf9; pointer-events: none; }
+.book-page.cover-page { box-shadow: inset -10px 0 25px rgba(0,0,0,0.2); }
+.book-page.cover-page img { padding: 0; object-fit: cover; }
 
-.native-book {
-  visibility: hidden;
-}
-
-.book-page {
-  background-color: #fcfbf9; 
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  box-shadow: inset 12px 0 30px rgba(0, 0, 0, 0.05); 
-}
-
-.book-page img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; 
-  padding: 24px; 
-  background-color: #fcfbf9;
-  pointer-events: none;
-}
-
-.book-page.cover-page {
-  box-shadow: inset -10px 0 25px rgba(0,0,0,0.2);
-}
-.book-page.cover-page img {
-  padding: 0; 
-  object-fit: cover;
-}
-
-/* ==========================================================================
-   RESPONSIVE MODULATORS
-   ========================================================================== */
 @media (max-width: 1140px) {
   .yb-grid-showcase { grid-template-columns: repeat(2, 1fr); gap: 24px; }
 }
-
 @media (max-width: 768px) {
   .yb-catalog-shell { padding: 110px 20px 40px; }
   .yb-filter-bar { top: 70px; padding: 6px; }

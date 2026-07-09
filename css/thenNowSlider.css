@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /* ==========================================================================
-   1. THEMATIC VISUAL EXHIBIT MAIN CANVAS SHELL
+   INTERACTIVE COMPARISON ENGINE VIEWPORT Layout
    ========================================================================== */
 .slider-page-shell {
   padding: 140px 40px 80px;
@@ -9,13 +9,10 @@
   margin: 0 auto;
 }
 
-.slider-header {
-  text-align: center;
-  margin-bottom: 48px;
-}
+.slider-header { text-align: center; margin-bottom: 48px; }
 
 .slider-eyebrow {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.2em;
@@ -25,20 +22,17 @@
 }
 
 .slider-header h1 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: clamp(36px, 5vw, 54px);
   font-weight: 300;
   color: var(--white);
   margin-bottom: 16px;
 }
 
-.slider-header h1 em { 
-  font-style: italic; 
-  color: var(--blue-pale); 
-}
+.slider-header h1 em { font-style: italic; color: var(--blue-pale); }
 
 .slider-header p {
-  font-family: 'Brygada 1918', serif;
+  font-family: var(--font-serif-body);
   font-size: 15px;
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.65);
@@ -46,21 +40,14 @@
   margin: 0 auto;
 }
 
-/* ==========================================================================
-   2. PAIR SWITCHER NAVIGATION TAB BAR
-   ========================================================================== */
-.pair-switcher-tabs {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 32px;
-}
+/* Switcher Navigation Tab Controller */
+.pair-switcher-tabs { display: flex; justify-content: center; gap: 16px; margin-bottom: 32px; }
 
 .switcher-tab {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.6);
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -72,21 +59,16 @@
   touch-action: manipulation;
 }
 
-.switcher-tab:hover {
-  border-color: var(--blue-light);
-  color: #fff;
-}
+.switcher-tab:hover { border-color: var(--blue-light); color: #fff; }
 
 .switcher-tab.active {
-  background: var(--blue);
-  border-color: var(--blue);
+  background: var(--blue-brand);
+  border-color: var(--blue-brand);
   color: #fff;
   box-shadow: 0 4px 15px rgba(0, 112, 184, 0.3);
 }
 
-/* ==========================================================================
-   3. MASTER DRAG CONTAINER (TOUCH OPTIMIZED OVERLAYS)
-   ========================================================================== */
+/* Master Slide Drag Node Layers */
 .slider-master-wrapper {
   position: relative;
   width: 100%;
@@ -98,28 +80,13 @@
   background: #000;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: pan-y; /* Allow vertical viewport movement while binding horizontal gestures */
+  touch-action: pan-y;
   will-change: clip-path;             
 }
 
-.image-layer {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; 
-}
-
-.image-layer img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.historical-layer {
-  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-  -webkit-clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-  will-change: clip-path;
-}
+.image-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+.image-layer img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.historical-layer { clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); -webkit-clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%); will-change: clip-path; }
 
 .time-label {
   position: absolute;
@@ -129,7 +96,6 @@
   -webkit-backdrop-filter: blur(8px);
   border: 0.5px solid rgba(255,255,255,0.15);
   padding: 8px 16px;
-  font-family: 'Jost', sans-serif;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -140,14 +106,10 @@
 .label-left { left: 24px; border-left: 2px solid var(--blue-pale); }
 .label-right { right: 24px; border-right: 2px solid var(--blue-light); }
 
-/* ==========================================================================
-   4. INTERACTION SLIDER INTERFACE HANDLE BAR & KNOB
-   ========================================================================== */
+/* Interface Handles */
 .slider-handle-bar {
   position: absolute;
-  top: 0; bottom: 0;
-  left: 50%; 
-  width: 24px; /* Expanded interaction touch hit box boundary footprint */
+  top: 0; bottom: 0; left: 50%; width: 24px;
   background: transparent;
   z-index: 10;
   cursor: ew-resize; 
@@ -155,72 +117,31 @@
   will-change: left;
 }
 
-/* Visual reference line centered perfectly within the transparent interactive touch target */
-.slider-handle-bar::before {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  left: 50%; width: 4px;
-  background: var(--blue-light);
-  transform: translateX(-50%);
-}
+.slider-handle-bar::before { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: var(--blue-light); transform: translateX(-50%); }
 
 .slider-handle-knob {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
   width: 48px; height: 48px; 
   background: var(--white);
-  border: 2px solid var(--blue);
+  border: 2px solid var(--blue-brand);
   border-radius: 50%;
   box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
   z-index: 12;
 }
+.slider-handle-knob span { font-size: 10px; color: var(--text-dark); user-select: none; }
 
-.slider-handle-knob span {
-  font-size: 10px;
-  color: var(--navy);
-  user-select: none;
-}
+/* Caption Configurations */
+.pair-caption-box { background: rgba(255, 255, 255, 0.02); border-left: 2px solid var(--blue-brand); padding: 24px 32px; margin-top: 32px; border-radius: 0 4px 4px 0; }
+.pair-caption-box h3 { font-family: var(--font-serif-display); font-size: 22px; font-weight: 400; color: #fff; margin-bottom: 6px; }
+.pair-caption-box p { font-size: 14px; line-height: 1.6; color: rgba(255, 255, 255, 0.5); }
 
-/* ==========================================================================
-   5. CAPTION TEXT ENTRY COMPONENT
-   ========================================================================== */
-.pair-caption-box {
-  background: rgba(255, 255, 255, 0.02);
-  border-left: 2px solid var(--blue);
-  padding: 24px 32px;
-  margin-top: 32px;
-  border-radius: 0 4px 4px 0;
-}
-
-.pair-caption-box h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 400;
-  color: #fff;
-  margin-bottom: 6px;
-}
-
-.pair-caption-box p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-/* ==========================================================================
-   6. RESPONSIVE TOUCHSCREEN BREAKPOINTS
-   ========================================================================== */
 @media (max-width: 768px) {
   .slider-page-shell { padding: 110px 20px 40px; }
   .pair-switcher-tabs { flex-direction: column; gap: 10px; }
   .slider-master-wrapper { aspect-ratio: 4 / 3; }
   .time-label { bottom: 12px; padding: 4px 10px; font-size: 9px; }
-  .label-left { left: 12px; }
-  .label-right { right: 12px; }
+  .label-left { left: 12px; } .label-right { right: 12px; }
   .pair-caption-box { padding: 16px; }
 }

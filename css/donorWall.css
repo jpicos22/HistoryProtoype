@@ -1,52 +1,14 @@
 @charset "UTF-8";
 
 /* ==========================================================================
-   1. GLOBAL PAGE CANVAS & INSTITUTIONAL CORE VARIABLES
-   ========================================================================== */
-:root {
-  --crystal-navy-dark:  #060f16; 
-  /* Glass Morphic Variables (Dark Modes) */
-  --glass-bg-dark:       rgba(10, 28, 44, 0.45);
-  --glass-border-dark:   rgba(255, 255, 255, 0.08);
-  /* Glass Morphic Variables (Light Modes) */
-  --glass-bg-light:      rgba(255, 254, 250, 0.65);
-  --glass-border-light:  rgba(4, 28, 48, 0.12);
-  
-  --crystal-gold:       #CFAD66; 
-  --blue-light:         #60B0E0;
-  --blue-pale:          #A4D4F0;
-  --white:              #FFFFFF;
-  --text-dark:          #041C30;
-  --text-muted-dark:    #334155;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--crystal-navy-dark);
-  color: var(--white);
-  font-family: 'Jost', sans-serif;
-}
-
-/* ==========================================================================
-   2. OVERRIDE CENTRAL SITE NAVIGATION BACKGROUND (DARK TRANSITION HUD)
-   ========================================================================== */
-#sitenav {
-  background: rgba(3, 11, 18, 0.96) !important; 
-  backdrop-filter: blur(20px) !important;      
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-}
-
-/* ==========================================================================
-   3. EXPANDED BANNER IMAGE SYSTEM & HERO
+   HERO BANNER COMPONENT
    ========================================================================== */
 .donor-hero-image-frame {
   width: 100%;
   height: 540px; 
   position: relative;
   overflow: hidden;
-  background-color: var(--crystal-navy-dark); /* Pre-paint background fill color to minimize shift */
+  background-color: var(--crystal-navy-dark);
 }
 
 .donor-hero-image-frame img {
@@ -63,9 +25,7 @@ body {
   position: relative;
 }
 
-/* ==========================================================================
-   4. STRUCTURAL ROW BACKGROUND LAYERS
-   ========================================================================== */
+/* Structural Rows Layouts */
 .donor-section-hero {
   background: linear-gradient(135deg, #041C30 0%, #083860 100%);
   padding: 80px 40px 100px;
@@ -79,7 +39,7 @@ body {
 }
 
 .donor-eyebrow {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.22em;
@@ -89,7 +49,7 @@ body {
 }
 
 .donor-header h1 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: clamp(38px, 5vw, 54px);
   font-weight: 300;
   color: var(--white);
@@ -104,7 +64,7 @@ body {
 }
 
 .donor-header p {
-  font-family: 'Brygada 1918', serif;
+  font-family: var(--font-serif-body);
   font-size: 16px;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.75);
@@ -134,15 +94,9 @@ body {
   margin: 0 auto;
 }
 
-/* ==========================================================================
-   5. ADAPTIVE TYPOGRAPHICAL STATES
-   ========================================================================== */
-.tier-section {
-  margin-bottom: 0;
-}
-
+/* Adaptive Typography States */
 .tier-title {
-  font-family: 'Cormorant SC', serif;
+  font-family: var(--font-serif-sc);
   font-size: 28px;
   font-weight: 400;
   text-align: center;
@@ -151,19 +105,14 @@ body {
 }
 
 .donor-section-light .tier-title,
-.donor-section-light .tier-title-secondary {
-  color: var(--text-dark);
-}
-.donor-section-light .tier-subtitle {
-  color: #0070B8;
-}
-
+.donor-section-light .tier-title-secondary { color: var(--text-dark); }
+.donor-section-light .tier-subtitle { color: var(--blue-brand); }
 .donor-section-dark .tier-title { color: var(--white); }
 .donor-section-accent .tier-title { color: var(--blue-pale); }
 
 /* ==========================================================================
-   6. PREMIUM GLASSMORPHIC FEATURED CARDS
-   ========================================================================= */
+   GLASSMORPHIC REGISTRY MATRIX CARDS
+   ========================================================================== */
 .featured-donor-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -179,10 +128,10 @@ body {
   position: relative;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease;
-  will-change: transform; /* Hint GPU optimizations to prevent layer thrashing */
+  will-change: transform;
 }
 
-/* Glass box adaptation inside the light theme section */
+/* Light Section Cards Override */
 .donor-section-light .featured-donor-card {
   background: var(--glass-bg-light);
   border: 1px solid var(--glass-border-light);
@@ -195,7 +144,7 @@ body {
 .donor-section-light .fd-content h3 { color: var(--text-dark); }
 .donor-section-light .fd-content p { color: var(--text-muted-dark); }
 
-/* Glass box adaptation inside dark & blue accent sections */
+/* Dark & Accent Section Cards Override */
 .donor-section-dark .featured-donor-card,
 .donor-section-accent .featured-donor-card {
   background: var(--glass-bg-dark);
@@ -210,7 +159,7 @@ body {
 .donor-section-dark .fd-content p, .donor-section-accent .fd-content p { color: rgba(255, 255, 255, 0.6); }
 
 .fd-meta {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -222,16 +171,11 @@ body {
 .fd-content h3, .fd-content p { margin: 0; }
 .fd-content h3 { margin-bottom: 6px; }
 
-/* ==========================================================================
-   7. RECTANGULAR REGISTRY GLASS BLOCKS
-   ========================================================================== */
-.registry-tier-block {
-  text-align: center;
-  padding: 10px 0;
-}
+/* Registry Grid Blocks */
+.registry-tier-block { text-align: center; padding: 10px 0; }
 
 .tier-title-secondary {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: 26px;
   font-weight: 400;
   margin-bottom: 6px;
@@ -256,21 +200,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px; /* Expanded tap target footprint minimum parameter */
+  min-height: 48px;
   transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.25s ease, border-color 0.25s ease;
   will-change: transform;
-  touch-action: manipulation; /* Mitigate native 300ms mobile touch tap delays */
+  touch-action: manipulation;
 }
 
 .compact-donor-card span {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-size: 13.5px;
   font-weight: 400;
   letter-spacing: 0.02em;
-  text-align: center;
 }
 
-/* Registry Glass Cards (Light Theme Layer) */
+/* Light Theme Registry Grid Cards */
 .donor-section-light .compact-donor-card {
   background: var(--glass-bg-light);
   border: 1px solid var(--glass-border-light);
@@ -284,7 +227,7 @@ body {
   box-shadow: 0 8px 25px rgba(4, 28, 48, 0.08);
 }
 
-/* Registry Glass Cards (Dark & Blue Layers) */
+/* Dark & Blue Theme Registry Grid Cards */
 .donor-section-dark .compact-donor-card,
 .donor-section-accent .compact-donor-card {
   background: var(--glass-bg-dark);
@@ -302,12 +245,10 @@ body {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 .donor-section-dark .compact-donor-card:hover span,
-.donor-section-accent .compact-donor-card:hover span {
-  color: var(--white);
-}
+.donor-section-accent .compact-donor-card:hover span { color: var(--white); }
 
 /* ==========================================================================
-   8. COMMUNITY GRATITUDE END PANEL TYPOGRAPHY
+   COMMUNITY GRATITUDE SECTION
    ========================================================================== */
 .community-closure-divider {
   text-align: center;
@@ -325,7 +266,7 @@ body {
 }
 
 .community-gratitude-block h2 {
-  font-family: 'Cormorant SC', serif;
+  font-family: var(--font-serif-sc);
   font-size: 24px;
   font-weight: 400;
   letter-spacing: 0.05em;
@@ -334,7 +275,7 @@ body {
 
 .donor-section-light .community-gratitude-block h2 { color: var(--text-dark); }
 .donor-section-light .gratitude-body p { color: var(--text-muted-dark); }
-.donor-section-light .gratitude-body strong { color: #0070B8; }
+.donor-section-light .gratitude-body strong { color: var(--blue-brand); }
 
 .donor-section-dark .community-gratitude-block h2,
 .donor-section-accent .community-gratitude-block h2 { color: var(--white); }
@@ -343,28 +284,20 @@ body {
 .donor-section-dark .gratitude-body strong,
 .donor-section-accent .gratitude-body strong { color: var(--blue-pale); }
 
-.gratitude-body {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
+.gratitude-body { display: flex; flex-direction: column; gap: 18px; }
 
 .gratitude-body p {
-  font-family: 'Brygada 1918', serif;
+  font-family: var(--font-serif-body);
   font-size: 15px;
   line-height: 1.75;
-  margin: 0;
 }
 
-.gratitude-body strong { font-weight: 500; }
-
 /* ==========================================================================
-   9. RESPONSIVE BREAKPOINTS
+   RESPONSIVE MODULATORS
    ========================================================================== */
 @media (max-width: 1024px) {
   .compact-donor-grid.grid-3, .compact-donor-grid.grid-4 { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 768px) {
   .donor-hero-image-frame { height: 320px; } 
   section[class^="donor-section-"] { padding: 60px 20px; }
@@ -375,8 +308,6 @@ body {
   .community-gratitude-block h2 { font-size: 20px; }
   .gratitude-body p { font-size: 14px; }
 }
-
 @media (max-width: 600px) {
   .compact-donor-grid.grid-2, .compact-donor-grid.grid-3, .compact-donor-grid.grid-4 { grid-template-columns: 1fr; }
-  .compact-donor-card { padding: 16px; min-height: 48px; }
 }

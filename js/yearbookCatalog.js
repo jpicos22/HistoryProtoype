@@ -1,53 +1,54 @@
 /**
- * Crystal Springs Uplands School - Archival Yearbook Catalog Module
- * Dynamically streams cloud PDFs, auto-compiles thumbnail covers, and instantiates flipbooks.
+ * Crystal Springs Uplands School - Archival Yearbook Library Kiosk
+ * Temporary Live Staging Controller using Direct Google Drive Data Streams.
  */
 
-// Initialize worker configurations asynchronously off the UI thread
+// Configure PDF.js worker to process document rendering seamlessly
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-// Transformed Google Drive raw binary asset endpoints
+// Base direct download stream endpoint prefix for Google Drive
+const gdStreamPrefix = "https://docs.google.com/uc?export=download&id=";
+
+// The centralized asset data registry
 const specialYearbooks = {
   2026: {
     title: "The Reopening Edition (2026)",
     desc: "Celebrating our rich heritage while stepping into the future of modern learning spaces.",
-    pdfPath: "https://docs.google.com/uc?export=download&id=1hBXmXBNKBk4U2yq7gpd4zNicdB1giGzw",
+    fileName: gdStreamPrefix + "1hBXmXBNKBk4U2yq7gpd4zNicdB1giGzw",
     actionText: "Open Native Book ▶"
   },
   2025: {
     title: "Mansion Transition Volume (2025)",
-    desc: "Documenting the active campus preservation blueprints and student milestones.",
-    pdfPath: "https://docs.google.com/uc?export=download&id=1h5J2F4vcsApXo-Yig5YbKCOyJRQKDCdH",
+    desc: "Documenting active campus preservation blueprints and student milestones.",
+    fileName: gdStreamPrefix + "1h5J2F4vcsApXo-Yig5YbKCOyJRQKDCdH",
     actionText: "Open Native Book ▶"
   },
   2023: {
     title: "70th Anniversary Edition (2023)",
     desc: "A milestone record highlighting seven decades of academic and community excellence.",
-    pdfPath: "https://docs.google.com/uc?export=download&id=1wiDxTanlS0N6W9zNzEPuP_IWAby_YMBa",
+    // UPDATED: Live 87MB Optimized Demonstration File Stream
+    fileName: gdStreamPrefix + "1U_NIAotERLSpwteNfdmkNOWCw5rcckuT",
     actionText: "Open Native Book ▶"
   },
   1968: {
     title: "The Uplands Chronicle (1968)",
     desc: "Archival memories capturing the early history of learning on the estate hillside.",
-    pdfPath: "https://docs.google.com/uc?export=download&id=1zG_unvZ30pD9uyrppuaH-uBx66vAD6wp",
+    fileName: gdStreamPrefix + "1zG_unvZ30pD9uyrppuaH-uBx66vAD6wp",
     actionText: "Open Native Book ▶"
   },
   1967: {
     title: "The Mid-Century Archive (1967)",
     desc: "Digitized photo layouts showcasing student traditions inside the Gilded Age mansion.",
-    pdfPath: "https://docs.google.com/uc?export=download&id=1pXsbOvetzC_gC0UR99wZXHyNCKxvECt8",
-    actionText: "Open Native Book ▶"
-  },
-  1957: {
-    title: "The Legacy Collection (1957)",
-    desc: "Digitized archival items spanning our earliest Gilded Age estate foundation years.",
-    pdfPath: "Yearbook 1957.pdf", 
+    fileName: gdStreamPrefix + "1pXsbOvetzC_gC0UR99wZXHyNCKxvECt8",
     actionText: "Open Native Book ▶"
   }
 };
 
 let pageFlipInstance = null;
 
+/**
+ * Generates the responsive grid portfolio display spanning 1957 to 2026
+ */
 function generateCatalogGrid() {
   const grid = document.getElementById('yearbookGrid');
   if (!grid) return;
@@ -69,7 +70,7 @@ function generateCatalogGrid() {
     const heading = document.createElement('h3');
     const paragraph = document.createElement('p');
     const button = document.createElement('button');
-    button.className = 'btn-outline yb-trigger-btn';
+    button.className = 'yb-trigger-btn';
 
     if (specialYearbooks[year]) {
       const item = specialYearbooks[year];
@@ -78,11 +79,10 @@ function generateCatalogGrid() {
       const img = document.createElement('img');
       img.alt = item.title;
       img.loading = "lazy";
-      img.style.backgroundColor = "#041C30"; 
       imgFrame.appendChild(img);
 
-      // Async canvas processing loop generating high-fidelity covers from PDF Page 1
-      pdfjsLib.getDocument(item.pdfPath).promise.then(async (pdf) => {
+      // Extract and render page 1 thumbnail asynchronously from Google Drive
+      pdfjsLib.getDocument(item.fileName).promise.then(async (pdf) => {
         try {
           const page = await pdf.getPage(1); 
           const unscaledViewport = page.getViewport({ scale: 1.0 });
@@ -97,7 +97,7 @@ function generateCatalogGrid() {
           await page.render({ canvasContext: context, viewport: viewport }).promise;
           img.src = canvas.toDataURL('image/jpeg', 0.85);
         } catch (err) {
-          console.error(`Automatic cover extraction breakdown for index ${year}:`, err);
+          // Fallback image asset if file stream drops
           img.src = "assets/images/Past Students.png"; 
         }
       }).catch(() => {
@@ -107,12 +107,13 @@ function generateCatalogGrid() {
       heading.textContent = item.title;
       paragraph.textContent = item.desc;
       button.textContent = item.actionText;
-      button.addEventListener('click', () => loadAndRenderPDFBook(item.pdfPath));
+      button.addEventListener('click', () => loadAndRenderPDFBook(item.fileName));
       
       metaInfo.appendChild(heading);
       metaInfo.appendChild(paragraph);
       metaInfo.appendChild(button);
     } else {
+      // Configuration for coming-soon placeholder nodes
       card.classList.add('entry-placeholder');
       imgFrame.className = 'yb-img-frame default-placeholder-frame';
 
@@ -130,8 +131,6 @@ function generateCatalogGrid() {
       heading.textContent = `Yearbook Volume — ${year}`;
       paragraph.textContent = `Archival photo records and memories from the ${year} Crystal Springs school term expansion layout.`;
       button.classList.add('placeholder-btn');
-      button.style.opacity = '0.4';
-      button.style.cursor = 'not-allowed';
       button.disabled = true;
       button.textContent = 'Coming Soon 🔒';
 
@@ -149,6 +148,9 @@ function generateCatalogGrid() {
   grid.appendChild(fragment);
 }
 
+/**
+ * Filter mechanism to switch viewable dashboard blocks by era decade group
+ */
 function filterDecade(decade, clickedButton) {
   document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
   clickedButton.classList.add('active');
@@ -163,7 +165,10 @@ function filterDecade(decade, clickedButton) {
   });
 }
 
-async function loadAndRenderPDFBook(pdfPath) {
+/**
+ * Pulls raw cloud file packets and renders individual HTML layout canvas objects
+ */
+async function loadAndRenderPDFBook(targetUrl) {
   const modal = document.getElementById('flipbookModal');
   const container = document.getElementById('nativeBookContainer');
   const loaderMsg = document.getElementById('bookLoadingStatus');
@@ -174,20 +179,20 @@ async function loadAndRenderPDFBook(pdfPath) {
   }
   container.innerHTML = "";
   container.style.visibility = 'hidden';
-  loaderMsg.textContent = "Processing Archival Document...";
-  loaderMsg.style.display = 'block';
+  if (loaderMsg) loaderMsg.style.display = 'block';
   
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
 
   try {
-    const loadingTask = pdfjsLib.getDocument(pdfPath);
+    const loadingTask = pdfjsLib.getDocument(targetUrl);
     const pdf = await loadingTask.promise;
     
     const modalContent = document.querySelector('.fb-modal-content');
     const maxAvailableWidth = modalContent.clientWidth / 2; 
     const maxAvailableHeight = modalContent.clientHeight - 80; 
 
+    // Render every page out inside the DOM stack sequentially
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
       const page = await pdf.getPage(pageNum);
       const unscaledViewport = page.getViewport({ scale: 1.0 });
@@ -224,8 +229,9 @@ async function loadAndRenderPDFBook(pdfPath) {
       }
     }
 
-    loaderMsg.style.display = 'none';
+    if (loaderMsg) loaderMsg.style.display = 'none';
 
+    // Initialize the St.PageFlip interface handler object
     pageFlipInstance = new St.PageFlip(container, {
       width: window.calculatedPageWidth,
       height: window.calculatedPageHeight,
@@ -240,11 +246,14 @@ async function loadAndRenderPDFBook(pdfPath) {
     container.style.visibility = 'visible';
 
   } catch (error) {
-    console.error("PDF extraction calculation failure: ", error);
-    loaderMsg.textContent = "Error loading document archive.";
+    console.error("PDF data processing error: ", error);
+    if (loaderMsg) loaderMsg.textContent = "Error loading document archive.";
   }
 }
 
+/**
+ * Safely deconstructs active book nodes and yields display viewport lock privileges
+ */
 function closeFlipbook() {
   const modal = document.getElementById('flipbookModal');
   if (!modal) return;
@@ -257,6 +266,7 @@ function closeFlipbook() {
   }
 }
 
+// Global hotkey event capture listeners
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeFlipbook();
 });

@@ -1,0 +1,160 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@400;500&family=Jost:wght@300;400;500;600;700&display=swap');
+
+/* ==========================================================================
+   GLOBAL PAGE CANVAS & OFFICIAL INSTITUTIONAL BRANDING VARIABLES
+   ========================================================================== */
+:root {
+  /* Colors */
+  --crystal-navy-dark:   #060f16; /* Obsidian slate canvas */
+  --crystal-navy-velvet: #041422; /* Velvet midnight blue accent background */
+  --crystal-gold:        #CFAD66; /* Muted historic metallic gold */
+  --blue-light:          #60B0E0; /* Signature light blue accent */
+  --blue-pale:           #A4D4F0; /* Glowing pale blue highlight */
+  --white:               #FFFFFF;
+  --text-dark:           #041C30;
+  --text-muted-dark:     #334155;
+  --blue-brand:          #0070B8; /* Official portal focus blue */
+  --blue-brand-hover:    #005a96;
+
+  /* Glassmorphism Presets */
+  --glass-bg-dark:       rgba(10, 28, 44, 0.45);
+  --glass-border-dark:   rgba(255, 255, 255, 0.08);
+  --glass-bg-light:      rgba(255, 254, 250, 0.65);
+  --glass-border-light:  rgba(4, 28, 48, 0.12);
+
+  /* Fonts */
+  --font-sans:           'Jost', sans-serif;
+  --font-serif-display:  'Cormorant Garamond', serif;
+  --font-serif-body:     'Brygada 1918', serif;
+  --font-serif-sc:       'Cormorant SC', serif;
+}
+
+/* Global Reset & Base Layout Rules */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--crystal-navy-dark);
+  color: var(--white);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   SHARED DESIGN SYSTEM ELEMENTS (BUTTONS & NAV HUD)
+   ========================================================================== */
+.btn-primary {
+  background-color: var(--blue-brand);
+  color: var(--white);
+  border: none;
+  padding: 14px 28px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--blue-brand-hover);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 24px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--white);
+}
+
+/* Central Site Header Navigation Controller Bar */
+#sitenav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 1000;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+#sitenav.scrolled,
+.force-nav-hud #sitenav {
+  background: rgba(3, 11, 18, 0.96) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  height: 70px;
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+  cursor: pointer;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--blue-light);
+}
+
+.nav-cta {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--crystal-gold);
+  border: 1px solid rgba(207, 173, 102, 0.3);
+  padding: 8px 16px;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.nav-cta:hover {
+  background: rgba(207, 173, 102, 0.1);
+  border-color: var(--crystal-gold);
+}
+
+@media (max-width: 768px) {
+  #sitenav { padding: 0 24px; }
+  .nav-links { display: none; }
+}

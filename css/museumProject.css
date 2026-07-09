@@ -1,145 +1,7 @@
 @charset "UTF-8";
 
 /* ==========================================================================
-   1. GLOBAL PAGE CANVAS & DESIGN CORE VARIABLES
-   ========================================================================== */
-:root {
-  --navy:               #041422; 
-  --navy-dark:          #060f16; 
-  --card-bg:            rgba(10, 28, 44, 0.4);
-  --glass-border:       rgba(255, 255, 255, 0.06);
-  --crystal-gold:       #CFAD66; 
-  --blue-light:         #60B0E0;
-  --blue-pale:          #A4D4F0;
-  --white:              #FFFFFF;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--navy-dark);
-  color: var(--white);
-  font-family: 'Jost', sans-serif;
-  overflow-x: hidden;
-}
-
-/* Common Layout Buttons */
-.btn-primary {
-  background-color: #0070B8;
-  color: var(--white);
-  border: none;
-  padding: 14px 28px;
-  font-family: 'Jost', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 4px;
-  cursor: pointer;
-  min-height: 44px; /* Maintain safe ergonomic sizing targets */
-  transition: background-color 0.2s ease;
-}
-
-.btn-primary:hover {
-  background-color: #005a96;
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 12px 24px;
-  font-family: 'Jost', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  border-radius: 4px;
-  text-decoration: none;
-  display: inline-block;
-  min-height: 44px;
-  transition: all 0.2s ease;
-}
-
-.btn-outline:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--white);
-}
-
-/* ==========================================================================
-   2. SITE HEAD NAV HUD (SHARED TRANSITION ARCHITECTURE)
-   ========================================================================== */
-#sitenav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  z-index: 1000;
-  background: transparent;
-  transition: all 0.3s ease;
-}
-
-#sitenav.scrolled {
-  background: rgba(3, 11, 18, 0.96) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-  height: 70px;
-}
-
-.nav-logo img {
-  height: 40px;
-  width: auto;
-  cursor: pointer;
-  display: block;
-}
-
-.nav-links {
-  display: flex;
-  gap: 32px;
-}
-
-.nav-link {
-  font-family: 'Jost', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  letter-spacing: 0.02em;
-  padding: 8px 0; /* Expanded touch region vertical parameters */
-  transition: color 0.2s ease;
-}
-
-.nav-link:hover {
-  color: var(--blue-light);
-}
-
-.nav-cta {
-  font-family: 'Jost', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--crystal-gold);
-  border: 1px solid rgba(207, 173, 102, 0.3);
-  padding: 12px 20px; /* Enhanced desktop target matching */
-  border-radius: 3px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.nav-cta:hover {
-  background: rgba(207, 173, 102, 0.1);
-  border-color: var(--crystal-gold);
-}
-
-/* ==========================================================================
-   3. CINEMATIC VIDEO BACKGROUND SPLASH CANVAS
+   CINEMATIC BACKGROUND BANNER CANVASES
    ========================================================================== */
 #splash {
   height: 100vh;
@@ -150,7 +12,6 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-color: var(--navy-dark);
 }
 
 .video-bg {
@@ -166,7 +27,7 @@ body {
 .video-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(135deg, rgba(4, 20, 34, 0.85) 0%, rgba(6, 15, 22, 0.95) 100%);
+  background: linear-gradient(135deg, rgba(4, 20, 34, 0.5) 0%, rgba(6, 15, 22, 0.45) 100%);
   z-index: 2;
 }
 
@@ -188,7 +49,7 @@ body {
 }
 
 .splash-eyebrow {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.25em;
@@ -198,21 +59,17 @@ body {
 }
 
 .splash-hed {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: clamp(38px, 6vw, 64px);
   font-weight: 300;
   line-height: 1.15;
   margin: 0 0 24px 0;
 }
 
-.splash-hed em {
-  font-style: italic;
-  font-weight: 400;
-  color: var(--blue-pale);
-}
+.splash-hed em { font-style: italic; color: var(--blue-pale); }
 
 .splash-tagline {
-  font-family: 'Brygada 1918', serif;
+  font-family: var(--font-serif-body);
   font-size: 18px;
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 36px;
@@ -234,7 +91,7 @@ body {
 }
 
 .ys-item {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -251,11 +108,11 @@ body {
 }
 
 /* ==========================================================================
-   4. MANSION INTEGRATED CORE DISPLAY REGION
+   MANSION INTEGRATED HOUSING REGIONS
    ========================================================================== */
 #page-mansion {
   padding: 120px 40px;
-  background: linear-gradient(180deg, var(--navy-dark) 0%, #09141c 100%);
+  background: linear-gradient(180deg, var(--crystal-navy-dark) 0%, #09141c 100%);
   width: 100%;
 }
 
@@ -268,26 +125,20 @@ body {
   align-items: center;
 }
 
-.mansion-vis {
-  width: 100%;
-}
+.mansion-vis { width: 100%; }
 
-/* Instagram Spotlight Block Node layout structure */
 .spotlight-profile-card {
   background: rgba(255, 255, 255, 0.01);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 6px;
   padding: 24px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
 
-.spotlight-media-container {
-  width: 100%;
-  margin-bottom: 20px;
-}
+.spotlight-media-container { width: 100%; margin-bottom: 20px; }
 
 .spotlight-info h4 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: 22px;
   font-weight: 400;
   margin: 0 0 4px 0;
@@ -305,7 +156,6 @@ body {
   font-size: 14px;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.6);
-  margin: 0;
 }
 
 .mansion-video-meta {
@@ -318,37 +168,27 @@ body {
 .mv-label { font-size: 12px; font-weight: 500; color: var(--blue-light); text-transform: uppercase; letter-spacing: 0.05em; }
 .mv-name { font-size: 12px; color: rgba(255,255,255,0.4); }
 
-/* Right Column Data Blocks */
 .mansion-info h2 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: clamp(32px, 4vw, 44px);
   font-weight: 300;
   margin: 0 0 24px 0;
 }
 
-.mansion-info h2 em {
-  font-style: italic;
-  font-weight: 400;
-  color: var(--blue-pale);
-}
+.mansion-info h2 em { font-style: italic; color: var(--blue-pale); }
 
 .mansion-info p {
-  font-family: 'Brygada 1918', serif;
+  font-family: var(--font-serif-body);
   font-size: 15.5px;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.65);
   margin: 0 0 20px 0;
 }
 
-.cm-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin: 36px 0;
-}
+.cm-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin: 36px 0; }
 
 .cm-val {
-  font-family: 'Cormorant SC', serif;
+  font-family: var(--font-serif-sc);
   font-size: 24px;
   color: var(--white);
   margin-bottom: 2px;
@@ -362,12 +202,9 @@ body {
 }
 
 /* ==========================================================================
-   5. HISTORY EXHIBITION CONTEXT ROWS
+   MILESTONES HISTORY TRACKS
    ========================================================================== */
-#page-history {
-  padding: 0 0 120px 0;
-  background-color: var(--navy-dark);
-}
+#page-history { padding: 0 0 120px 0; background-color: var(--crystal-navy-dark); }
 
 .hist-hero {
   height: 400px;
@@ -382,8 +219,8 @@ body {
 
 .hist-hero-bg {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(to bottom, rgba(6, 15, 22, 0.4) 0%, var(--navy-dark) 100%);
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(6, 15, 22, 0.4) 0%, 100%);
   z-index: 2;
 }
 
@@ -399,7 +236,7 @@ body {
 .hist-hero h1 {
   position: relative;
   z-index: 3;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: clamp(34px, 5vw, 50px);
   font-weight: 300;
   text-align: center;
@@ -411,7 +248,7 @@ body {
 .hist-year-ghost {
   position: absolute;
   bottom: -40px;
-  font-family: 'Cormorant SC', serif;
+  font-family: var(--font-serif-sc);
   font-size: 160px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.02);
@@ -429,26 +266,24 @@ body {
 }
 
 .hist-col h2 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: clamp(26px, 3vw, 34px);
   font-weight: 300;
   margin: 0 0 24px 0;
 }
 
-.milestones {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.hist-col p {
+  font-family: var(--font-serif-body);
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.6);
 }
 
-.ms {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
+.milestones { display: flex; flex-direction: column; gap: 24px; }
+.ms { display: flex; gap: 20px; align-items: flex-start; }
 
 .ms-yr {
-  font-family: 'Cormorant SC', serif;
+  font-family: var(--font-serif-sc);
   font-size: 22px;
   font-weight: 500;
   color: var(--crystal-gold);
@@ -457,88 +292,40 @@ body {
   min-width: 60px;
 }
 
-.ms-body {
-  flex-grow: 1;
-}
+.ms-body { flex-grow: 1; }
+.ms-ttl { font-size: 15px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+.ms-desc { font-size: 14px; line-height: 1.5; color: rgba(255, 255, 255, 0.55); }
 
-.ms-ttl {
-  font-family: 'Jost', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--white);
-  margin-bottom: 4px;
-}
-
-.ms-desc {
-  font-family: 'Jost', sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.55);
-}
+#page-donors { border-top: 1px solid rgba(255, 255, 255, 0.05); }
 
 /* ==========================================================================
-   6. INTERACTIVE RE-DEDICATED PHILOSOPHY FOUNDATION ROW
+   SPOTLIGHT SHARD DISPLAYS
    ========================================================================== */
-#page-donors {
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* ==========================================================================
-   7. INTERACTIVE SPOTLIGHT MEDIA SHOWCASE TILES
-   ========================================================================== */
-#page-spotlights {
-  padding: 120px 40px;
-  background-color: var(--navy-dark);
-}
-
-.sp-hdr {
-  text-align: center;
-  margin-bottom: 24px;
-}
+#page-spotlights { padding: 120px 40px; background-color: var(--crystal-navy-dark); }
+.sp-hdr { text-align: center; margin-bottom: 24px; }
 
 .sp-hdr h2 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: clamp(32px, 4vw, 44px);
   font-weight: 300;
-  margin: 0;
 }
 
 .sp-hdr h2 em { font-style: italic; color: var(--blue-pale); }
-
-.sp-intro-text {
-  max-width: 740px;
-  margin: 0 auto 60px;
-  text-align: center;
-}
-
-.sp-intro-text p {
-  font-family: 'Jost', sans-serif;
-  font-size: 15.5px;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.55);
-  margin: 0;
-}
-
-.sp-grid {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-}
+.sp-intro-text { max-width: 740px; margin: 0 auto 60px; text-align: center; }
+.sp-intro-text p { font-size: 15.5px; line-height: 1.75; color: rgba(255, 255, 255, 0.55); }
+.sp-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 
 .sp-cell {
-  background: var(--card-bg);
+  background: rgba(10, 28, 44, 0.4);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 4px;
   padding: 50px 40px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, background-color 0.3s ease;
-  will-change: transform;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .sp-cell:hover {
@@ -548,7 +335,6 @@ body {
 }
 
 .sp-icon {
-  font-family: 'Jost', sans-serif;
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -557,14 +343,10 @@ body {
   margin-bottom: 24px;
 }
 
-.sp-tag {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 8px;
-}
+.sp-tag { font-size: 12px; color: rgba(255, 255, 255, 0.4); margin-bottom: 8px; }
 
 .sp-ttl {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: 24px;
   font-weight: 400;
   color: var(--white);
@@ -572,23 +354,16 @@ body {
   line-height: 1.3;
 }
 
-.sp-desc {
-  font-family: 'Jost', sans-serif;
-  font-size: 14px;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 32px;
-}
+.sp-desc { font-size: 14px; line-height: 1.65; color: rgba(255, 255, 255, 0.55); margin-bottom: 32px; }
 
 .sp-btn {
   background: transparent;
   border: none;
   color: var(--blue-light);
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  padding: 12px 0; /* Expanded micro-touch bound targeting footprint */
   display: flex;
   align-items: center;
   gap: 6px;
@@ -600,7 +375,7 @@ body {
 .sp-num {
   position: absolute;
   bottom: -20px; right: -10px;
-  font-family: 'Cormorant SC', serif;
+  font-family: var(--font-serif-sc);
   font-size: 110px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.015);
@@ -609,66 +384,26 @@ body {
 }
 
 /* ==========================================================================
-   8. INSTITUTIONAL NARRATIVE GLOBAL SITE FOOTER
+   GLOBAL EXHIBITION NARRATIVE FOOTER
    ========================================================================== */
-#page-footer {
-  background-color: #041422; 
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 60px 40px;
-  width: 100%;
-}
-
-.ft-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 60px;
-}
-
+#page-footer { background-color: var(--crystal-navy-velvet); border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 60px 40px; width: 100%; }
+.ft-wrapper { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 60px; }
 .ft-brand-column { flex-shrink: 0; }
 .ft-brand-column img { height: 48px; width: auto; display: block; }
-
 .ft-narrative-column { max-width: 580px; text-align: right; }
-
-.ft-narrative-p {
-  font-family: 'Brygada 1918', serif;
-  font-size: 14.5px;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.65);
-  margin: 0 0 10px 0;
-}
+.ft-narrative-p { font-family: var(--font-serif-body); font-size: 14.5px; line-height: 1.7; color: rgba(255, 255, 255, 0.65); margin: 0 0 10px 0; }
 .ft-narrative-p strong { color: var(--blue-pale); font-weight: 400; }
+.ft-copyright-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.3); display: block; }
 
-.ft-copyright-tag {
-  font-family: 'Jost', sans-serif;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.3);
-  margin: 0;
-  display: block;
-}
-
-/* ==========================================================================
-   9. DEVICE COMPRESSION MEDIA QUERY ADJUSTMENTS
-   ========================================================================== */
+/* Responsive Adaptations */
 @media (max-width: 1024px) {
   .mansion-split { grid-template-columns: 1fr; gap: 50px; }
   .sp-grid { grid-template-columns: 1fr; gap: 24px; }
 }
-
 @media (max-width: 992px) {
-  .hist-body {
-    grid-template-columns: 1fr;
-    gap: 50px;
-  }
+  .hist-body { grid-template-columns: 1fr; gap: 50px; }
 }
-
 @media (max-width: 768px) {
-  #sitenav { padding: 0 24px; }
-  .nav-links { display: none; } 
   #page-mansion { padding: 80px 20px; }
   #page-history { padding-bottom: 80px; }
   .hist-hero { height: 300px; margin-bottom: 60px; }

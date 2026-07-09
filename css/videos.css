@@ -6,212 +6,73 @@
   margin: 0 auto;
 }
 
-.theater-internal-container {
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-}
+.theater-internal-container { display: flex; flex-direction: column; gap: 48px; }
 
 /* ==========================================================================
-   1. SPOTLIGHT STAGE GRID LAYOUT
+   VIDEO PLYBACK HUDS
    ========================================================================== */
-.spotlight-stage {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 48px;
-  align-items: center;
-}
+.spotlight-stage { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
 
 .spotlight-player-glow-wrapper {
-  position: relative;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #000;
+  position: relative; border-radius: 6px; overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); background: #000;
 }
 
-.vimeo-aspect-ratio-box {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; 
-}
+.vimeo-aspect-ratio-box { position: relative; width: 100%; padding-top: 56.25%; }
+.vimeo-aspect-ratio-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-.vimeo-aspect-ratio-box iframe {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  border: none;
-}
-
-.spotlight-meta-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.spotlight-eyebrow {
-  font-family: 'Jost', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--blue-light);
-}
+.spotlight-meta-panel { display: flex; flex-direction: column; gap: 16px; }
+.spotlight-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-light); }
 
 .spotlight-meta-panel h1 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-serif-display);
   font-size: clamp(32px, 4vw, 44px);
   font-weight: 300;
   line-height: 1.2;
   color: var(--white);
 }
 
-.spotlight-meta-panel p {
-  font-family: 'Brygada 1918', serif;
-  font-size: 15px;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.65);
-}
+.spotlight-meta-panel p { font-family: var(--font-serif-body); font-size: 15px; line-height: 1.7; color: rgba(255, 255, 255, 0.65); }
 
-/* ==========================================================================
-   2. SCROLL SNAP TIMELINE HUD CAROUSEL
-   ========================================================================== */
-.carousel-control-header {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 40px;
-}
+/* Timeline Sliders Carousel */
+.carousel-control-header { border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 40px; }
+.carousel-control-header h2 { font-family: var(--font-serif-display); font-size: 26px; font-weight: 400; margin-bottom: 8px; }
+.carousel-control-header p { font-size: 14px; color: rgba(255, 255, 255, 0.45); }
 
-.carousel-control-header h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  font-weight: 400;
-  margin-bottom: 8px;
-}
-
-.carousel-control-header p {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.carousel-navigation-hud {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-}
+.carousel-navigation-hud { display: flex; align-items: center; gap: 16px; position: relative; }
 
 .carousel-arrow-btn {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--white);
-  min-width: 44px;
-  min-height: 44px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-  user-select: none;
-  touch-action: manipulation;
+  background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--white);
+  min-width: 44px; min-height: 44px; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
+  user-select: none; touch-action: manipulation;
 }
+.carousel-arrow-btn:hover { background: var(--blue-brand); border-color: var(--blue-brand); }
 
-.carousel-arrow-btn:hover {
-  background: var(--blue);
-  border-color: var(--blue);
-}
-
-.carousel-clip-window {
-  flex: 1;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: 12px; /* Pad snapped edge points for walk-up screens */
-  -webkit-overflow-scrolling: touch; 
-}
-
-.carousel-clip-window::-webkit-scrollbar {
-  display: none;
-}
-
-.carousel-slider-track {
-  display: flex;
-  gap: 24px;
-  padding: 10px 0;
-}
+.carousel-clip-window { flex: 1; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scroll-padding-inline: 12px; -webkit-overflow-scrolling: touch; }
+.carousel-clip-window::-webkit-scrollbar { display: none; }
+.carousel-slider-track { display: flex; gap: 24px; padding: 10px 0; }
 
 .carousel-card-node {
-  flex: 0 0 288px;
-  scroll-snap-align: start;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 4px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, background-color 0.3s ease;
-  will-change: transform;
+  flex: 0 0 288px; scroll-snap-align: start; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px; overflow: hidden; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform;
 }
+.carousel-card-node:hover, .carousel-card-node.active { background: rgba(255, 255, 255, 0.05); border-color: var(--blue-light); transform: translateY(-2px); }
 
-.carousel-card-node:hover,
-.carousel-card-node.active {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--blue-light);
-  transform: translateY(-2px);
-}
-
-.cc-preview-box {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #000;
-}
-
-.cc-preview-box img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0.7;
-  transition: opacity 0.2s ease;
-}
-
-.carousel-card-node:hover .cc-preview-box img,
-.carousel-card-node.active .cc-preview-box img {
-  opacity: 1;
-}
+.cc-preview-box { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.cc-preview-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity 0.2s ease; }
+.carousel-card-node:hover .cc-preview-box img, .carousel-card-node.active .cc-preview-box img { opacity: 1; }
 
 .cc-play-overlay-icon {
-  position: absolute;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 36px; height: 36px;
-  background: rgba(4, 28, 48, 0.85);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--white); font-size: 11px; padding-left: 2px;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px;
+  background: rgba(4, 28, 48, 0.85); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; color: var(--white); font-size: 11px; padding-left: 2px;
 }
 
-.cc-meta {
-  padding: 16px;
-  display: flex; flex-direction: column; gap: 6px;
-}
+.cc-meta { padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+.cc-eyebrow-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--crystal-gold); }
+.cc-meta h3 { font-family: var(--font-serif-display); font-size: 16px; font-weight: 400; line-height: 1.3; color: rgba(255, 255, 255, 0.85); }
 
-.cc-eyebrow-tag {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--crystal-gold);
-}
-
-.cc-meta h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.3;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* ==========================================================================
-   3. RESPONSIVE QUERIES
-   ========================================================================== */
 @media (max-width: 1024px) {
   .spotlight-stage { grid-template-columns: 1fr; gap: 32px; }
   .theater-shell { padding: 110px 20px 40px; }
